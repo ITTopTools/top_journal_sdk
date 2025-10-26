@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiojournal"
+version = "0.1.0"
+description = "Async-friendly SDK for journaling"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name="trapplus", email="blazer19092008@gmail.com"}]
+license = {text = "MIT"}
+dependencies = []
