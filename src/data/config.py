@@ -1,20 +1,21 @@
 # Thanks, neitan001!
 
+# APP-KEY (IS PUBLIC DATA!)
+APP_KEY = "6a56a5df2667e65aab73ce76d1dd737f7d1faef9c52e8b8c55ac75f565d8e8a6"
 
 # ===  Data for headers parsing  ===
-USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36"
-ORIGIN="https://journal.top-academy.ru"
-REFERER="https://journal.top-academy.ru/"
-
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36"
+ORIGIN = "https://journal.top-academy.ru"
+REFERER = "https://journal.top-academy.ru/"
 
 # ===  URL APIs of the official Journal server  ===
 
-# URL base 
+# URL base
 BASE_API_URL = "https://msapi.top-academy.ru/api/v2"
 # URL for auth
 AUTH_URL = f"{BASE_API_URL}/auth/login"
 
-# == AUTO SEND APIs==
+# == AUTO SEND APIs ==
 # URL для отправки пар которые были оценены
 EVALUATION_LESSONS = f"{BASE_API_URL}/feedback/students/evaluate-lesson"
 # URL для получения данных списка пар которые нужно оценить
