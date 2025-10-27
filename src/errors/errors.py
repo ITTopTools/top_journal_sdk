@@ -31,3 +31,25 @@ class JournalInvalidUsageError(JournalError):
     """Raised when the SDK is used incorrectly by the client."""
     def __init__(self, message: str = "Invalid SDK usage"):
         super().__init__(message)
+
+
+# --- INVALIDE APPLICATION KEY
+class InvalidAppKeyError(JournalError):
+    """Raised when the provided app_key is invalid or expired (HTTP 410)."""
+    def __init__(self, status_code: int = 410, message: str = "Invalid or expired app_key"):
+        self.status_code = status_code
+        super().__init__(f"{message} (status {status_code})")
+
+# --- INVALIDE APPLICATION KEY
+class RequestTimeoutError(JournalError):
+    """Raised when the provided app_key is invalid or expired (HTTP 410)."""
+    def __init__(self, status_code: int = 410, message: str = "Invalid or expired app_key"):
+        self.status_code = status_code
+        super().__init__(f"{message} (status {status_code})")
+
+
+# --- TIMEOUT REQUEST ERROR 
+class RequestTimeoutError(JournalError):
+    """Raised when retry timeout for a request is exceeded."""
+    def __init__(self, message: str = "Retry timeout exceeded"):
+        super().__init__(message)

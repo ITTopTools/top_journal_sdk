@@ -1,5 +1,6 @@
-import os
 import logging.config
+import os
+
 
 def setup_logging():
 

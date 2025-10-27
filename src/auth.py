@@ -1,15 +1,14 @@
-import httpx
 
 from starlette.exceptions import HTTPException
-from .transport import Transport
+
 from .data import config
+from .transport import Transport
 
 
 class Auth:
-    def __init__(self, client):
-        self.client: httpx.AsyncClient = client
-        self._transport = Transport
-        self.auth_headers = {
+    def __init__(self):
+        self.__transport = Transport
+        self.__auth_headers = {
             "User-Agent": config.USER_AGENT,
             "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
@@ -18,22 +17,21 @@ class Auth:
         }
 
     async def get_jwt_token(self, login: str, password: str) -> str:
-        auth_data = {
+        __auth_data = {
             "application_key": config.APP_KEY,
             "username": f"{login}",
             "password": f"{password}",
             "id_city": None,
         }
 
-        request = await self.client.get(
-            config.AUTH_URL, params=auth_data, headers=self.auth_headers
+        _request = await self.__transport.request("get", config.AUTH_URL, 
+            params=__auth_data, 
+            headers=self.__auth_headers
         )
-        requst = await self._transport.request("")
-        request.raise_for_status()
 
-        jwt_token = request.json()["access_token"]
+        _jwt_token = _request.json()["access_token"]
 
-        if jwt_token:
-            return jwt_token
-
-        raise HTTPException(401, "Invalid jwt token!")
+        if _jwt_token:
+            return _jwt_token
+        else:
+            raise HTTPException(403, "Invalid login data!")

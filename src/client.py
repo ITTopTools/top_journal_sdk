@@ -11,7 +11,7 @@ class Client:
         # Superstructure of httpx with auto-retry, refresh jwt and app_key
         self._transport: object = Transport()
 
-    def login(self, username, password):
+    def login(self, username: str, password: str):
         pass
 
     def get_schedule(token: str, date: str):
