@@ -1,0 +1,4 @@
+dotenv>=0.9.9
+httpx>=0.28.1
+pydantic>=2.12.3
+starlette>=0.48.0
