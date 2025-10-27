@@ -1,31 +1,37 @@
-import httpx
 
 from starlette.exceptions import HTTPException
 
 from .data import config
+from .transport import Transport
 
-class authManager:
+
+class Auth:
     def __init__(self):
-        pass
+        self.__transport = Transport
+        self.__auth_headers = {
+            "User-Agent": config.USER_AGENT,
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "Referer": config.REFERER,
+            "Origin": config.ORIGIN,
+        }
 
-    
-    async def get_csrf_token(self):
-        async with httpx.AsyncClient(
-            base_url=config.BASE_API_URL, timeout=5) as _client:
-            
-            headers = {
-                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
-                        "Accept": "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                        "Referer": "https://journal.top-academy.ru/",  
-                        "Origin": "https://journal.top-academy.ru",
-                    }
-            
-            request = await _client.get(config.AUTH_URL, headers=headers)
-                
-            jwt_token = request.cookies.get("_csrf")
-            
-            if jwt_token: # TODO - Validation
-                return jwt_token
-            
-            raise HTTPException(403, "Invalid jwt token!")
+    async def get_jwt_token(self, login: str, password: str) -> str:
+        __auth_data = {
+            "application_key": config.APP_KEY,
+            "username": f"{login}",
+            "password": f"{password}",
+            "id_city": None,
+        }
+
+        _request = await self.__transport.request("get", config.AUTH_URL, 
+            params=__auth_data, 
+            headers=self.__auth_headers
+        )
+
+        _jwt_token = _request.json()["access_token"]
+
+        if _jwt_token:
+            return _jwt_token
+        else:
+            raise HTTPException(403, "Invalid login data!")
