@@ -1,31 +1,39 @@
 import httpx
 
 from starlette.exceptions import HTTPException
-
+from .transport import Transport
 from .data import config
 
-class authManager:
-    def __init__(self):
-        pass
 
-    
-    async def get_csrf_token(self):
-        async with httpx.AsyncClient(
-            base_url=config.BASE_API_URL, timeout=5) as _client:
-            
-            headers = {
-                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
-                        "Accept": "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                        "Referer": "https://journal.top-academy.ru/",  
-                        "Origin": "https://journal.top-academy.ru",
-                    }
-            
-            request = await _client.get(config.AUTH_URL, headers=headers)
-                
-            jwt_token = request.cookies.get("_csrf")
-            
-            if jwt_token: # TODO - Validation
-                return jwt_token
-            
-            raise HTTPException(403, "Invalid jwt token!")
+class Auth:
+    def __init__(self, client):
+        self.client: httpx.AsyncClient = client
+        self._transport = Transport
+        self.auth_headers = {
+            "User-Agent": config.USER_AGENT,
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "Referer": config.REFERER,
+            "Origin": config.ORIGIN,
+        }
+
+    async def get_jwt_token(self, login: str, password: str) -> str:
+        auth_data = {
+            "application_key": config.APP_KEY,
+            "username": f"{login}",
+            "password": f"{password}",
+            "id_city": None,
+        }
+
+        request = await self.client.get(
+            config.AUTH_URL, params=auth_data, headers=self.auth_headers
+        )
+        requst = await self._transport.request("")
+        request.raise_for_status()
+
+        jwt_token = request.json()["access_token"]
+
+        if jwt_token:
+            return jwt_token
+
+        raise HTTPException(401, "Invalid jwt token!")
