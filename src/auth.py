@@ -1,13 +1,13 @@
-
+from typing import Any
 from starlette.exceptions import HTTPException
-
+from httpx import AsyncClient
 from .data import config
 from .transport import Transport
 
 
 class Auth:
-    def __init__(self):
-        self.__transport = Transport
+    def __init__(self, client: AsyncClient):
+        self._transport: Transport = Transport(client)
         self.__auth_headers = {
             "User-Agent": config.USER_AGENT,
             "Accept": "application/json, text/plain, */*",
@@ -24,12 +24,16 @@ class Auth:
             "id_city": None,
         }
 
-        _request = await self.__transport.request("get", config.AUTH_URL, 
-            params=__auth_data, 
-            headers=self.__auth_headers
+        __request = await self._transport.request(
+            method="get",
+            url=config.AUTH_URL,
+            headers=self.__auth_headers,
+            params=__auth_data,
+            timeout=2,
         )
 
-        _jwt_token = _request.json()["access_token"]
+        _jwt_token: str = __request.json()["access_token"]
+        # refresh_token: str = __request.json()["refresh_token"] # for cache realisation, Dont remove!
 
         if _jwt_token:
             return _jwt_token

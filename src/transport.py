@@ -1,6 +1,6 @@
 import asyncio
 import time
-from typing import Any
+from typing import Any, final
 
 import httpx
 
@@ -9,6 +9,7 @@ from .errors import errors
 from .utils.app_key import ApplicationToken
 
 
+@final
 class Transport:
     def __init__(self, client: httpx.AsyncClient) -> None:
         self._client: httpx.AsyncClient = client
@@ -30,8 +31,7 @@ class Transport:
         timeout: float = 5.0,
         **kwargs: Any,
     ) -> httpx.Response:
-        # wrapper - only request for re-use
-        async def _send() -> httpx.Response:
+        async def _send() -> httpx.Response:  # wrapper - only request for re-use
             headers = self.headers.copy()
 
             if token:
@@ -63,4 +63,4 @@ class Transport:
             return response
 
         # If timeout
-        raise errors.RequestTimeoutError("Retry timeout exceeded")
+        raise errors.JournalRequestTimeoutError()

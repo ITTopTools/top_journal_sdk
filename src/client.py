@@ -9,18 +9,18 @@ class Client:
         self._client: AsyncClient = client
 
         # Superstructure of httpx with auto-retry, refresh jwt and app_key
-        self._transport: object = Transport()
+        self._transport: object = Transport(self._client)
 
-    def login(self, username: str, password: str):
+    async def login(self, username: str, password: str):
         pass
 
-    def get_schedule(token: str, date: str):
+    async def get_schedule(self, token: str, date: str):
         pass
 
-    def get_homework(token: str, date: str):
+    async def get_homework(self, token: str, date: str):
         pass
 
-    def close_connection(self):
+    async def close_connection(self):
         if self._client:  # FIXME - overkill?
-            self._client.aclose()
+            await self._client.aclose()
             return
