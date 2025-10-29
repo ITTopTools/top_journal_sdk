@@ -1,10 +1,11 @@
-from typing import Any
+from typing import final
 from starlette.exceptions import HTTPException
 from httpx import AsyncClient
 from .data import config
 from .transport import Transport
 
 
+@final
 class Auth:
     def __init__(self, client: AsyncClient):
         self._transport: Transport = Transport(client)
