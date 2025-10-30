@@ -1,29 +1,30 @@
 import re
-
 import httpx
+
+from typing import Any
+
 from bs4 import BeautifulSoup
 
-
-class ApplicationToken:
+class ApplicationKey:
     def __init__(self):
         self.__application_token: str = ""
         self.__base_url: str = "https://journal.top-academy.ru"
         self.__app_js_url: str = ""
         self.__app_token: str = ""
 
-    def __parse_index_html(self, html: str):
+    def __parse_index_html(self, html: str) -> str :
         soup = BeautifulSoup(html, "html.parser")
         scripts = soup.find_all("script")
-        target_script = None
+        target_script: str = ""
         for script in scripts:
-            src = script.get("src")
+            src = str(script.get("src"))
             if src and "app." in src and src.endswith(".js"):
                 target_script = src
                 break
         return target_script
 
-    async def __get_app_js_url(self, refresh: bool = False):
-        if self.__app_js_url == "" or refresh is True:
+    async def __get_app_js_url(self, refresh: bool = False) -> str:
+        if self.__app_js_url == "" or refresh:
             async with httpx.AsyncClient() as client:
                 resp = await client.get(self.__base_url)
                 script_url = self.__parse_index_html(html=resp.text)
@@ -33,14 +34,14 @@ class ApplicationToken:
         else:
             return self.__app_js_url
 
-    async def __parse_app_js(self, js_text: str):
+    async def __parse_app_js(self, js_text: str) -> Any:
         pattern = r'o\.authModel\s*=\s*new\s*r\.AuthModel\("([^"]+)"\)'
         match = re.search(pattern, js_text)
         if match:
             token_value = match.group(1)
             return token_value
 
-    async def get_app_token(self, refresh: bool = False):
+    async def get_key(self, refresh: bool = False) -> str | Any:
         if self.__app_token == "" or refresh is True:
             async with httpx.AsyncClient() as client:
                 resp = await client.get(await self.__get_app_js_url(refresh=True))
