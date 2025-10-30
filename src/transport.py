@@ -1,4 +1,3 @@
-import asyncio
 import time
 from typing import Any, final
 
@@ -6,14 +5,12 @@ import httpx
 
 from .data import config
 from .errors import errors
-from .utils.app_key import ApplicationKey
 
 
 @final
 class Transport:
-    def __init__(self, client: httpx.AsyncClient, refresh_callback = None) -> None:
+    def __init__(self, client: httpx.AsyncClient) -> None:
         self._client: httpx.AsyncClient = client
-        self._refresh_callback = refresh_callback
 
         self.headers: dict[str, str] = {
             "User-Agent": config.USER_AGENT,
@@ -38,9 +35,7 @@ class Transport:
             if token:
                 headers["Authorization"] = f"Bearer {token}"
 
-            return await self._client.request(
-                method, url, headers=headers, **kwargs
-            )
+            return await self._client.request(method, url, headers=headers, **kwargs)
 
         start_time = time.time()
 

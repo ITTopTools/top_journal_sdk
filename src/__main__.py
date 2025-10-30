@@ -4,23 +4,23 @@
 import asyncio
 import httpx
 
-from src.auth import Auth
+from src.client import Client
 from src.transport import Transport
 from src.data import config
 
+
 async def main():
     async with httpx.AsyncClient() as client:
-        auth = Auth(client)
+        app = Client(client)
         transport = Transport(client)
 
-        jwt = await auth.get_jwt_token(
-            username="username",password="pass")
+        jwt = await app.login(username="username", password="password")
 
-        response = await transport.request(
-            "get", config.STUDENT_HOMEWORK, token=jwt)
+        response = await transport.request("get", config.STUDENT_HOMEWORK, token=jwt)
 
         print(f"JWT Token: {jwt}")
         print(f"Server response: {response.json()}")
 
+
 if __name__ == "__main__":
-   asyncio.run(main())
+    asyncio.run(main())
