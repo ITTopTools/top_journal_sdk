@@ -4,9 +4,9 @@
 import asyncio
 import httpx
 
-from src.client import Client
-from src.transport import Transport
-from src.data import config
+from journaltop.client import Client
+from journaltop.transport import Transport
+from journaltop.data import config
 
 
 async def main():
@@ -14,9 +14,11 @@ async def main():
         app = Client(client)
         transport = Transport(client)
 
-        jwt = await app.login(username="username", password="password")
+        jwt = await app.login(username="atama_dy40", password="w08n2MP6KBfE")
 
-        response = await transport.request("get", config.STUDENT_HOMEWORK, token=jwt)
+        response = await transport.request(
+            "get", config.JournalEndpoint.METRIC_GRADE.value, token=jwt
+            )
 
         print(f"JWT Token: {jwt}")
         print(f"Server response: {response.json()}")

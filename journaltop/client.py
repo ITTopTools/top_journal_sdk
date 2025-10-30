@@ -12,7 +12,7 @@ class Client:
         self._transport : Transport = Transport(self._client)
         self._app_key   : ApplicationKey = ApplicationKey()
 
-    async def login(self, username: str, password: str):
+    async def login(self, username: str, password: str) -> str | None:
         _auth_data = {
             "application_key": await self._app_key.get_key(True),
             "username": username,
@@ -22,7 +22,7 @@ class Client:
 
         _response: Response = await self._transport.request(
             method="post",
-            url=config.AUTH_URL,
+            url=config.JournalEndpoint.AUTH_URL.value,
             json=_auth_data,
             timeout=2.0,
         )
@@ -33,6 +33,7 @@ class Client:
 
         if _jwt_token:
             return _jwt_token
+        raise 
 
     async def get_schedule(self, token: str, date: str):
         pass
