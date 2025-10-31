@@ -25,7 +25,7 @@ class Transport:
         method: str,
         url: str,
         token: str | None = None,
-        timeout: float = 5.0,
+        timeout: float = 2.0,
         **kwargs: Any,
     ) -> httpx.Response:
         async def _send() -> httpx.Response:  # wrapper - only request for re-use
@@ -50,10 +50,12 @@ class Transport:
                 raise journal_exceptions.JournalAuthError("Invalid login data!")
 
             elif response.status_code >= 500:
-                raise journal_exceptions.JournalInternalServerError(response.status_code)
+                raise journal_exceptions.JournalInternalServerError(
+                    response.status_code
+                )
 
             # Is ok, return result
             return response
 
         # If timeout is end
-        raise journal_exceptions.JournalRequestTimeoutError(408)
+        raise journal_exceptions.JournalRequestTimeoutError()

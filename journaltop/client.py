@@ -1,10 +1,11 @@
 from httpx import AsyncClient, Response
-from typing import cast 
+from typing import cast
 
 
 from .transport import Transport
-from .data import config 
+from .data import config
 from .utils.app_key import ApplicationKey
+from .errors import journal_exceptions
 
 class Client:
     def __init__(self, client: AsyncClient) -> None:
@@ -33,7 +34,7 @@ class Client:
 
         if _jwt_token:
             return _jwt_token
-        raise 
+        raise journal_exceptions.
 
     async def get_schedule(self, token: str, date: str):
         pass
