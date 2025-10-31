@@ -14,11 +14,11 @@ async def main():
         app = Client(client)
         transport = Transport(client)
 
-        jwt = await app.login(username="atama_dy40", password="w08n2MP6KBfE")
+        jwt = await app.login(username="username", password="password")
 
         response = await transport.request(
-            "get", config.JournalEndpoint.METRIC_GRADE.value, token=jwt
-            )
+            "get", config.JournalEndpoint.STUDENT_VISITS.value, token=jwt
+        )
 
         print(f"JWT Token: {jwt}")
         print(f"Server response: {response.json()}")
