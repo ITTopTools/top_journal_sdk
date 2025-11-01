@@ -1,10 +1,13 @@
 import time
-from typing import Any, final
+import logging
+from typing import Any, final, Optional
 
 import httpx
 
 from .data import config
 from .errors import journal_exceptions
+
+logging.getLogger(__name__).info("Logging initialized")
 
 
 @final
@@ -22,25 +25,31 @@ class Transport:
 
     async def request(
         self,
-        method: str,
-        url: str,
-        token: str | None = None,
-        timeout: float = 2.0,
-        **kwargs: Any,
+        method  : str,
+        url     : str,
+        token   : Optional[str],
+        follow_redirects: bool = True,
+        **kwargs: Optional[Any],
     ) -> httpx.Response:
-        async def _send() -> httpx.Response:  # wrapper - only request for re-use
-            global headers
-            headers = self.headers.copy()
+
+        async def _send() -> httpx.Response: 
+            _headers = self.headers.copy()
 
             if token:
-                headers["Authorization"] = f"Bearer {token}"
+                logging.info("Request with token!")
+                _headers["Authorization"] = f"Bearer {token}"
+            else:
+                logging.info("Request without token!")
 
-            return await self._client.request(method, url, headers=headers, **kwargs)
+            return await self._client.request(
+                method=method, 
+                url=url, 
+                headers=_headers, 
+                follow_redirects=follow_redirects, 
+                **kwargs
+                )
 
-        start_time = time.time()
-
-        while time.time() - start_time < timeout:
-            global response
+        while True:
             response = await _send()
 
             if response.status_code == 403 :
@@ -50,15 +59,11 @@ class Transport:
                 raise journal_exceptions.OutdatedJWTError()
 
             elif response.status_code == 422:
-                raise journal_exceptions.InvalidAuthDataError(message="Invalid login data!")
+                raise journal_exceptions.InvalidAuthDataError()
 
             elif response.status_code >= 500:
                 raise journal_exceptions.InternalServerError(
                     response.status_code
                 )
 
-            # Is ok, return result
             return response
-
-        # If timeout is end
-        raise journal_exceptions.RequestTimeoutError()

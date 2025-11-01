@@ -20,16 +20,18 @@ async def main():
 
         response = await transport.request( # Manual data fetching wo parsing
             method="get",
-            url=config.JournalEndpoint.SCHEDULE_URL.value, 
+            url=config.JournalEndpoint.STUDENT_HOMEWORK.value, 
             token=jwt, 
             params={"date": "2025-11-01"}
         )
 
         print(f"Server response: {response.json()}")
 
-        result1 = await app.get_schedule(token=jwt, date=None, timeout=2.0)
-        result2 = await app.get_schedule(token=jwt, date="2025-10-30", timeout=None)
+        result1 = await app.get_schedule(token=jwt, date=None)
+        result2 = await app.get_schedule(token=jwt, date="2025-10-30")
         
+        print(result1.lesson(1).started_at)
+
         await app.close_connection()
 
         print(f"{result1}\n")

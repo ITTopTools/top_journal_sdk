@@ -1,11 +1,11 @@
+from typing import Optional as O
 import logging.config
-import os
+import logging
 
-def setup_logging():
-    current_dir = os.path.dirname(os.path.abspath(__file__))    
-    log_dir = os.path.join(current_dir, "logs")
-    os.makedirs(log_dir, exist_ok=True)
-    
+def setup_logging(
+    level: int | None = logging.DEBUG, formater: str | None = "default"
+) -> None:
+
     LOGGING_CONFIG = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -27,26 +27,15 @@ def setup_logging():
         'handlers': {
             'console': {
                 'class': 'logging.StreamHandler',
-                'formatter': 'default',
-            },
-            'file': {
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(log_dir, 'app.log'),
-                'formatter': 'default',
-                'encoding': 'utf-8',
-            },
-            'file-verbose': {
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(log_dir, 'app-verbose.log'),
-                'formatter': 'full',
-                'encoding': 'utf-8',
-            },
+                'formatter': formater , 
+            }
+            
         },
         'root': {
-            'handlers': ['console', 'file', 'file-verbose'],
-            'level': 'DEBUG',
+            'handlers': 'console',
+            'level': level,
         },
     }
     
     logging.config.dictConfig(LOGGING_CONFIG)
-    logging.getLogger(__name__).info(f"Logging initialized (logs in {log_dir})")
+    logging.getLogger(__name__).info("Logging initialized")
