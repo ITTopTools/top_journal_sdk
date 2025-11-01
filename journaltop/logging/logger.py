@@ -1,17 +1,14 @@
 import logging.config
 import os
 
-
 def setup_logging():
-
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    log_dir = os.path.join(base_dir, "src", "logging", "logs")
+    current_dir = os.path.dirname(os.path.abspath(__file__))    
+    log_dir = os.path.join(current_dir, "logs")
     os.makedirs(log_dir, exist_ok=True)
-
+    
     LOGGING_CONFIG = {
         'version': 1,
         'disable_existing_loggers': False,
-
         'formatters': {
             'default': {
                 'format': "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -27,7 +24,6 @@ def setup_logging():
                 'datefmt': "%Y-%m-%d %H:%M:%S"
             }
         },
-
         'handlers': {
             'console': {
                 'class': 'logging.StreamHandler',
@@ -46,12 +42,11 @@ def setup_logging():
                 'encoding': 'utf-8',
             },
         },
-
         'root': {
             'handlers': ['console', 'file', 'file-verbose'],
             'level': 'DEBUG',
         },
     }
-
+    
     logging.config.dictConfig(LOGGING_CONFIG)
-    logging.getLogger(__name__).debug("Logging initialized (logs in ./src/logging/logs)")
+    logging.getLogger(__name__).info(f"Logging initialized (logs in {log_dir})")

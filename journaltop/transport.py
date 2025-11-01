@@ -43,14 +43,17 @@ class Transport:
             global response
             response = await _send()
 
-            if response.status_code == 403:
+            if response.status_code == 403 :
                 raise journal_exceptions.InvalidJWTError()
 
+            elif response.status_code == 401:
+                raise journal_exceptions.OutdatedJWTError()
+
             elif response.status_code == 422:
-                raise journal_exceptions.JournalAuthError("Invalid login data!")
+                raise journal_exceptions.InvalidAuthDataError(message="Invalid login data!")
 
             elif response.status_code >= 500:
-                raise journal_exceptions.JournalInternalServerError(
+                raise journal_exceptions.InternalServerError(
                     response.status_code
                 )
 
@@ -58,4 +61,4 @@ class Transport:
             return response
 
         # If timeout is end
-        raise journal_exceptions.JournalRequestTimeoutError()
+        raise journal_exceptions.RequestTimeoutError()
