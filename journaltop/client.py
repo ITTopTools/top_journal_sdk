@@ -1,18 +1,25 @@
+import datetime
+import logging
+from typing import Any, Optional, cast
+
 from httpx import AsyncClient, Response
-from typing import cast 
 
-
-from .transport import Transport
-from .data import config 
-from .utils.app_key import ApplicationKey
+from .data import config
+from .errors import journal_exceptions as _err
+from .models.homework import Homeworks as _hw_model
+from .models.schedule import Schedule as _sch_model
+from .transport import Transport as _tp
+from .utils.app_key import ApplicationKey as _ak
 
 class Client:
     def __init__(self, client: AsyncClient) -> None:
-        self._client    : AsyncClient = client
-        self._transport : Transport = Transport(self._client)
-        self._app_key   : ApplicationKey = ApplicationKey()
+        logging.getLogger(__name__).debug("Logging initialized.")
 
-    async def login(self, username: str, password: str) -> str | None:
+        self._client    : AsyncClient = client
+        self._transport : _tp = _tp(self._client)
+        self._app_key   : _ak = _ak()
+
+    async def login(self, username: str, password: str) -> str:
         _auth_data = {
             "application_key": await self._app_key.get_key(True),
             "username": username,
@@ -23,8 +30,8 @@ class Client:
         _response: Response = await self._transport.request(
             method="post",
             url=config.JournalEndpoint.AUTH_URL.value,
+            token=None, 
             json=_auth_data,
-            timeout=2.0,
         )
 
         _jwt_token: str = str(
@@ -33,14 +40,69 @@ class Client:
 
         if _jwt_token:
             return _jwt_token
-        raise 
+        raise _err.InvalidJWTError()
 
-    async def get_schedule(self, token: str, date: str):
-        pass
 
-    async def get_homework(self, token: str, date: str):
-        pass
+    async def get_schedule(
+        self,
+        token: str,  
+        date: Optional[str] | Optional[datetime.date], 
+        ):
+        if not date: # Handle not provided date param
+            logging.debug(f"date:{date}")
+            logging.warning(f"Date not provided, using today date!")
+            date = datetime.date.today() 
+        
+        if token:
+            _sch_response: Response = await self._transport.request(
+                method="get", 
+                url=config.JournalEndpoint.SCHEDULE_URL.value,
+                token=token,
+                params={"date": date}
+                )
 
-    async def close_connection(self):
+            logging.debug(f"Server respose: '{_sch_response.json()}'.")
+            logging.info("Complite schedule data fetching.")
+
+            # Parse raw schedule data to object
+            schedule_object: Any = _sch_model(lessons=_sch_response.json())
+            
+            logging.info("Complite schedule data parsing.")
+
+            if schedule_object:
+                return schedule_object
+
+        logging.error("JWT Token not provided!")
+        logging.debug(f"JWT: {token}")
+        raise _err.InvalidJWTError()
+
+
+    async def get_homework(self, token: str):
+        if token:
+            _hw_response: Response = await self._transport.request(
+                method="get", 
+                url=config.JournalEndpoint.STUDENT_HOMEWORK.value,
+                token=token
+                )
+
+            logging.debug(f"Server respose: '{_hw_response.json()}'.")
+            logging.info("Complite homework data fetching.")
+
+            # parse raw hw data to object
+            homework_object: Any = _hw_model(hw_data=_hw_response.json())
+            
+            logging.info("Complite homework data parsing.")
+
+            if homework_object:
+                return homework_object
+
+        logging.error("JWT Token not provided!")
+        logging.debug(f"JWT: {token}")
+        raise _err.InvalidJWTError()
+        
+
+    async def close_connection(self) -> None:
+        """Close async connection with private client object"""
         await self._client.aclose()
-        return
+        logging.info("Async connection closed!")
+        return None
