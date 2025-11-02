@@ -29,7 +29,8 @@ class Transport:
         url     : str,
         token   : Optional[str],
         follow_redirects: bool = True,
-        **kwargs: Optional[Any],
+        timeout: float = 2.0,
+        **kwargs: Optional[Any]
     ) -> httpx.Response:
 
         async def _send() -> httpx.Response: 
@@ -49,7 +50,9 @@ class Transport:
                 **kwargs
                 )
 
-        while True:
+        __start_time: float = time.time()
+
+        while time.time() - __start_time < timeout:
             response = await _send()
 
             if response.status_code == 403 :
@@ -57,6 +60,9 @@ class Transport:
 
             elif response.status_code == 401:
                 raise journal_exceptions.OutdatedJWTError()
+            
+            elif response.status_code == 410:
+                raise journal_exceptions.InvalidAppKeyError()
 
             elif response.status_code == 422:
                 raise journal_exceptions.InvalidAuthDataError()
@@ -67,3 +73,5 @@ class Transport:
                 )
 
             return response
+
+        raise journal_exceptions.RequestTimeoutError()

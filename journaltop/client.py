@@ -19,7 +19,9 @@ class Client:
         self._transport : _tp = _tp(self._client)
         self._app_key   : _ak = _ak()
 
-    async def login(self, username: str, password: str) -> str:
+    async def login(
+        self, username: str, password: str, raw: Optional[bool] = False
+        ) -> str:
         _auth_data = {
             "application_key": await self._app_key.get_key(True),
             "username": username,
@@ -34,6 +36,9 @@ class Client:
             json=_auth_data,
         )
 
+        if raw:
+            return _response.json()
+
         _jwt_token: str = str(
             cast(dict[str, str], _response.json()).get("access_token", "")
         )
@@ -46,7 +51,8 @@ class Client:
     async def get_schedule(
         self,
         token: str,  
-        date: Optional[str] | Optional[datetime.date], 
+        date: Optional[str | datetime.date] ,
+        raw: Optional[bool] = False 
         ):
         if not date: # Handle not provided date param
             logging.debug(f"date:{date}")
@@ -63,7 +69,10 @@ class Client:
 
             logging.debug(f"Server respose: '{_sch_response.json()}'.")
             logging.info("Complite schedule data fetching.")
-
+            
+            if raw:
+                return _sch_response.json()
+            
             # Parse raw schedule data to object
             schedule_object: Any = _sch_model(lessons=_sch_response.json())
             
@@ -77,7 +86,7 @@ class Client:
         raise _err.InvalidJWTError()
 
 
-    async def get_homework(self, token: str):
+    async def get_homework(self, token: str, raw: Optional[bool] = False):
         if token:
             _hw_response: Response = await self._transport.request(
                 method="get", 
@@ -87,7 +96,10 @@ class Client:
 
             logging.debug(f"Server respose: '{_hw_response.json()}'.")
             logging.info("Complite homework data fetching.")
-
+            
+            if raw:
+                return _hw_response.json()
+                
             # parse raw hw data to object
             homework_object: Any = _hw_model(hw_data=_hw_response.json())
             

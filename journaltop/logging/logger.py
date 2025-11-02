@@ -1,9 +1,9 @@
-from typing import Optional as O
+from typing import Optional 
 import logging.config
 import logging
 
 def setup_logging(
-    level: int | None = logging.DEBUG, formater: str | None = "default"
+    level: Optional[int] = logging.DEBUG, formater: str | None = "default"
 ) -> None:
 
     LOGGING_CONFIG = {
