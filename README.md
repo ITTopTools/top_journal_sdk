@@ -13,13 +13,13 @@ A Python SDK for interacting with the IT-Top educational platform journal API. T
 - 🚀 Async/await support with httpx
 - 📝 Comprehensive logging
 
-## Installation
+## Installation `not work!`
 
 ```bash
-# Clone the repository
+# Add library to dependencies
 uv add journaltop
 
-# without uv
+# Without uv
 pip install journaltop
 ```
 
