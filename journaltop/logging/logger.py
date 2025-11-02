@@ -1,17 +1,14 @@
+from typing import Optional as O
 import logging.config
-import os
+import logging
 
-
-def setup_logging():
-
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    log_dir = os.path.join(base_dir, "src", "logging", "logs")
-    os.makedirs(log_dir, exist_ok=True)
+def setup_logging(
+    level: int | None = logging.DEBUG, formater: str | None = "default"
+) -> None:
 
     LOGGING_CONFIG = {
         'version': 1,
         'disable_existing_loggers': False,
-
         'formatters': {
             'default': {
                 'format': "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -27,31 +24,18 @@ def setup_logging():
                 'datefmt': "%Y-%m-%d %H:%M:%S"
             }
         },
-
         'handlers': {
             'console': {
                 'class': 'logging.StreamHandler',
-                'formatter': 'default',
-            },
-            'file': {
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(log_dir, 'app.log'),
-                'formatter': 'default',
-                'encoding': 'utf-8',
-            },
-            'file-verbose': {
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(log_dir, 'app-verbose.log'),
-                'formatter': 'full',
-                'encoding': 'utf-8',
-            },
+                'formatter': formater , 
+            }
+            
         },
-
         'root': {
-            'handlers': ['console', 'file', 'file-verbose'],
-            'level': 'DEBUG',
+            'handlers': 'console',
+            'level': level,
         },
     }
-
+    
     logging.config.dictConfig(LOGGING_CONFIG)
-    logging.getLogger(__name__).debug("Logging initialized (logs in ./src/logging/logs)")
+    logging.getLogger(__name__).info("Logging initialized")
