@@ -4,13 +4,11 @@ A Python SDK for interacting with the IT-Top educational platform journal API. T
 
 ## Description
 
-`journaltop` is an asynchronous Python client library that simplifies interaction with the IT-Top journal system. It handles authentication, API communication, and data parsing into strongly-typed Pydantic models.
+`journaltop` is an asynchronous Python library that simplifies interaction with the IT-Top journal system. It handles authentication, API communication, and data parsing into strongly-typed Pydantic models.
 
 ### Features
 
 - 🔐 JWT-based authentication
-- 📅 Schedule data retrieval and parsing
-- 📊 Homework statistics tracking
 - ✅ Full type hints and Pydantic validation
 - 🚀 Async/await support with httpx
 - 📝 Comprehensive logging
@@ -19,22 +17,18 @@ A Python SDK for interacting with the IT-Top educational platform journal API. T
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd journaltop
+uv add journaltop
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
+# without uv
+pip install journaltop
 ```
 
 ### Requirements
 
-- Python 3.10+
+- Python 3.13+
+- asyncio
 - httpx
-- pydantic
+
 
 ## Quick Start
 
@@ -48,7 +42,7 @@ async def main():
         # Initialize client
         app = Client(client)
         
-        # Login and get JWT token
+        # Login and get JWT token (DONT SHARE THIS TOKEN!)
         token = await app.login(
             username="your_username",
             password="your_password"
@@ -66,7 +60,7 @@ async def main():
             print(f"Room: {first_lesson.room_name}")
         
         # Get homework statistics
-        hw_stats = await app.get_homework_stats(token=token)
+        hw_stats = await app.get_homework(token=token)
         print(f"Total homework: {hw_stats.total}")
         print(f"Overdue: {hw_stats.overdue}")
         print(f"Checked: {hw_stats.checked}")
@@ -109,7 +103,7 @@ for lesson_data in schedule.lessons:
 
 ```python
 # Get homework statistics
-stats = await app.get_homework_stats(token=token)
+stats = await app.get_homework(token=token)
 
 # Access stats properties
 print(f"Total: {stats.total}")           # Total homework count
@@ -123,55 +117,19 @@ print(f"Deleted: {stats.deleted}")       # Deleted by teacher
 overdue_count = stats.get_counter(0)  # By counter type number
 ```
 
-### Data Models
 
-#### Schedule Model
-
-```python
-class Lesson:
-    date: date
-    lesson: int                # Lesson number (1-8)
-    started_at: time
-    finished_at: time
-    teacher_name: str
-    subject_name: str
-    room_name: str
-
-class Schedule:
-    lessons: List[Lesson]
-    
-    def lesson(number: int) -> Optional[Lesson]
-```
-
-#### Homework Stats Model
-
-```python
-class HomeworkStats:
-    counters: List[HomeworkCounter]
-    
-    # Properties
-    overdue: int      # Counter type 0
-    checked: int      # Counter type 1
-    pending: int      # Counter type 2
-    current: int      # Counter type 3
-    total: int        # Counter type 4
-    deleted: int      # Counter type 5
-```
 
 ### Logging
 
 The SDK includes comprehensive logging. Configure it in your application:
 
 ```python
-from journaltop.utils.logger import setup_logging
+from journaltop.logging.logger import setup_logging
 import logging
 
-# Setup logging (logs will be in ./journaltop/logging/logs/)
+# Setup logging
 setup_logging(level=logging.DEBUG)
 
-# Logs are automatically created:
-# - app.log: Standard logs
-# - app-verbose.log: Detailed logs with full context
 ```
 
 ### Error Handling
