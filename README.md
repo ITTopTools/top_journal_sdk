@@ -1,93 +1,166 @@
-# TopJournalClient
+# IT-Top Journal SDK (journaltop)
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/eviltrapgod/topjournalclient.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/eviltrapgod/topjournalclient/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
+A Python SDK for interacting with the IT-Top educational platform journal API. This library provides async methods for authentication, schedule retrieval, and homework statistics.
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+`journaltop` is an asynchronous Python library that simplifies interaction with the IT-Top journal system. It handles authentication, API communication, and data parsing into strongly-typed Pydantic models.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Features
+
+- 🔐 JWT-based authentication
+- ✅ Full type hints and Pydantic validation
+- 🚀 Async/await support with httpx
+- 📝 Comprehensive logging
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+```bash
+# Clone the repository
+uv add journaltop
+
+# without uv
+pip install journaltop
+```
+
+### Requirements
+
+- Python 3.13+
+- asyncio
+- httpx
+
+
+## Quick Start
+
+```python
+import asyncio
+import httpx
+from journaltop import Client
+
+async def main():
+    async with httpx.AsyncClient() as client:
+        # Initialize client
+        app = Client(client)
+        
+        # Login and get JWT token (DONT SHARE THIS TOKEN!)
+        token = await app.login(
+            username="your_username",
+            password="your_password"
+        )
+        
+        # Get today's schedule
+        schedule = await app.get_schedule(token=token, date=None, timeout=2.0)
+        
+        # Access schedule data
+        first_lesson = schedule.lesson(1)
+        if first_lesson:
+            print(f"First lesson: {first_lesson.subject_name}")
+            print(f"Teacher: {first_lesson.teacher_name}")
+            print(f"Time: {first_lesson.started_at} - {first_lesson.finished_at}")
+            print(f"Room: {first_lesson.room_name}")
+        
+        # Get homework statistics
+        hw_stats = await app.get_homework(token=token)
+        print(f"Total homework: {hw_stats.total}")
+        print(f"Overdue: {hw_stats.overdue}")
+        print(f"Checked: {hw_stats.checked}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
+### Authentication
+
+```python
+from journaltop import Client
+
+async with httpx.AsyncClient() as client:
+    app = Client(client)
+    token = await app.login(username="username", password="password")
+```
+
+### Schedule Management
+
+```python
+# Get schedule for today
+schedule = await app.get_schedule(token=token, date=None, timeout=2.0)
+
+# Get schedule for specific date
+schedule = await app.get_schedule(token=token, date="2025-11-01", timeout=2.0)
+
+# Access lesson by number
+lesson = schedule.lesson(2)
+print(f"{lesson.subject_name} at {lesson.started_at}")
+
+# Iterate through all lessons
+for lesson_data in schedule.lessons:
+    print(f"Lesson {lesson_data.lesson}: {lesson_data.subject_name}")
+```
+
+### Homework Statistics
+
+```python
+# Get homework statistics
+stats = await app.get_homework(token=token)
+
+# Access stats properties
+print(f"Total: {stats.total}")           # Total homework count
+print(f"Current: {stats.current}")       # Current homework
+print(f"Overdue: {stats.overdue}")       # Overdue homework
+print(f"Checked: {stats.checked}")       # Checked homework
+print(f"Pending: {stats.pending}")       # Pending review
+print(f"Deleted: {stats.deleted}")       # Deleted by teacher
+
+# Or use the method
+overdue_count = stats.get_counter(0)  # By counter type number
+```
+
+
+
+### Logging
+
+The SDK includes comprehensive logging. Configure it in your application:
+
+```python
+from journaltop.logging.logger import setup_logging
+import logging
+
+# Setup logging
+setup_logging(level=logging.DEBUG)
+
+```
+
+### Error Handling
+
+```python
+from journaltop.errors import journal_exceptions
+
+try:
+    token = await app.login(username="user", password="pass")
+except journal_exceptions.JournalAuthError as e:
+    print(f"Authentication failed: {e}")
+except journal_exceptions.InvalidJWTError:
+    print("Invalid or expired token")
+except journal_exceptions.JournalRequestTimeoutError:
+    print("Request timed out")
+except journal_exceptions.JournalInternalServerError as e:
+    print(f"Server error: {e}")
+```
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+For issues, questions, or contributions, please open an issue in the repository issue tracker.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Authors and Acknowledgment
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Developed for the IT-Top educational platform community.
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+[GNU Public License](lICENSE)
+
+## Project Status
+
+Active development. Core features are implemented and stable. Additional features and improvements are ongoing.
