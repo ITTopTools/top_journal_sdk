@@ -59,7 +59,7 @@ async def main():
             print(f"Time: {first_lesson.started_at} - {first_lesson.finished_at}")
             print(f"Room: {first_lesson.room_name}")
         
-        # Get homework statistics
+        # Get homework data
         hw_stats = await app.get_homework(token=token)
         print(f"Total homework: {hw_stats.total}")
         print(f"Overdue: {hw_stats.overdue}")

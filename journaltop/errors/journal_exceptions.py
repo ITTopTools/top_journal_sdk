@@ -73,3 +73,13 @@ class RequestTimeoutError(JournalError):
 
     def __init__(self, status_code: int = 408, message: str = "Retry timeout exceeded"):
         super().__init__(f"{message} (status {status_code})")
+
+# --- LESSON IS MISSING (NoneType) ---
+class LessonNotFoundError(JournalError):
+    """Raised when the requested lesson is not found in the schedule."""
+
+    def __init__(self, lesson_number: int, message: str | None = None):
+        self.lesson_number = lesson_number
+        if message is None:
+            message = f"Lesson number {lesson_number} not found in schedule."
+        super().__init__(message)
