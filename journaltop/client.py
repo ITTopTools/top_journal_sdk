@@ -8,6 +8,7 @@ from .data import config
 from .errors import journal_exceptions as _err
 from .models.homework import Homeworks as _hw_model
 from .models.schedule import Schedule as _sch_model
+from .models.user_info import UserInfo as _uf_model
 from .transport import Transport as _tp
 from .utils.app_key import ApplicationKey as _ak
 
@@ -51,7 +52,7 @@ class Client:
     async def get_schedule(
         self,
         token: str,  
-        date: Optional[str | datetime.date] ,
+        date: Optional[str | datetime.date] = None,
         raw: Optional[bool] = False 
         ):
         if not date: # Handle not provided date param
@@ -101,7 +102,7 @@ class Client:
                 return _hw_response.json()
                 
             # parse raw hw data to object
-            homework_object: Any = _hw_model(hw_data=_hw_response.json())
+            homework_object: Any = _hw_model(counters=_hw_response.json())
             
             logging.info("Complite homework data parsing.")
 
@@ -112,6 +113,32 @@ class Client:
         logging.debug(f"JWT: {token}")
         raise _err.InvalidJWTError()
         
+
+    async def get_user_info(self, token: str, raw: Optional[bool] = False):
+        if token:
+            _inf_response: Response = await self._transport.request(
+                method="get", 
+                url=config.JournalEndpoint.USER_INFO.value,
+                token=token
+                )
+
+            logging.debug(f"Server respose: '{_inf_response.json()}'.")
+            logging.info("Complite user info fetching.")
+            
+            if raw:
+                return _inf_response.json()
+                
+            user_info_object: Any = _uf_model(**_inf_response.json())
+            
+            logging.info("Complite user info parsing.")
+
+            if user_info_object:
+                return user_info_object
+
+        logging.error("JWT Token not provided!")
+        logging.debug(f"JWT: {token}")
+        raise _err.InvalidJWTError()
+
 
     async def close_connection(self) -> None:
         """Close async connection with private client object"""

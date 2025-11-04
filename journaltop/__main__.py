@@ -15,27 +15,24 @@ async def main():
         app = Client(client)
         transport = Transport(client)
 
-        jwt: str = await app.login(username="username", password="password")
+        jwt: str = await app.login(username="", password="")
         print(f"JWT Token: {jwt}")
 
-        response = await transport.request( # Manual data fetching wo parsing
-            method="get",
-            url=config.JournalEndpoint.STUDENT_HOMEWORK.value, 
-            token=jwt, 
-            params={"date": "2025-11-01"}
-        )
-
-        print(f"Server response: {response.json()}")
-
-        result1 = await app.get_schedule(token=jwt, date=None)
-        result2 = await app.get_schedule(token=jwt, date="2025-10-30")
+        # response = await transport.request( # Manual data fetching wo parsing
+        #     method="get",
+        #     url=config.JournalEndpoint.USER_INFO.value, 
+        #     token=jwt, 
+        #     params={"date": "2025-11-01"}
+        # )
+        sch = await app.get_schedule(token=jwt)
+        hw = await app.get_homework(token=jwt)
+        prof = await app.get_user_info(token=jwt)
         
-        print(result1.lesson(1).started_at)
-
-        await app.close_connection()
-
-        print(f"{result1}\n")
-        print(f"{result2}\n")
+        print(hw.total)
+        print(sch.lesson(1).teacher_name)
+        print(prof.group_name_prop)
+        
+        # print(f"Server response: {response.json()}")
 
 if __name__ == "__main__":
     asyncio.run(main())
