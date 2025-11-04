@@ -1,8 +1,9 @@
 import re
 from typing import Any
 
-from bs4 import BeautifulSoup
 import httpx
+from bs4 import BeautifulSoup
+
 
 class ApplicationKey:
     def __init__(self):

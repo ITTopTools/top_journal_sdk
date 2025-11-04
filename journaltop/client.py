@@ -1,4 +1,4 @@
-import datetime
+from datetime import date
 import logging
 from typing import Any, Optional, cast
 
@@ -12,6 +12,7 @@ from .models.user_info import UserInfo as _uf_model
 from .transport import Transport as _tp
 from .utils.app_key import ApplicationKey as _ak
 
+
 class Client:
     def __init__(self, client: AsyncClient) -> None:
         logging.getLogger(__name__).debug("Logging initialized.")
@@ -23,6 +24,7 @@ class Client:
     async def login(
         self, username: str, password: str, raw: Optional[bool] = False
         ) -> str:
+
         _auth_data = {
             "application_key": await self._app_key.get_key(True),
             "username": username,
@@ -52,21 +54,20 @@ class Client:
     async def get_schedule(
         self,
         token: str,  
-        date: Optional[str | datetime.date] = None,
+        strdate: Optional[str | date] = None,
         raw: Optional[bool] = False 
         ):
-        if not date: # Handle not provided date param
+        if not strdate: # Handle not provided date param
             logging.debug(f"date:{date}")
-            logging.warning(f"Date not provided, using today date!")
-            date = datetime.date.today() 
+            logging.warning("Date not provided, using today date!")
+            strdate = date.today() 
         
         if token:
             _sch_response: Response = await self._transport.request(
                 method="get", 
                 url=config.JournalEndpoint.SCHEDULE_URL.value,
                 token=token,
-                params={"date": date}
-                )
+                params={"date": strdate})
 
             logging.debug(f"Server respose: '{_sch_response.json()}'.")
             logging.info("Complite schedule data fetching.")
@@ -84,6 +85,7 @@ class Client:
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
+
         raise _err.InvalidJWTError()
 
 
@@ -92,8 +94,7 @@ class Client:
             _hw_response: Response = await self._transport.request(
                 method="get", 
                 url=config.JournalEndpoint.STUDENT_HOMEWORK.value,
-                token=token
-                )
+                token=token)
 
             logging.debug(f"Server respose: '{_hw_response.json()}'.")
             logging.info("Complite homework data fetching.")
@@ -101,7 +102,6 @@ class Client:
             if raw:
                 return _hw_response.json()
                 
-            # parse raw hw data to object
             homework_object: Any = _hw_model(counters=_hw_response.json())
             
             logging.info("Complite homework data parsing.")
@@ -111,8 +111,34 @@ class Client:
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
+
         raise _err.InvalidJWTError()
         
+
+    async def get_avg_score(self, token: str, raw: Optional[bool] = False):
+        if token: 
+            _score_response: Response = await self._transport.request(
+                method="get", 
+                url=config.JournalEndpoint.METRIC_GRADE.value,
+                token=token)
+
+            logging.debug(f"Server respose: '{_score_response.json()}'.")
+            logging.info("Complite avg score fetching.")
+            
+            if raw:
+                return _score_response.json()
+                
+            # avg_score_object: Any = _uf_model(**_score_response.json())
+            
+            # logging.info("Complite user info parsing.")
+
+            # if user_info_object:
+            #     return user_info_object
+
+        logging.error("JWT Token not provided!")
+        logging.debug(f"JWT: {token}")
+        raise _err.InvalidJWTError()
+
 
     async def get_user_info(self, token: str, raw: Optional[bool] = False):
         if token:
@@ -144,4 +170,5 @@ class Client:
         """Close async connection with private client object"""
         await self._client.aclose()
         logging.info("Async connection closed!")
+
         return None

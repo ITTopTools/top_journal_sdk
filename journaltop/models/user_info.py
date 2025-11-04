@@ -1,7 +1,8 @@
-from pydantic import BaseModel, HttpUrl, Field
-from typing import List, Optional
 from datetime import date, datetime
 from enum import IntEnum
+from typing import List, Optional
+
+from pydantic import BaseModel, Field, HttpUrl
 
 
 class GamingPointType(IntEnum):
@@ -22,13 +23,6 @@ class GamingPoint(BaseModel):
         return names.get(self.new_gaming_point_types__id, "Неизвестно")
 
 
-class Group(BaseModel):
-    group_status: int
-    is_primary: bool
-    id: int
-    name: str
-
-
 class UserInfo(BaseModel):
     gaming_points: List[GamingPoint]
     student_id: int
@@ -39,7 +33,6 @@ class UserInfo(BaseModel):
     photo: Optional[HttpUrl] = None
     current_group_id: int
     group_name: str
-    groups: List[Group]
     current_group_status: int
     stream_id: int
     stream_name: str
@@ -79,13 +72,6 @@ class UserInfo(BaseModel):
     @property
     def group_name_prop(self) -> str:
         return self.group_name
-    
-    @property
-    def primary_group(self) -> Optional[Group]:
-        for group in self.groups:
-            if group.is_primary:
-                return group
-        return None
     
     @property
     def stream_id_prop(self) -> int:

@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
-from typing import List
 from enum import IntEnum
+from typing import Optional, List
+
+from pydantic import BaseModel, Field
 
 
 class HomeworkCounterType(IntEnum):
@@ -32,35 +33,35 @@ class HomeworkCounter(BaseModel):
 class Homeworks(BaseModel):
     counters: List[HomeworkCounter]
     
-    def get_counter(self, counter_type: int | HomeworkCounterType) -> int:
+    def get_counter(self, counter_type: int | HomeworkCounterType) -> Optional[int]:
         if isinstance(counter_type, HomeworkCounterType):
             counter_type = counter_type.value
         
         for counter in self.counters:
             if counter.counter_type == counter_type:
                 return counter.counter
-        return 0
-    
+        raise IndexError
+
     @property
-    def overdue(self) -> int:
+    def overdue(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.OVERDUE)
     
     @property
-    def checked(self) -> int:
+    def checked(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.CHECKED)
     
     @property
-    def pending(self) -> int:
+    def pending(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.PENDING)
     
     @property
-    def current(self) -> int:
+    def current(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.CURRENT)
     
     @property
-    def total(self) -> int:
+    def total(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.TOTAL)
     
     @property
-    def deleted(self) -> int:
+    def deleted(self) -> Optional[int]:
         return self.get_counter(HomeworkCounterType.DELETED)
