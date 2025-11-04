@@ -14,11 +14,14 @@ from .utils.app_key import ApplicationKey as _ak
 
 
 class Client:
-    def __init__(self, client: AsyncClient) -> None:
+    def __init__(
+        self, client: AsyncClient, transport: Optional[Any] = None
+        ) -> None:
+        
         logging.getLogger(__name__).debug("Logging initialized.")
 
         self._client    : AsyncClient = client
-        self._transport : _tp = _tp(self._client)
+        self._transport : _tp = transport if transport else _tp(self._client)  
         self._app_key   : _ak = _ak()
 
     async def login(
@@ -76,12 +79,12 @@ class Client:
                 return _sch_response.json()
             
             # Parse raw schedule data to object
-            schedule_object: Any = _sch_model(lessons=_sch_response.json())
+            _schedule_object: Any = _sch_model(lessons=_sch_response.json())
             
             logging.info("Complite schedule data parsing.")
 
-            if schedule_object:
-                return schedule_object
+            if _schedule_object:
+                return _schedule_object
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
@@ -102,12 +105,12 @@ class Client:
             if raw:
                 return _hw_response.json()
                 
-            homework_object: Any = _hw_model(counters=_hw_response.json())
+            _homework_object: Any = _hw_model(counters=_hw_response.json())
             
             logging.info("Complite homework data parsing.")
 
-            if homework_object:
-                return homework_object
+            if _homework_object:
+                return _homework_object
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
@@ -128,12 +131,12 @@ class Client:
             if raw:
                 return _score_response.json()
                 
-            # avg_score_object: Any = _uf_model(**_score_response.json())
+            # _avg_score_object: Any = _uf_model(**_score_response.json())
             
             # logging.info("Complite user info parsing.")
 
-            # if user_info_object:
-            #     return user_info_object
+            # if _avg_score_object:
+            #     return _avg_score_object
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
@@ -154,12 +157,12 @@ class Client:
             if raw:
                 return _inf_response.json()
                 
-            user_info_object: Any = _uf_model(**_inf_response.json())
+            _user_info_object: Any = _uf_model(**_inf_response.json())
             
             logging.info("Complite user info parsing.")
 
-            if user_info_object:
-                return user_info_object
+            if _user_info_object:
+                return _user_info_object
 
         logging.error("JWT Token not provided!")
         logging.debug(f"JWT: {token}")
