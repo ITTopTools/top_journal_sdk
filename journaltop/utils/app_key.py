@@ -12,7 +12,7 @@ class ApplicationKey:
         self.__app_js_url: str = ""
         self.__app_token: str = ""
 
-    def __parse_index_html(self, html: str) -> str :
+    def __parse_index_html(self, html: str) -> str:
         soup = BeautifulSoup(html, "html.parser")
         scripts = soup.find_all("script")
         target_script: str = ""

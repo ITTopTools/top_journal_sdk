@@ -1,9 +1,8 @@
 from datetime import date, time
-from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from ..errors.journal_exceptions import LessonNotFoundError
+from journaltop.errors.journal_exceptions import LessonNotFoundError
 
 
 class Lesson(BaseModel):
@@ -17,9 +16,9 @@ class Lesson(BaseModel):
 
 
 class Schedule(BaseModel):
-    lessons: List[Lesson]
-    
-    def lesson(self, number: int) -> Optional[Lesson]:
+    lessons: list[Lesson]
+
+    def lesson(self, number: int) -> Lesson | None:
         for lesson in self.lessons:
             if lesson.lesson == number:
                 return lesson

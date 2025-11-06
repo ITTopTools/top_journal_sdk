@@ -1,6 +1,6 @@
-from .client import Client
-from .errors.base import JournalError as JournalException
-from .errors.journal_exceptions import (
+from journaltop.client import Client
+from journaltop.errors.base import JournalError as JournalException
+from journaltop.errors.journal_exceptions import (
     DataNotFoundError,
     InternalServerError,
     InvalidAppKeyError,
@@ -11,16 +11,16 @@ from .errors.journal_exceptions import (
 )
 from .log import logger
 
-__all__ = [  
-    "Client", 
-    "JournalException", 
+__all__ = [
+    "Client",
+    "JournalException",
     "DataNotFoundError",
     "InternalServerError",
     "InvalidAppKeyError",
     "InvalidAuthDataError",
     "InvalidJWTError",
     "OutdatedJWTError",
-    "RequestTimeoutError", 
+    "RequestTimeoutError",
     "logger",
 ]
 
