@@ -1,12 +1,13 @@
 import re
 from typing import Any
 
-from bs4 import BeautifulSoup
 import httpx
+from bs4 import BeautifulSoup
+
 
 class ApplicationKey:
     def __init__(self):
-        self.__application_token: str = ""
+        self.__app_token: str = ""
         self.__base_url: str = "https://journal.top-academy.ru"
         self.__app_js_url: str = ""
         self.__app_token: str = ""

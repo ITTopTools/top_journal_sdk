@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class JournalHeaders(Enum):
     # ===  Data for headers parsing  ===
     

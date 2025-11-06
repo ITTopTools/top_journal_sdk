@@ -4,6 +4,5 @@
 __pycache__/
 .ruff_cache/
 .vscode
-
 *.egg-info
-test.py
+
