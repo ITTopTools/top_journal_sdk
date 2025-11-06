@@ -7,24 +7,17 @@ name = "aiojournal"
 version = "0.1.0"
 description = "Async-friendly SDK for ittopjournal API"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 authors = [{name="trapplus", email="blazer19092008@gmail.com"}]
 license = {text = "MIT"}
 dependencies = [
-    "bs4>=0.0.2",
-    "dotenv>=0.9.9",
+    "beautifulsoup4>=4.14.2",
     "httpx>=0.28.1",
     "pydantic>=2.12.3",
 ]
 
 [dependency-groups]
 dev = [
-    "bs4>=0.0.2",
-    "dotenv>=0.9.9",
-    "httpx>=0.28.1",
-    "mypy>=1.18.2",
-    "pydantic>=2.12.3",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
-    "ruff>=0.14.3",
 ]
