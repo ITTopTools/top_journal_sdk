@@ -16,6 +16,9 @@ dependencies = [
     "pydantic>=2.12.3",
 ]
 
+[tool.uv.package]
+path = "journaltop"
+
 [dependency-groups]
 dev = [
     "pytest>=8.4.2",
