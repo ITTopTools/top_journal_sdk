@@ -9,7 +9,7 @@ from journaltop.errors.journal_exceptions import (
     OutdatedJWTError,
     RequestTimeoutError,
 )
-from .log import logger
+from journaltop.log import logger
 
 __all__ = [
     "Client",
@@ -24,4 +24,4 @@ __all__ = [
     "logger",
 ]
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
