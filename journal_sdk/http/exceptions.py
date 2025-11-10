@@ -1,8 +1,11 @@
-from journal_sdk.errors.base import JournalError
+class JournalException(Exception):
+    """Base class for all Journaltop errors."""
+
+    pass
 
 
 # --- SERVER SIDE ERRORS (5xx) ---
-class InternalServerError(JournalError):
+class InternalServerError(JournalException):
     """Raised when the remote server returns 5xx."""
 
     def __init__(self, status_code: int, message: str = "Server error"):
@@ -11,7 +14,7 @@ class InternalServerError(JournalError):
 
 
 # --- INVALIDE AUTH DATA (HTTP 422) ---
-class InvalidAuthDataError(JournalError):
+class InvalidAuthDataError(JournalException):
     """Raised when the provided username or password is invalid or expired (HTTP 422)."""
 
     def __init__(self, status_code: int = 422, message: str = "Invalid login data!"):
@@ -20,7 +23,7 @@ class InvalidAuthDataError(JournalError):
 
 
 # --- CLIENT SIDE ERRORS (HTTP 404) ---
-class DataNotFoundError(JournalError):
+class DataNotFoundError(JournalException):
     """Raised when requested data/resource was not found."""
 
     def __init__(self, url: str | None = None, message: str = "Data not found"):
@@ -31,7 +34,7 @@ class DataNotFoundError(JournalError):
 
 
 # --- AUTHORIZATION ERRORS (HTTP 401) ---
-class OutdatedJWTError(JournalError):
+class OutdatedJWTError(JournalException):
     """Raised when JWT is outdated."""
 
     def __init__(
@@ -41,7 +44,7 @@ class OutdatedJWTError(JournalError):
 
 
 # --- INVALIDE JWT TOKEN (HTTP 403) ---
-class InvalidJWTError(JournalError):
+class InvalidJWTError(JournalException):
     """Raised when the JWT token is invalid or expired (HTTP 403)."""
 
     def __init__(
@@ -54,7 +57,7 @@ class InvalidJWTError(JournalError):
 
 
 # --- INVALIDE APPLICATION KEY (HTTP 410) ---
-class InvalidAppKeyError(JournalError):
+class InvalidAppKeyError(JournalException):
     """Raised when the provided app_key is invalid or expired (HTTP 410)."""
 
     def __init__(
@@ -65,7 +68,7 @@ class InvalidAppKeyError(JournalError):
 
 
 # --- TIMEOUT REQUEST ERROR (HTTP 408) ---
-class RequestTimeoutError(JournalError):
+class RequestTimeoutError(JournalException):
     """Raised when retry timeout for a request is exceeded."""
 
     def __init__(self, status_code: int = 408, message: str = "Retry timeout exceeded"):
@@ -73,7 +76,7 @@ class RequestTimeoutError(JournalError):
 
 
 # --- LESSON IS MISSING (NoneType) ---
-class LessonNotFoundError(JournalError):
+class LessonNotFoundError(JournalException):
     """Raised when the requested lesson is not found in the schedule."""
 
     def __init__(self, lesson_number: int, message: str | None = None):

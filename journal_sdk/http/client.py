@@ -4,22 +4,22 @@ from typing import Any, final
 
 import httpx
 
-from journal_sdk.data import config
-from journal_sdk.errors import journal_exceptions
+from journal_sdk.enums.headers import JournalHeaders
+from journal_sdk.http import exceptions
 
 logging.getLogger(__name__).info("Logging initialized")
 
 
 @final
-class Transport:
+class HttpClient:
     def __init__(self, client: httpx.AsyncClient) -> None:
         self._client: httpx.AsyncClient = client
         self.headers: dict[str, str] = {
-            "User-Agent": config.JournalHeaders.USER_AGENT.value,
+            "User-Agent": JournalHeaders.USER_AGENT.value,
             "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
-            "Referer": config.JournalHeaders.REFERER.value,
-            "Origin": config.JournalHeaders.ORIGIN.value,
+            "Referer": JournalHeaders.REFERER.value,
+            "Origin": JournalHeaders.ORIGIN.value,
         }
 
     async def request(
@@ -70,39 +70,39 @@ class Transport:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.OutdatedJWTError()
+                raise exceptions.OutdatedJWTError()
 
             elif response.status_code == 403:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.InvalidJWTError()
+                raise exceptions.InvalidJWTError()
 
             elif response.status_code == 404:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.DataNotFoundError()
+                raise exceptions.DataNotFoundError()
 
             elif response.status_code == 410:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.InvalidAppKeyError()
+                raise exceptions.InvalidAppKeyError()
 
             elif response.status_code == 422:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.InvalidAuthDataError()
+                raise exceptions.InvalidAuthDataError()
 
             elif response.status_code >= 500:
                 logging.debug(
                     f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
                 )
-                raise journal_exceptions.InternalServerError(response.status_code)
+                raise exceptions.InternalServerError(response.status_code)
 
             logging.debug(
                 f"{response}; L{url}; H:{_headers}; T:{token}; P:{params}; J:{json} "
             )
-        raise journal_exceptions.RequestTimeoutError()
+        raise exceptions.RequestTimeoutError()

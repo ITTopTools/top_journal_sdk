@@ -1,15 +1,7 @@
 from enum import Enum
 
 
-class JournalHeaders(Enum):
-    # ===  Data for headers parsing  ===
-    
-    USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 YaBrowser/24.10.0.0 Safari/537.36"
-    ORIGIN = "https://journal.top-academy.ru"
-    REFERER = "https://journal.top-academy.ru/"
-
-
-class JournalEndpoint(Enum): # Thanks, neitan001!
+class JournalEndpoints(Enum):  # Thanks, neitan001!
     # ===  URL APIs of the official Journal server  ===
 
     # URL base
@@ -37,10 +29,11 @@ class JournalEndpoint(Enum): # Thanks, neitan001!
     #  URL для получения user info (По типу группы и т.д)
     USER_INFO = f"{BASE_API_URL}/settings/user-info"
 
-
     # == GROUP INFO ==
     # URL для получения данных с расписанием пар по дате
-    SCHEDULE_URL = f"{BASE_API_URL}/schedule/operations/get-by-date?date_filter={{date}}"
+    SCHEDULE_URL = (
+        f"{BASE_API_URL}/schedule/operations/get-by-date?date_filter={{date}}"
+    )
     # URL для получения данных рейтинга группы студентов
     RATING_GROUP = f"{BASE_API_URL}/dashboard/progress/leader-group"
     # URL для получения данных рейтинга потока для студентов
