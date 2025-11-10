@@ -4,8 +4,8 @@ from typing import Any, final
 
 import httpx
 
-from journaltop.data import config
-from journaltop.errors import journal_exceptions
+from journal_sdk.data import config
+from journal_sdk.errors import journal_exceptions
 
 logging.getLogger(__name__).info("Logging initialized")
 

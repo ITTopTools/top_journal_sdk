@@ -1,4 +1,4 @@
-from .base import JournalError
+from journal_sdk.errors.base import JournalError
 
 
 # --- SERVER SIDE ERRORS (5xx) ---
@@ -9,13 +9,12 @@ class InternalServerError(JournalError):
         self.status_code: int = status_code
         super().__init__(f"{message} (status {status_code})")
 
+
 # --- INVALIDE AUTH DATA (HTTP 422) ---
 class InvalidAuthDataError(JournalError):
     """Raised when the provided username or password is invalid or expired (HTTP 422)."""
 
-    def __init__(
-        self, status_code: int = 422, message: str = "Invalid login data!"
-    ):
+    def __init__(self, status_code: int = 422, message: str = "Invalid login data!"):
         self.status_code: int = status_code
         super().__init__(f"{message} (status {status_code})")
 
@@ -36,10 +35,8 @@ class OutdatedJWTError(JournalError):
     """Raised when JWT is outdated."""
 
     def __init__(
-        self,
-        status_code: int = 401, 
-        message: str = "JWT Token outdated! Update JWT!"
-        ):
+        self, status_code: int = 401, message: str = "JWT Token outdated! Update JWT!"
+    ):
         super().__init__(f"{message} (status {status_code})")
 
 
@@ -73,6 +70,7 @@ class RequestTimeoutError(JournalError):
 
     def __init__(self, status_code: int = 408, message: str = "Retry timeout exceeded"):
         super().__init__(f"{message} (status {status_code})")
+
 
 # --- LESSON IS MISSING (NoneType) ---
 class LessonNotFoundError(JournalError):

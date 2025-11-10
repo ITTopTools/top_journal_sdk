@@ -1,6 +1,6 @@
-from journaltop.client import Client
-from journaltop.errors.base import JournalError as JournalException
-from journaltop.errors.journal_exceptions import (
+from journal_sdk.client import Client
+from journal_sdk.errors.base import JournalError as JournalException
+from journal_sdk.errors.journal_exceptions import (
     DataNotFoundError,
     InternalServerError,
     InvalidAppKeyError,
@@ -9,7 +9,7 @@ from journaltop.errors.journal_exceptions import (
     OutdatedJWTError,
     RequestTimeoutError,
 )
-from journaltop.log import logger
+from journal_sdk.log import logger
 
 __all__ = [
     "Client",

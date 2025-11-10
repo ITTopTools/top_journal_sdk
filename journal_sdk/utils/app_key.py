@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 
 class ApplicationKey:
     def __init__(self):
-        self.__app_token: str = ""
         self.__base_url: str = "https://journal.top-academy.ru"
         self.__app_js_url: str = ""
         self.__app_token: str = ""
@@ -34,14 +33,14 @@ class ApplicationKey:
         else:
             return self.__app_js_url
 
-    async def __parse_app_js(self, js_text: str) -> Any:
+    async def __parse_app_js(self, js_text: str):
         pattern = r'o\.authModel\s*=\s*new\s*r\.AuthModel\("([^"]+)"\)'
         match = re.search(pattern, js_text)
         if match:
             token_value = match.group(1)
             return token_value
 
-    async def get_key(self, refresh: bool = False) -> str | Any:
+    async def get_key(self, refresh: bool = False):
         if self.__app_token == "" or refresh is True:
             async with httpx.AsyncClient() as client:
                 resp = await client.get(await self.__get_app_js_url(refresh=True))

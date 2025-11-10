@@ -1,16 +1,16 @@
-from datetime import date
 import logging
+from datetime import date
 from typing import Any, cast
 
 from httpx import AsyncClient, Response
 
-from journaltop.data import config
-from journaltop.errors import journal_exceptions as _err
-from journaltop.models.homework import Homeworks as _hw_model
-from journaltop.models.schedule import Schedule as _sch_model
-from journaltop.models.user_info import UserInfo as _uf_model
-from journaltop.transport import Transport as _tp
-from journaltop.utils.app_key import ApplicationKey as _ak
+from journal_sdk.data import config
+from journal_sdk.errors import journal_exceptions as _err
+from journal_sdk.models.homework import Homeworks as _hw_model
+from journal_sdk.models.schedule import Schedule as _sch_model
+from journal_sdk.models.user_info import UserInfo as _uf_model
+from journal_sdk.transport import Transport as _tp
+from journal_sdk.utils.app_key import ApplicationKey as _ak
 
 
 class Client:

@@ -2,7 +2,7 @@ from datetime import date, time
 
 from pydantic import BaseModel, Field
 
-from journaltop.errors.journal_exceptions import LessonNotFoundError
+from journal_sdk.errors.journal_exceptions import LessonNotFoundError
 
 
 class Lesson(BaseModel):
