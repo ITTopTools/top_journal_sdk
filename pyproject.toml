@@ -1,7 +1,3 @@
-[build-system]
-requires = ["uv_build >= 0.9.5, <0.10.0"]
-build-backend = "uv_build"
-
 [project]
 name = "journaltop"
 version = "0.1.0"
@@ -16,8 +12,6 @@ dependencies = [
     "pydantic>=2.12.3",
 ]
 
-[tool.uv.package]
-path = "journaltop"
 
 [dependency-groups]
 dev = [
