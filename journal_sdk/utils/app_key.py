@@ -1,5 +1,4 @@
 import re
-from typing import Any
 
 import httpx
 from bs4 import BeautifulSoup
@@ -33,14 +32,14 @@ class ApplicationKey:
         else:
             return self.__app_js_url
 
-    async def __parse_app_js(self, js_text: str):
+    async def __parse_app_js(self, js_text: str) -> str | None:
         pattern = r'o\.authModel\s*=\s*new\s*r\.AuthModel\("([^"]+)"\)'
         match = re.search(pattern, js_text)
         if match:
             token_value = match.group(1)
             return token_value
 
-    async def get_key(self, refresh: bool = False):
+    async def get_key(self, refresh: bool = False) -> str | None:
         if self.__app_token == "" or refresh is True:
             async with httpx.AsyncClient() as client:
                 resp = await client.get(await self.__get_app_js_url(refresh=True))
