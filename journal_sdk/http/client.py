@@ -21,24 +21,20 @@ class HttpClient:
     async def _handle_response(self, response: httpx.Response):
         if response.status_code == 200:
             return response
-
         elif response.status_code == 401:
             raise exceptions.OutdatedJWTError()
-
         elif response.status_code == 403:
             raise exceptions.InvalidJWTError()
-
         elif response.status_code == 404:
             raise exceptions.DataNotFoundError()
-
         elif response.status_code == 410:
             raise exceptions.InvalidAppKeyError()
-
         elif response.status_code == 422:
             raise exceptions.InvalidAuthDataError()
-
         elif response.status_code >= 500:
             raise exceptions.InternalServerError(response.status_code)
+        else:
+            raise Exception
 
     async def request(
         self,
@@ -49,7 +45,7 @@ class HttpClient:
         follow_redirects: bool = True,
         params: dict[str, Any] | None = None,
         json: dict[str, str | Any | None] | None = None,
-    ) -> httpx.Response | None:
+    ) -> httpx.Response:
         if token:
             self.headers["Authorization"] = f"Bearer {token}"
             self.client.headers.update(self.headers)
@@ -66,5 +62,16 @@ class HttpClient:
 
         # raise exceptions.RequestTimeoutError()
 
-    async def get(self, endpoint: str, params: dict[str, Any]):
-        return await self.request(method="GET", url=endpoint, params=params)
+    async def get(
+        self, url: str, token: str | None = None, params: dict[str, Any] | None = None
+    ) -> httpx.Response:
+        return await self.request(method="GET", url=url, token=token, params=params)
+
+    async def post(
+        self,
+        url: str,
+        token: str | None = None,
+        params: dict[str, Any] | None = None,
+        json: dict[str, str | Any | None] | None = None,
+    ) -> httpx.Response:
+        return await self.request(method="POST", url=url, token=token, params=params, json=json)
