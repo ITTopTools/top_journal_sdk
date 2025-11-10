@@ -13,7 +13,7 @@ from journal_sdk.utils.app_key import ApplicationKey as _ak
 
 
 class Client:
-    def __init__(self, client: AsyncClient, transport: Any | None = None) -> None:
+    def __init__(self, http_client: HttpClient) -> None:
         self._client: AsyncClient = client
         self._transport: HttpClient = (
             transport if transport else HttpClient(self._client)
