@@ -8,7 +8,7 @@ class ApplicationKey:
     def __init__(self):
         self.__base_url: str = "https://journal.top-academy.ru"
         self.__app_js_url: str = ""
-        self.__app_token: str = ""
+        self.__app_token: str | None = ""
 
     def __parse_index_html(self, html: str) -> str:
         soup = BeautifulSoup(html, "html.parser")
