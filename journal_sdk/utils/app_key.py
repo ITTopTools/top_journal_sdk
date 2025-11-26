@@ -5,13 +5,25 @@ from bs4 import BeautifulSoup
 
 
 class ApplicationKey:
-    """Класс для получения и хранения ключа приложения из JavaScript-файлов сайта."""
+    """
+    Класс для получения и хранения ключа приложения из JavaScript-файлов сайта.
+
+    This class is designed to retrieve and store an application key from the website's JavaScript files.
+    It automatically fetches the main page, locates the application JavaScript file,
+    and extracts the authentication key using regex patterns.
+    """
 
     def __init__(self, journal_base_url: str) -> None:
-        """Инициализирует экземпляр класса с базовым URL и пустым значением ключа приложения.
+        """
+        Инициализирует экземпляр класса с базовым URL и пустым значением ключа приложения.
 
         Args:
             journal_base_url: Базовый URL журнала для поиска JavaScript-файлов.
+
+        Initializes the class instance with the base URL and an empty application key value.
+
+        Args:
+            journal_base_url: The base URL of the journal for searching JavaScript files.
         """
         self.journal_base_url: str = journal_base_url
         self.__app_key: str = ""
@@ -25,6 +37,14 @@ class ApplicationKey:
 
         Returns:
             Полный URL JavaScript-файла приложения или пустую строку, если не найден.
+
+        Parses the HTML page and finds the link to the application JavaScript file.
+
+        Args:
+            root_html: HTML content of the page.
+
+        Returns:
+            The full URL of the application JavaScript file or an empty string if not found.
         """
         soup = BeautifulSoup(root_html, "html.parser")
         scripts = soup.find_all("script")
@@ -45,6 +65,14 @@ class ApplicationKey:
 
         Returns:
             Извлеченный ключ приложения или пустую строку, если ключ не найден.
+
+        Extracts the application key from JavaScript code using a regular expression.
+
+        Args:
+            js_text: The text of the JavaScript file.
+
+        Returns:
+            The extracted application key or an empty string if the key is not found.
         """
         pattern = r'o\.authModel\s*=\s*new\s*r\.AuthModel\("([^"]+)"\)'
         match = re.search(pattern, js_text)
@@ -63,6 +91,14 @@ class ApplicationKey:
 
         Returns:
             Ключ приложения или пустую строку, если ключ не найден.
+
+        Retrieves the application key, optionally refreshing it if necessary.
+
+        Args:
+            refresh: A flag indicating whether to force refresh the key.
+
+        Returns:
+            The application key or an empty string if the key is not found.
         """
         if self.__app_key == "" or refresh is True:
             async with httpx.AsyncClient() as client:
