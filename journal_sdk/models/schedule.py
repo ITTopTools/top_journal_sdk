@@ -1,13 +1,13 @@
 from datetime import date, time
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-from journal_sdk.http.exceptions import LessonNotFoundError
+from journal_sdk.exceptions import LessonNotFoundError
 
 
 class Lesson(BaseModel):
     date: date
-    lesson: int = Field(..., ge=0, le=8)
+    lesson: int
     started_at: time
     finished_at: time
     teacher_name: str
