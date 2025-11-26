@@ -1,15 +1,15 @@
 [project]
-name = "journaltop"
+name = "top_journal_sdk"
 version = "0.1.0"
 description = "Async-friendly SDK for ittopjournal API"
 readme = "README.md"
 requires-python = ">=3.13"
-authors = [{name="trapplus", email="blazer19092008@gmail.com"}]
+authors = [{name="trapplus", email="blazer19092008@gmail.com"}, {name="thegrayfoxxx", email="cool.afkshnik@gmail.com"}]
 license = {text = "MIT"}
 dependencies = [
     "beautifulsoup4>=4.14.2",
-    "httpx>=0.28.1",
     "pydantic>=2.12.3",
+    "rapid-api-client>=0.9.0",
 ]
 
 
