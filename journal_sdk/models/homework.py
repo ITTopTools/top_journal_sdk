@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class HomeworkCounterType(IntEnum):
@@ -13,20 +13,8 @@ class HomeworkCounterType(IntEnum):
 
 
 class HomeworkCounter(BaseModel):
-    counter_type: int = Field(..., ge=0, le=5)
-    counter: int = Field(..., ge=0)
-
-    @property
-    def type_name(self) -> str:
-        names = {
-            0: "Просроченные",
-            1: "Проверенные",
-            2: "На проверке",
-            3: "Текущие",
-            4: "Общее количество",
-            5: "Удалённые",
-        }
-        return names.get(self.counter_type, "Неизвестно")
+    counter_type: HomeworkCounterType
+    counter: int
 
 
 class Homeworks(BaseModel):
