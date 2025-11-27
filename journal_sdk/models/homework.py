@@ -18,13 +18,13 @@ class HomeworkCounter(BaseModel):
 
 
 class Homeworks(BaseModel):
-    counters: list[HomeworkCounter]
+    counter_list: list[HomeworkCounter]
 
     def get_counter(self, counter_type: int | HomeworkCounterType) -> int | None:
         if isinstance(counter_type, HomeworkCounterType):
             counter_type = counter_type.value
 
-        for counter in self.counters:
+        for counter in self.counter_list:
             if counter.counter_type == counter_type:
                 return counter.counter
         raise IndexError
