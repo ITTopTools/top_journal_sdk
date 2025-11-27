@@ -6,6 +6,24 @@ class JournalEndpoints(Enum):
     Перечисление URL-адресов API журнала Top Academy.
 
     Enumeration of Top Academy journal API endpoints.
+
+    Attributes:
+        JOURNAL_BASE_URL (str): Базовый URL журнала Top Academy.
+        API_BASE_URL (str): Базовый URL API Top Academy.
+        AUTH_LOGIN (str): Эндпоинт аутентификации.
+        LESSONS_TO_EVALUATE (str): Эндпоинт для получения списка пар, которые нужно оценить.
+        SUBMIT_EVALUATION_LESSONS (str): Эндпоинт для отправки оцененных пар.
+        EVALUATION_LESSON_TAGS (str): Эндпоинт для получения тегов оценки занятий.
+        EVALUATION_LESSON_TECH_TAGS (str): Эндпоинт для получения технических тегов оценки занятий.
+        USER_PERSONAL_INFO (str): Эндпоинт для получения информации о пользователе.
+        STUDENT_REVIEWS (str): Эндпоинт для получения данных отзывов о студенте.
+        AVERAGE_GRADE (str): Эндпоинт для получения данных о среднем балле студента.
+        ATTENDANCE_DATA (str): Эндпоинт для получения данных о посещаемости студента.
+        CLASS_ATTENDANCE_GRADES (str): Эндпоинт для получения данных о посещаемости занятий и оценках.
+        HOMEWORK_COUNT (str): Эндпоинт для получения данных о количестве домашних заданий.
+        SCHEDULE_BY_DATE (str): Эндпоинт для получения расписания пар по дате.
+        GROUP_LEADERBOARD (str): Эндпоинт для получения данных рейтинга группы студентов.
+        STREAM_LEADERBOARD (str): Эндпоинт для получения данных рейтинга потока студентов.
     """
 
     # Базовые URL
@@ -30,6 +48,14 @@ class JournalEndpoints(Enum):
     # Эндпоинт для отправки оцененных пар
     # Endpoint for submitting evaluated lessons
     SUBMIT_EVALUATION_LESSONS = "/feedback/students/evaluate-lesson"
+
+    # Эндпоинт для получения тегов оценки занятий
+    # Endpoint for getting evaluation lesson tags
+    EVALUATION_LESSON_TAGS = "/public/tags?type=evaluation_lesson"
+
+    # Эндпоинт для получения технических тегов оценки занятий
+    # Endpoint for getting technical evaluation lesson tags
+    EVALUATION_LESSON_TECH_TAGS = "/public/tags?type=evaluation_lesson_teach"
 
     # == ДАННЫЕ ПОЛЬЗОВАТЕЛЯ ==
     # == USER DATA ==
