@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from journal_sdk.exceptions import LessonNotFoundError
 
 
-class Lesson(BaseModel):
+class LessonResponse(BaseModel):
     date: date
     lesson: int
     started_at: time
@@ -15,10 +15,10 @@ class Lesson(BaseModel):
     room_name: str
 
 
-class Schedule(BaseModel):
-    lesson_list: list[Lesson]
+class ScheduleResponse(BaseModel):
+    lesson_list: list[LessonResponse]
 
-    def lesson(self, number: int) -> Lesson | None:
+    def lesson(self, number: int) -> LessonResponse | None:
         for lesson in self.lesson_list:
             if lesson.lesson == number:
                 return lesson
