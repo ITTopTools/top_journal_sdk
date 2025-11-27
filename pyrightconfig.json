@@ -1,4 +1,4 @@
 {
-    "typeCheckingMode": "all",
-    "ignore": ["**/__pycache__"]
+  "typeCheckingMode": "all",
+  "ignore": ["**/__pycache__", ".venv"]
 }
