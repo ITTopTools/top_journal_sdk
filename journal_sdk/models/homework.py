@@ -12,13 +12,13 @@ class HomeworkCounterType(IntEnum):
     DELETED = 5
 
 
-class HomeworkCounter(BaseModel):
+class HomeworkCounterResponse(BaseModel):
     counter_type: HomeworkCounterType
     counter: int
 
 
-class Homeworks(BaseModel):
-    counter_list: list[HomeworkCounter]
+class HomeworksResponse(BaseModel):
+    counter_list: list[HomeworkCounterResponse]
 
     def get_counter(self, counter_type: int | HomeworkCounterType) -> int | None:
         if isinstance(counter_type, HomeworkCounterType):
