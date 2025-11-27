@@ -51,11 +51,7 @@ class JournalEndpoints(Enum):
 
     # Эндпоинт для получения тегов оценки занятий
     # Endpoint for getting evaluation lesson tags
-    EVALUATION_LESSON_TAGS = "/public/tags?type=evaluation_lesson"
-
-    # Эндпоинт для получения технических тегов оценки занятий
-    # Endpoint for getting technical evaluation lesson tags
-    EVALUATION_LESSON_TECH_TAGS = "/public/tags?type=evaluation_lesson_teach"
+    EVALUATION_LESSON_TAGS = "/public/tags"
 
     # == ДАННЫЕ ПОЛЬЗОВАТЕЛЯ ==
     # == USER DATA ==
