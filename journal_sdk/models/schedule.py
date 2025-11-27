@@ -16,10 +16,10 @@ class Lesson(BaseModel):
 
 
 class Schedule(BaseModel):
-    lessons: list[Lesson]
+    lesson_list: list[Lesson]
 
     def lesson(self, number: int) -> Lesson | None:
-        for lesson in self.lessons:
+        for lesson in self.lesson_list:
             if lesson.lesson == number:
                 return lesson
         raise LessonNotFoundError(number)
