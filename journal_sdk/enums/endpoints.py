@@ -82,7 +82,7 @@ class JournalEndpoints(Enum):
 
     # Эндпоинт для получения расписания пар по дате
     # Endpoint for getting lesson schedule by date
-    SCHEDULE_BY_DATE = "/schedule/operations/get-by-date?date_filter={{date}}"
+    SCHEDULE_BY_DATE = "/schedule/operations/get-by-date"
 
     # == ИНФОРМАЦИЯ О ГРУППЕ ==
     # == GROUP INFO ==
