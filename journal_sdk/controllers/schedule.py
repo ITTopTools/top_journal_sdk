@@ -1,6 +1,7 @@
 from datetime import date
+from typing import Annotated
 
-from rapid_api_client import get
+from rapid_api_client import Query, get
 
 from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from journal_sdk.models.schedule import LessonResponse, ScheduleResponse
@@ -23,7 +24,10 @@ class ScheduleController(BaseController):
     """
 
     @get(endpoints.SCHEDULE_BY_DATE.value)
-    async def get_lesson_list_by_date(self, date: date) -> list[LessonResponse]:  # pyright: ignore[reportUnusedParameter]
+    async def get_lesson_list_by_date(
+        self,
+        date_filter: Annotated[date, Query()],  # pyright: ignore[reportUnusedParameter]
+    ) -> list[LessonResponse]:
         """
         Get list of lessons scheduled for a specific date.
 
