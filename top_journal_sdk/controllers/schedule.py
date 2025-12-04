@@ -3,9 +3,9 @@ from typing import Annotated
 
 from rapid_api_client import Query, get
 
-from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from journal_sdk.models.schedule import LessonResponse, ScheduleResponse
-from journal_sdk.rapid.client import BaseController
+from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.models.schedule import LessonResponse, ScheduleResponse
+from top_journal_sdk.rapid.client import BaseController
 
 
 class ScheduleController(BaseController):

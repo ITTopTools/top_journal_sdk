@@ -7,7 +7,7 @@ Complete example of using TopJournalSDK.
 import asyncio
 from datetime import date
 
-from journal_sdk import TopJournalSDK
+from top_journal_sdk import TopJournalSDK
 
 
 async def main():
@@ -52,7 +52,9 @@ async def main():
             try:
                 average_grades = await sdk.grades.get_average_grades()
                 print(f"Количество средних оценок: {len(average_grades.grade_list)}")
-                for i, grade in enumerate(average_grades.grade_list[:5]):  # Показать первые 5
+                for i, grade in enumerate(
+                    average_grades.grade_list[:5]
+                ):  # Показать первые 5
                     print(f"  Оценка {i + 1}: {grade.points} (дата: {grade.date})")
             except Exception as e:
                 print(f"❌ Ошибка получения средних оценок: {e}")
@@ -63,8 +65,12 @@ async def main():
                 print(
                     f"Количество оценок за посещаемость: {len(attendance_grades.class_attendance_grade_list)}"
                 )
-                for i, grade in enumerate(attendance_grades.class_attendance_grade_list[:3]):
-                    print(f"  Посещаемость {i + 1}: {grade.status_was} ({grade.date_visit})")
+                for i, grade in enumerate(
+                    attendance_grades.class_attendance_grade_list[:3]
+                ):
+                    print(
+                        f"  Посещаемость {i + 1}: {grade.status_was} ({grade.date_visit})"
+                    )
             except Exception as e:
                 print(f"❌ Ошибка получения оценок за посещаемость: {e}")
 
@@ -74,7 +80,9 @@ async def main():
 
             try:
                 attendance_data = await sdk.attendance.get_attendances()
-                print(f"Количество записей о посещаемости: {len(attendance_data.attendance_list)}")
+                print(
+                    f"Количество записей о посещаемости: {len(attendance_data.attendance_list)}"
+                )
                 for i, att in enumerate(attendance_data.attendance_list[:5]):
                     print(f"  Посещаемость {i + 1}: {att.points} (дата: {att.date})")
             except Exception as e:
@@ -120,7 +128,9 @@ async def main():
                 reviews = await sdk.feedback.get_student_reviews()
                 print(f"Количество отзывов: {len(reviews.review_list)}")
 
-                for i, review in enumerate(reviews.review_list[:3]):  # Показать первые 3
+                for i, review in enumerate(
+                    reviews.review_list[:3]
+                ):  # Показать первые 3
                     print(f"  Отзыв {i + 1}:")
                     print(f"    Дата: {review.date}")
                     print(f"    Учитель: {review.teacher}")
@@ -135,7 +145,9 @@ async def main():
             print("-" * 30)
 
             try:
-                evaluation_lessons = await sdk.lesson_evaluation.get_evaluation_lessons()
+                evaluation_lessons = (
+                    await sdk.lesson_evaluation.get_evaluation_lessons()
+                )
                 print(f"Уроков для оценки: {len(evaluation_lessons.evaluation_list)}")
 
                 for i, lesson in enumerate(
@@ -165,7 +177,9 @@ async def main():
                 teach_tags = await sdk.lesson_evaluation.get_evaluation_lesson_tags(
                     "evaluation_lesson_teach"
                 )
-                print(f"Тегов для оценки преподавания: {len(teach_tags.evaluation_tags)}")
+                print(
+                    f"Тегов для оценки преподавания: {len(teach_tags.evaluation_tags)}"
+                )
 
             except Exception as e:
                 print(f"❌ Ошибка получения тегов: {e}")
@@ -177,10 +191,14 @@ async def main():
             try:
                 # Рейтинг групп
                 group_leaderboard = await sdk.leaderboard.get_group_leaderboards()
-                print(f"Рейтинг групп: {len(group_leaderboard.group_leaderboard_list)} человек")
+                print(
+                    f"Рейтинг групп: {len(group_leaderboard.group_leaderboard_list)} человек"
+                )
 
                 # Показать топ-3
-                for i, member in enumerate(group_leaderboard.group_leaderboard_list[:3]):
+                for i, member in enumerate(
+                    group_leaderboard.group_leaderboard_list[:3]
+                ):
                     print(f"  {i + 1}. {member.full_name} - {member.amount} баллов")
 
                 print()
@@ -192,7 +210,9 @@ async def main():
                 )
 
                 # Показать топ-3
-                for i, member in enumerate(stream_leaderboard.stream_leaderboard_list[:3]):
+                for i, member in enumerate(
+                    stream_leaderboard.stream_leaderboard_list[:3]
+                ):
                     print(f"  {i + 1}. {member.full_name} - {member.amount} баллов")
 
             except Exception as e:
@@ -209,7 +229,9 @@ def print_usage_instructions():
     """Печать инструкций по использованию"""
     print("\n📖 Инструкция по использованию:")
     print("-" * 40)
-    print("1. Замените 'your_username' и 'your_password' в коде на реальные учетные данные")
+    print(
+        "1. Замените 'your_username' и 'your_password' в коде на реальные учетные данные"
+    )
     print("2. Запустите скрипт: python example.py")
     print("3. SDK автоматически авторизуется и получит все доступные данные")
     print("4. Все данные будут выведены в консоль с подробными пояснениями")

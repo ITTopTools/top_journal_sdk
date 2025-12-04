@@ -2,9 +2,9 @@ from typing import Annotated
 
 from rapid_api_client import PydanticBody, post
 
-from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from journal_sdk.models.auth import LoginRequest, LoginResponse
-from journal_sdk.rapid.client import BaseController
+from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.models.auth import LoginRequest, LoginResponse
+from top_journal_sdk.rapid.client import BaseController
 
 
 class AuthController(BaseController):
