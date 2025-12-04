@@ -3,8 +3,9 @@ requires = ["uv_build>=0.9.14,<0.10.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "journal_sdk"
+module-name = "top_journal_sdk"
 module-root = ""
+
 
 [project]
 name = "top_journal_sdk"
@@ -13,7 +14,29 @@ description = "Async-friendly SDK for ittopjournal API"
 readme = "README.md"
 requires-python = ">=3.13"
 authors = [{name="thegrayfoxxx", email="cool.afkshnik@gmail.com"},{name="trapplus", email="blazer19092008@gmail.com"}]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Markup :: HTML",
+
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+    "Intended Audience :: Developers",
+
+    "Operating System :: OS Independent",
+]
 dependencies = [
     "beautifulsoup4>=4.14.2",
     "pydantic>=2.12.3",
@@ -25,3 +48,7 @@ dev = [
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ITTopTools/top_journal_sdk"
+Issues = "https://github.com/ITTopTools/top_journal_sdk/issues"
