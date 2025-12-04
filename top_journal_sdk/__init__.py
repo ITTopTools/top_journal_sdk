@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 
-from journal_sdk.controllers import (
+from top_journal_sdk.controllers import (
     AttendanceController,
     AuthController,
     FeedbackController,
@@ -11,10 +11,10 @@ from journal_sdk.controllers import (
     ScheduleController,
     UserInfoController,
 )
-from journal_sdk.enums.endpoints import JournalEndpoints
-from journal_sdk.enums.headers import JournalHeaders
-from journal_sdk.models.auth import LoginRequest
-from journal_sdk.utils.app_key import ApplicationKey
+from top_journal_sdk.enums.endpoints import JournalEndpoints
+from top_journal_sdk.enums.headers import JournalHeaders
+from top_journal_sdk.models.auth import LoginRequest
+from top_journal_sdk.utils.app_key import ApplicationKey
 
 
 class TopJournalSDK:
@@ -51,7 +51,10 @@ class TopJournalSDK:
         return self
 
     async def __aexit__(
-        self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: object
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: object,
     ) -> None:
         """
         Асинхронный контекстный менеджер: выход.
@@ -124,7 +127,9 @@ class TopJournalSDK:
             raise ValueError("Could not retrieve application key")
 
         auth_controller = AuthController(async_client=self._client)
-        login_data = LoginRequest(application_key=app_token, username=username, password=password)
+        login_data = LoginRequest(
+            application_key=app_token, username=username, password=password
+        )
         response = await auth_controller.login(body=login_data)
         # Set auth token automatically after login
         self.set_auth_token(response.access_token)
@@ -175,7 +180,9 @@ class TopJournalSDK:
         if not self._attendance_controller:
             if not self._client:
                 raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._attendance_controller = AttendanceController(async_client=self._client)
+            self._attendance_controller = AttendanceController(
+                async_client=self._client
+            )
         return self._attendance_controller
 
     @property
@@ -257,7 +264,9 @@ class TopJournalSDK:
         if not self._leaderboard_controller:
             if not self._client:
                 raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._leaderboard_controller = LeaderboardController(async_client=self._client)
+            self._leaderboard_controller = LeaderboardController(
+                async_client=self._client
+            )
         return self._leaderboard_controller
 
     @property

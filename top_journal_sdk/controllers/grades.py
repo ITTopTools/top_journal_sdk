@@ -1,13 +1,13 @@
 from rapid_api_client import get
 
-from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from journal_sdk.models.grades import (
+from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.models.grades import (
     ClassAttendanceGradeResponse,
     ClassAttendanceGradesResponse,
     GradeResponse,
     GradesResponse,
 )
-from journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController
 
 
 class GradesController(BaseController):
@@ -67,7 +67,9 @@ class GradesController(BaseController):
         return GradesResponse(grade_list=await self.get_average_grade_list())
 
     @get(endpoints.CLASS_ATTENDANCE_GRADES.value)
-    async def get_class_attendance_grade_list(self) -> list[ClassAttendanceGradeResponse]:
+    async def get_class_attendance_grade_list(
+        self,
+    ) -> list[ClassAttendanceGradeResponse]:
         """
         Get list of grades assigned for class attendance evaluation.
 

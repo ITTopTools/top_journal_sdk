@@ -1,11 +1,11 @@
 from rapid_api_client import get
 
-from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from journal_sdk.models.attendance import (
+from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.models.attendance import (
     AttendanceResponse,
     AttendancesResponse,
 )
-from journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController
 
 
 class AttendanceController(BaseController):

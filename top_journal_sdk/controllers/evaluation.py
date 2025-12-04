@@ -2,15 +2,15 @@ from typing import Annotated, Literal
 
 from rapid_api_client import PydanticBody, Query, get, post
 
-from journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from journal_sdk.models.evaluation import (
+from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.models.evaluation import (
     EvaluationRequest,
     EvaluationResponse,
     EvaluationsResponse,
     EvaluationTagResponse,
     EvaluationTagsResponse,
 )
-from journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController
 
 
 class LessonEvaluationController(BaseController):
@@ -31,7 +31,9 @@ class LessonEvaluationController(BaseController):
     @get(endpoints.EVALUATION_LESSON_TAGS.value)
     async def get_evaluation_lesson_tag_list(
         self,
-        type: Annotated[Literal["evaluation_lesson", "evaluation_lesson_teach"], Query()],  # pyright: ignore[reportUnusedParameter]
+        type: Annotated[  # pyright: ignore[reportUnusedParameter]
+            Literal["evaluation_lesson", "evaluation_lesson_teach"], Query()
+        ],
     ) -> list[EvaluationTagResponse]:
         """
         Get list of evaluation tags for lesson assessment.
@@ -135,7 +137,9 @@ class LessonEvaluationController(BaseController):
 
                 Полный объект уроков для оценки с метаданными и статусом.
         """
-        return EvaluationsResponse(evaluation_list=await self.get_evaluation_lesson_list())
+        return EvaluationsResponse(
+            evaluation_list=await self.get_evaluation_lesson_list()
+        )
 
     @post(endpoints.SUBMIT_EVALUATION_LESSONS.value)
     async def submit_evaluate_lesson(
