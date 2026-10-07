@@ -5,6 +5,8 @@ from httpx import AsyncClient
 from top_journal_sdk.controllers import (
     AttendanceController,
     AuthController,
+    DashboardController,
+    ExamsController,
     FeedbackController,
     GradesController,
     HomeworkController,
@@ -63,6 +65,8 @@ class TopJournalSDK:
         self._leaderboard_controller: LeaderboardController | None = None
         self._schedule_controller: ScheduleController | None = None
         self._user_info_controller: UserInfoController | None = None
+        self._dashboard_controller: DashboardController | None = None
+        self._exams_controller: ExamsController | None = None
         self._controller_names: set[str] = set()
         self._session = SessionContext()
         self._refresh_token: str | None = None
@@ -337,3 +341,27 @@ class TopJournalSDK:
             Экземпляр контроллера расписания / Schedule controller instance.
         """
         return self._get_controller("_schedule_controller", ScheduleController)
+
+    @property
+    def dashboard(self) -> DashboardController:
+        """
+        Возвращает контроллер дашборда.
+
+        Get dashboard controller.
+
+        Returns:
+            Экземпляр контроллера дашборда / Dashboard controller instance.
+        """
+        return self._get_controller("_dashboard_controller", DashboardController)
+
+    @property
+    def exams(self) -> ExamsController:
+        """
+        Возвращает контроллер экзаменов.
+
+        Get exams controller.
+
+        Returns:
+            Экземпляр контроллера экзаменов / Exams controller instance.
+        """
+        return self._get_controller("_exams_controller", ExamsController)

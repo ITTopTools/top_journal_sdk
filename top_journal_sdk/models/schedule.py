@@ -23,3 +23,18 @@ class ScheduleResponse(BaseModel):
             if lesson.lesson == number:
                 return lesson
         raise LessonNotFoundError(number)
+
+
+class MonthEventResponse(BaseModel):
+    """Событие месяца.
+
+    Month event.
+
+    Точная форма пока не подтверждена: для тестового аккаунта эндпоинт
+    возвращает пустой список. Неизвестные поля игнорируются pydantic,
+    модель будет уточнена по первому непустому образцу.
+    """
+
+
+class MonthEventsResponse(BaseModel):
+    month_event_list: list[MonthEventResponse]

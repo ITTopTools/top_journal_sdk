@@ -57,6 +57,9 @@ live = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+markers = [
+    "live: tests against the real journal API (need TOP_JOURNAL_* creds)",
+]
 
 [project.urls]
 Homepage = "https://github.com/ITTopTools/top_journal_sdk"

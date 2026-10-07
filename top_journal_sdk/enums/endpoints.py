@@ -21,7 +21,23 @@ class JournalEndpoints(Enum):
         ATTENDANCE_DATA (str): Эндпоинт для получения данных о посещаемости студента.
         CLASS_ATTENDANCE_GRADES (str): Эндпоинт для получения данных о посещаемости занятий и оценках.
         HOMEWORK_COUNT (str): Эндпоинт для получения данных о количестве домашних заданий.
+        HOMEWORK_LIST (str): Эндпоинт для получения списка домашних заданий.
+        HOMEWORK_EVALUATION_TAGS (str): Эндпоинт для получения тегов оценки домашних заданий.
+        HOMEWORK_GROUP_HISTORY (str): Эндпоинт для получения истории групп по домашним заданиям.
         SCHEDULE_BY_DATE (str): Эндпоинт для получения расписания пар по дате.
+        SCHEDULE_BY_MONTH (str): Эндпоинт для получения расписания пар за месяц.
+        SCHEDULE_BY_DATE_RANGE (str): Эндпоинт для получения расписания пар за диапазон дат.
+        SCHEDULE_MONTH_EVENTS (str): Эндпоинт для получения событий месяца.
+        DASHBOARD_CHART_PROGRESS (str): Эндпоинт графика прогресса.
+        DASHBOARD_FUTURE_EXAMS (str): Эндпоинт будущих экзаменов.
+        DASHBOARD_ACADEMIC_PERFORMANCE (str): Эндпоинт академической успеваемости.
+        DASHBOARD_ACTIVITY (str): Эндпоинт активности студента.
+        DASHBOARD_ATTENDANCE_STATISTIC (str): Эндпоинт статистики посещаемости.
+        DASHBOARD_LEADER_GROUP_POINTS (str): Эндпоинт баллов рейтинга группы.
+        DASHBOARD_LEADER_STREAM_POINTS (str): Эндпоинт баллов рейтинга потока.
+        DASHBOARD_PAGE_COUNTERS (str): Эндпоинт счетчиков страниц.
+        STUDENT_EXAMS (str): Эндпоинт экзаменов студента.
+        SCHOOL_QUARTERLY_GRADES (str): Эндпоинт четвертных оценок.
         GROUP_LEADERBOARD (str): Эндпоинт для получения данных рейтинга группы студентов.
         STREAM_LEADERBOARD (str): Эндпоинт для получения данных рейтинга потока студентов.
     """
@@ -84,9 +100,79 @@ class JournalEndpoints(Enum):
     # Endpoint for getting data about the number of homework assignments
     HOMEWORK_COUNT = "/count/homework"
 
+    # Эндпоинт для получения списка домашних заданий
+    # Endpoint for getting the homework assignment list
+    HOMEWORK_LIST = "/homework/operations/list"
+
+    # Эндпоинт для получения тегов оценки домашних заданий
+    # Endpoint for getting homework evaluation tags
+    HOMEWORK_EVALUATION_TAGS = "/homework/evaluation/operations/get-tags"
+
+    # Эндпоинт для получения истории групп по домашним заданиям
+    # Endpoint for getting homework group history
+    HOMEWORK_GROUP_HISTORY = "/homework/settings/group-history"
+
     # Эндпоинт для получения расписания пар по дате
     # Endpoint for getting lesson schedule by date
     SCHEDULE_BY_DATE = "/schedule/operations/get-by-date"
+
+    # Эндпоинт для получения расписания пар за месяц
+    # Endpoint for getting monthly lesson schedule
+    SCHEDULE_BY_MONTH = "/schedule/operations/get-month"
+
+    # Эндпоинт для получения расписания пар за диапазон дат
+    # Endpoint for getting lesson schedule by date range
+    SCHEDULE_BY_DATE_RANGE = "/schedule/operations/get-by-date-range"
+
+    # Эндпоинт для получения событий месяца
+    # Endpoint for getting month events
+    SCHEDULE_MONTH_EVENTS = "/schedule/operations/month-events"
+
+    # == ДАШБОРД И ПРОГРЕСС ==
+    # == DASHBOARD & PROGRESS ==
+
+    # Эндпоинт графика прогресса
+    # Progress chart endpoint
+    DASHBOARD_CHART_PROGRESS = "/dashboard/chart/progress"
+
+    # Эндпоинт будущих экзаменов
+    # Future exams endpoint
+    DASHBOARD_FUTURE_EXAMS = "/dashboard/info/future-exams"
+
+    # Эндпоинт академической успеваемости
+    # Academic performance endpoint
+    DASHBOARD_ACADEMIC_PERFORMANCE = "/dashboard/progress/academic-performance"
+
+    # Эндпоинт активности студента
+    # Student activity endpoint
+    DASHBOARD_ACTIVITY = "/dashboard/progress/activity"
+
+    # Эндпоинт статистики посещаемости
+    # Attendance statistic endpoint
+    DASHBOARD_ATTENDANCE_STATISTIC = "/dashboard/progress/attendance-statistic"
+
+    # Эндпоинт баллов рейтинга группы
+    # Group leaderboard points endpoint
+    DASHBOARD_LEADER_GROUP_POINTS = "/dashboard/progress/leader-group-points"
+
+    # Эндпоинт баллов рейтинга потока
+    # Stream leaderboard points endpoint
+    DASHBOARD_LEADER_STREAM_POINTS = "/dashboard/progress/leader-stream-points"
+
+    # Эндпоинт счетчиков страниц
+    # Page counters endpoint
+    DASHBOARD_PAGE_COUNTERS = "/count/page-counters"
+
+    # == ЭКЗАМЕНЫ ==
+    # == EXAMS ==
+
+    # Эндпоинт экзаменов студента
+    # Student exams endpoint
+    STUDENT_EXAMS = "/progress/operations/student-exams"
+
+    # Эндпоинт четвертных оценок
+    # Quarterly grades endpoint
+    SCHOOL_QUARTERLY_GRADES = "/progress/operations/school-quarterly-grades"
 
     # == ИНФОРМАЦИЯ О ГРУППЕ ==
     # == GROUP INFO ==

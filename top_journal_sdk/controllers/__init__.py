@@ -6,7 +6,9 @@ Controller module for interacting with Top Academy journal API.
 
 from top_journal_sdk.controllers.attendance import AttendanceController
 from top_journal_sdk.controllers.auth import AuthController
+from top_journal_sdk.controllers.dashboard import DashboardController
 from top_journal_sdk.controllers.evaluation import LessonEvaluationController
+from top_journal_sdk.controllers.exams import ExamsController
 from top_journal_sdk.controllers.feedback import FeedbackController
 from top_journal_sdk.controllers.grades import GradesController
 from top_journal_sdk.controllers.homework import HomeworkController
@@ -24,4 +26,6 @@ __all__ = [
     "FeedbackController",
     "LessonEvaluationController",
     "LeaderboardController",
+    "DashboardController",
+    "ExamsController",
 ]
