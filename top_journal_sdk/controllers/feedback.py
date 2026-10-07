@@ -102,6 +102,19 @@ class FeedbackController(BaseController):
         )
 
     @with_auth_refresh
+    @get(endpoints.REVIEWS_INSTRUCTION.value)
+    async def get_reviews_instruction(self) -> str:
+        """
+        Get reviews instruction text.
+
+        Получить текст инструкции по отзывам.
+
+        Returns:
+            str: Instruction text / Текст инструкции.
+        """
+        ...
+
+    @with_auth_refresh
     @post(endpoints.SOCIAL_REVIEW_SCREEN.value, raise_for_status=True)
     async def post_social_review_screen_response(
         self,

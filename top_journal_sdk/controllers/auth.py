@@ -1,5 +1,6 @@
 from typing import Annotated
 
+from httpx import Response
 from rapid_api_client import PydanticBody, post
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
@@ -7,6 +8,7 @@ from top_journal_sdk.models.auth import (
     LoginRequest,
     LoginResponse,
     RefreshTokenRequest,
+    ResetPasswordRequest,
 )
 from top_journal_sdk.rapid.client import BaseController
 
@@ -87,3 +89,32 @@ class AuthController(BaseController):
                 Новая пара токенов доступа и обновления.
         """
         ...
+
+    @post(endpoints.AUTH_RESET_PASSWORD.value, raise_for_status=True)
+    async def post_reset_password_response(
+        self,
+        body: Annotated[ResetPasswordRequest, PydanticBody()],  # pyright: ignore[reportUnusedParameter]
+    ) -> Response:
+        """
+        Request a password reset email (raw response).
+
+        Запросить письмо сброса пароля (сырой ответ).
+        """
+        ...
+
+    async def post_reset_password(self, email: str) -> bool:
+        """
+        Request a password reset email.
+
+        Запросить письмо сброса пароля. Внимание: отправляет реальное письмо.
+
+        Args:
+            email: Account email / Email аккаунта.
+
+        Returns:
+            True on success (raises on HTTP errors) / True при успехе.
+        """
+        response = await self.post_reset_password_response(
+            ResetPasswordRequest(email=email)
+        )
+        return response.is_success

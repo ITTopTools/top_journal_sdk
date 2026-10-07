@@ -56,6 +56,24 @@ class JournalEndpoints(Enum):
         PUBLIC_LANGUAGES (str): Эндпоинт языков.
         PUBLIC_TRANSLATIONS (str): Эндпоинт переводов.
         PUBLIC_CITIES (str): Эндпоинт городов.
+        AUTH_RESET_PASSWORD (str): Эндпоинт сброса пароля.
+        REVIEWS_INSTRUCTION (str): Эндпоинт инструкции по отзывам.
+        PROFILE_SETTINGS (str): Эндпоинт настроек профиля.
+        PROFILE_ACHIEVEMENTS (str): Эндпоинт достижений студента.
+        DOCUMENTS_PROFILE_FIELDS (str): Эндпоинт полей профиля для документов.
+        SETTINGS_GROUP_SPECS (str): Эндпоинт предметов группы.
+        SETTINGS_HISTORY_SPECS (str): Эндпоинт истории предметов.
+        SETTINGS_PUBLIC_FORMS (str): Эндпоинт публичных форм.
+        SETTINGS_CHANGE_GROUP (str): Эндпоинт смены текущей группы.
+        PAYMENT_INDEX (str): Эндпоинт данных оплаты.
+        PAYMENT_HISTORY (str): Эндпоинт истории оплат.
+        PAYMENT_SCHEDULE (str): Эндпоинт графика оплат.
+        PAYMENT_CHECK_CANCELLATION (str): Эндпоинт проверки отмены оплаты.
+        SIGNAL_LIST (str): Эндпоинт списка сигналов.
+        SIGNAL_PROBLEMS (str): Эндпоинт списка проблем.
+        SIGNAL_REFERENCE_STATUS (str): Эндпоинт статуса справки.
+        CONTACTS_INDEX (str): Эндпоинт контактов.
+        CONTACTS_CHECK_CONFIRMATION (str): Эндпоинт проверки рассылки.
         GROUP_LEADERBOARD (str): Эндпоинт для получения данных рейтинга группы студентов.
         STREAM_LEADERBOARD (str): Эндпоинт для получения данных рейтинга потока студентов.
     """
@@ -75,6 +93,10 @@ class JournalEndpoints(Enum):
     # Эндпоинт обновления токенов
     # Token refresh endpoint
     AUTH_REFRESH = "/auth/refresh"
+
+    # Эндпоинт сброса пароля
+    # Password reset endpoint
+    AUTH_RESET_PASSWORD = "/auth/reset-password"
 
     # == РАБОТА С ОЦЕНКАМИ ЗАНЯТИЙ ==
     # == EVALUATION WORK LESSONS ==
@@ -121,6 +143,10 @@ class JournalEndpoints(Enum):
     # Эндпоинт для получения данных отзывов о студенте
     # Endpoint for getting feedback data (Reviews about the student)
     STUDENT_REVIEWS = "/reviews/index/list"
+
+    # Эндпоинт для получения инструкции по отзывам
+    # Endpoint for getting the reviews instruction text
+    REVIEWS_INSTRUCTION = "/reviews/index/instruction"
 
     # Эндпоинт для получения данных о среднем балле студента
     # Endpoint for getting student's average grade data
@@ -276,9 +302,84 @@ class JournalEndpoints(Enum):
     # Cities endpoint
     PUBLIC_CITIES = "/public/cities"
 
+    # == ПРОФИЛЬ ==
+    # == PROFILE ==
+
+    # Эндпоинт настроек профиля
+    # Profile settings endpoint
+    PROFILE_SETTINGS = "/profile/operations/settings"
+
+    # Эндпоинт достижений студента
+    # Student achievements endpoint
+    PROFILE_ACHIEVEMENTS = "/profile/statistic/student-achievements"
+
+    # Эндпоинт полей профиля для документов
+    # Profile fields for documents endpoint
+    DOCUMENTS_PROFILE_FIELDS = "/documents/get-profile-fields"
+
+    # Эндпоинт предметов группы
+    # Group specs endpoint
+    SETTINGS_GROUP_SPECS = "/settings/group-specs"
+
+    # Эндпоинт истории предметов
+    # History specs endpoint
+    SETTINGS_HISTORY_SPECS = "/settings/history-specs"
+
+    # Эндпоинт публичных форм
+    # Public forms endpoint
+    SETTINGS_PUBLIC_FORMS = "/settings/public-forms"
+
+    # Эндпоинт смены текущей группы
+    # Change current group endpoint
+    SETTINGS_CHANGE_GROUP = "/settings/change-current-group"
+
+    # == ОПЛАТА (только чтение) ==
+    # == PAYMENT (read-only) ==
+
+    # Эндпоинт данных оплаты
+    # Payment data endpoint
+    PAYMENT_INDEX = "/payment/operations/index"
+
+    # Эндпоинт истории оплат
+    # Payment history endpoint
+    PAYMENT_HISTORY = "/payment/operations/history"
+
+    # Эндпоинт графика оплат
+    # Payment schedule endpoint
+    PAYMENT_SCHEDULE = "/payment/operations/schedule"
+
+    # Эндпоинт проверки отмены оплаты
+    # Payment cancellation check endpoint
+    PAYMENT_CHECK_CANCELLATION = "/payment/operations/check-cancellation"
+
+    # == СИГНАЛЫ ==
+    # == SIGNALS ==
+
+    # Эндпоинт списка сигналов
+    # Signals list endpoint
+    SIGNAL_LIST = "/signal/operations/signals-list"
+
+    # Эндпоинт списка проблем
+    # Problems list endpoint
+    SIGNAL_PROBLEMS = "/signal/operations/problems-list"
+
+    # Эндпоинт статуса справки
+    # Reference status endpoint
+    SIGNAL_REFERENCE_STATUS = "/signal/operations/get-reference-status"
+
+    # == КОНТАКТЫ ==
+    # == CONTACTS ==
+
+    # Эндпоинт контактов
+    # Contacts endpoint
+    CONTACTS_INDEX = "/contacts/operations/index"
+
+    # Эндпоинт проверки подтверждения рассылки
+    # Mailing confirmation check endpoint
+    CONTACTS_CHECK_CONFIRMATION = "/contacts/mailing/check-confirmation"
+
     # == ИНФОРМАЦИЯ О ГРУППЕ ==
     # == GROUP INFO ==
-
     # Эндпоинт для получения данных рейтинга группы студентов
     # Endpoint for getting student group rating data
     GROUP_LEADERBOARD = "/dashboard/progress/leader-group"

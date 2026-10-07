@@ -17,3 +17,14 @@ class LoginResponse(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
+
+
+class ResetPasswordRequest(BaseModel):
+    """Запрос сброса пароля.
+
+    Password reset request.
+
+    Поле по форме фронта (одно поле E-mail).
+    """
+
+    email: str

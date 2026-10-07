@@ -5,6 +5,7 @@ from httpx import AsyncClient
 from top_journal_sdk.controllers import (
     AttendanceController,
     AuthController,
+    ContactsController,
     ContentController,
     DashboardController,
     ExamsController,
@@ -15,8 +16,11 @@ from top_journal_sdk.controllers import (
     LessonEvaluationController,
     LibraryController,
     MarketController,
+    PaymentController,
     PortfolioController,
+    ProfileController,
     ScheduleController,
+    SignalController,
     UserInfoController,
 )
 from top_journal_sdk.enums.endpoints import JournalEndpoints
@@ -75,6 +79,10 @@ class TopJournalSDK:
         self._market_controller: MarketController | None = None
         self._portfolio_controller: PortfolioController | None = None
         self._content_controller: ContentController | None = None
+        self._profile_controller: ProfileController | None = None
+        self._payment_controller: PaymentController | None = None
+        self._signal_controller: SignalController | None = None
+        self._contacts_controller: ContactsController | None = None
         self._controller_names: set[str] = set()
         self._session = SessionContext()
         self._refresh_token: str | None = None
@@ -421,3 +429,51 @@ class TopJournalSDK:
             Экземпляр контроллера контента / Content controller instance.
         """
         return self._get_controller("_content_controller", ContentController)
+
+    @property
+    def profile(self) -> ProfileController:
+        """
+        Возвращает контроллер профиля.
+
+        Get profile controller.
+
+        Returns:
+            Экземпляр контроллера профиля / Profile controller instance.
+        """
+        return self._get_controller("_profile_controller", ProfileController)
+
+    @property
+    def payment(self) -> PaymentController:
+        """
+        Возвращает контроллер оплаты.
+
+        Get payment controller.
+
+        Returns:
+            Экземпляр контроллера оплаты / Payment controller instance.
+        """
+        return self._get_controller("_payment_controller", PaymentController)
+
+    @property
+    def signal(self) -> SignalController:
+        """
+        Возвращает контроллер сигналов.
+
+        Get signal controller.
+
+        Returns:
+            Экземпляр контроллера сигналов / Signal controller instance.
+        """
+        return self._get_controller("_signal_controller", SignalController)
+
+    @property
+    def contacts(self) -> ContactsController:
+        """
+        Возвращает контроллер контактов.
+
+        Get contacts controller.
+
+        Returns:
+            Экземпляр контроллера контактов / Contacts controller instance.
+        """
+        return self._get_controller("_contacts_controller", ContactsController)
