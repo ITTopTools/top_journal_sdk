@@ -5,6 +5,7 @@ from httpx import AsyncClient
 from top_journal_sdk.controllers import (
     AttendanceController,
     AuthController,
+    ContentController,
     DashboardController,
     ExamsController,
     FeedbackController,
@@ -12,6 +13,9 @@ from top_journal_sdk.controllers import (
     HomeworkController,
     LeaderboardController,
     LessonEvaluationController,
+    LibraryController,
+    MarketController,
+    PortfolioController,
     ScheduleController,
     UserInfoController,
 )
@@ -67,6 +71,10 @@ class TopJournalSDK:
         self._user_info_controller: UserInfoController | None = None
         self._dashboard_controller: DashboardController | None = None
         self._exams_controller: ExamsController | None = None
+        self._library_controller: LibraryController | None = None
+        self._market_controller: MarketController | None = None
+        self._portfolio_controller: PortfolioController | None = None
+        self._content_controller: ContentController | None = None
         self._controller_names: set[str] = set()
         self._session = SessionContext()
         self._refresh_token: str | None = None
@@ -365,3 +373,51 @@ class TopJournalSDK:
             Экземпляр контроллера экзаменов / Exams controller instance.
         """
         return self._get_controller("_exams_controller", ExamsController)
+
+    @property
+    def library(self) -> LibraryController:
+        """
+        Возвращает контроллер библиотеки.
+
+        Get library controller.
+
+        Returns:
+            Экземпляр контроллера библиотеки / Library controller instance.
+        """
+        return self._get_controller("_library_controller", LibraryController)
+
+    @property
+    def market(self) -> MarketController:
+        """
+        Возвращает контроллер маркета.
+
+        Get market controller.
+
+        Returns:
+            Экземпляр контроллера маркета / Market controller instance.
+        """
+        return self._get_controller("_market_controller", MarketController)
+
+    @property
+    def portfolio(self) -> PortfolioController:
+        """
+        Возвращает контроллер портфолио.
+
+        Get portfolio controller.
+
+        Returns:
+            Экземпляр контроллера портфолио / Portfolio controller instance.
+        """
+        return self._get_controller("_portfolio_controller", PortfolioController)
+
+    @property
+    def content(self) -> ContentController:
+        """
+        Возвращает контроллер контента.
+
+        Get content controller.
+
+        Returns:
+            Экземпляр контроллера контента / Content controller instance.
+        """
+        return self._get_controller("_content_controller", ContentController)

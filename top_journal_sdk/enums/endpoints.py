@@ -38,6 +38,24 @@ class JournalEndpoints(Enum):
         DASHBOARD_PAGE_COUNTERS (str): Эндпоинт счетчиков страниц.
         STUDENT_EXAMS (str): Эндпоинт экзаменов студента.
         SCHOOL_QUARTERLY_GRADES (str): Эндпоинт четвертных оценок.
+        SOCIAL_REVIEW_LIST (str): Эндпоинт списка социальных отзывов.
+        SOCIAL_REVIEW_SCREEN (str): Эндпоинт отправки скриншота отзыва.
+        ACADEMY_DAY_EVALUATE (str): Эндпоинт формы оценки академического дня.
+        ACADEMY_DAY_COMMENT (str): Эндпоинт комментария к академическому дню.
+        SET_VIEW_MATERIALS (str): Эндпоинт отметки просмотра материала.
+        LIBRARY_LIST (str): Эндпоинт списка материалов библиотеки.
+        LIBRARY_COUNT (str): Эндпоинт счетчиков библиотеки.
+        LIBRARY_QUIZ_INTERVIEW (str): Эндпоинт открытого интервью библиотеки.
+        MARKET_PRODUCT_LIST (str): Эндпоинт списка товаров маркета.
+        PORTFOLIO_LIST (str): Эндпоинт списка портфолио.
+        PORTFOLIO_DESIGN_SPECS (str): Эндпоинт предметов для дизайна портфолио.
+        PORTFOLIO_DESIGN_TEACHERS (str): Эндпоинт преподавателей для дизайна.
+        NEWS_LATEST (str): Эндпоинт последних новостей.
+        STORIES_LIST (str): Эндпоинт сторис.
+        STORIES_LOGIN_PAGE (str): Эндпоинт сторис страницы входа.
+        PUBLIC_LANGUAGES (str): Эндпоинт языков.
+        PUBLIC_TRANSLATIONS (str): Эндпоинт переводов.
+        PUBLIC_CITIES (str): Эндпоинт городов.
         GROUP_LEADERBOARD (str): Эндпоинт для получения данных рейтинга группы студентов.
         STREAM_LEADERBOARD (str): Эндпоинт для получения данных рейтинга потока студентов.
     """
@@ -72,6 +90,26 @@ class JournalEndpoints(Enum):
     # Эндпоинт для получения тегов оценки занятий
     # Endpoint for getting evaluation lesson tags
     EVALUATION_LESSON_TAGS = "/public/tags"
+
+    # Эндпоинт для получения списка социальных отзывов
+    # Endpoint for getting the social review list
+    SOCIAL_REVIEW_LIST = "/feedback/social-review/get-review-list"
+
+    # Эндпоинт для отправки скриншота отзыва
+    # Endpoint for submitting a review screenshot
+    SOCIAL_REVIEW_SCREEN = "/feedback/social-review/screen-review"
+
+    # Эндпоинт формы оценки академического дня
+    # Academy day evaluation form endpoint
+    ACADEMY_DAY_EVALUATE = "/feedback/students/evaluate-academy-day"
+
+    # Эндпоинт отправки комментария к академическому дню
+    # Academy day comment submission endpoint
+    ACADEMY_DAY_COMMENT = "/feedback/students/comment-academy-day"
+
+    # Эндпоинт отметки просмотра материала
+    # Material view marking endpoint
+    SET_VIEW_MATERIALS = "/count/set-view-materials"
 
     # == ДАННЫЕ ПОЛЬЗОВАТЕЛЯ ==
     # == USER DATA ==
@@ -173,6 +211,70 @@ class JournalEndpoints(Enum):
     # Эндпоинт четвертных оценок
     # Quarterly grades endpoint
     SCHOOL_QUARTERLY_GRADES = "/progress/operations/school-quarterly-grades"
+
+    # == БИБЛИОТЕКА ==
+    # == LIBRARY ==
+
+    # Эндпоинт списка материалов библиотеки
+    # Library materials list endpoint
+    LIBRARY_LIST = "/library/operations/list"
+
+    # Эндпоинт счетчиков библиотеки
+    # Library counters endpoint
+    LIBRARY_COUNT = "/count/library"
+
+    # Эндпоинт открытого интервью библиотеки
+    # Library opened interview endpoint
+    LIBRARY_QUIZ_INTERVIEW = "/library/quiz/opened-interview"
+
+    # == МАРКЕТ ==
+    # == MARKET ==
+
+    # Эндпоинт списка товаров маркета
+    # Market product list endpoint
+    MARKET_PRODUCT_LIST = "/market/customer/product/list"
+
+    # == ПОРТФОЛИО ==
+    # == PORTFOLIO ==
+
+    # Эндпоинт списка портфолио
+    # Portfolio list endpoint
+    PORTFOLIO_LIST = "/portfolio/operations/list"
+
+    # Эндпоинт предметов для дизайна портфолио
+    # Portfolio design specs endpoint
+    PORTFOLIO_DESIGN_SPECS = "/portfolio/operations/design-specs"
+
+    # Эндпоинт преподавателей для дизайна портфолио
+    # Portfolio design teachers endpoint
+    PORTFOLIO_DESIGN_TEACHERS = "/portfolio/operations/design-teachers"
+
+    # == КОНТЕНТ ==
+    # == CONTENT ==
+
+    # Эндпоинт последних новостей
+    # Latest news endpoint
+    NEWS_LATEST = "/news/operations/latest-news"
+
+    # Эндпоинт сторис
+    # Stories endpoint
+    STORIES_LIST = "/story/operations/get-stories"
+
+    # Эндпоинт сторис страницы входа
+    # Login page stories endpoint
+    STORIES_LOGIN_PAGE = "/story/operations/get-login-page-stories"
+
+    # Эндпоинт языков
+    # Languages endpoint
+    PUBLIC_LANGUAGES = "/public/languages"
+
+    # Эндпоинт переводов
+    # Translations endpoint
+    PUBLIC_TRANSLATIONS = "/public/translations"
+
+    # Эндпоинт городов
+    # Cities endpoint
+    PUBLIC_CITIES = "/public/cities"
 
     # == ИНФОРМАЦИЯ О ГРУППЕ ==
     # == GROUP INFO ==

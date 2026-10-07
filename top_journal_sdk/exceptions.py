@@ -18,9 +18,13 @@ class InternalServerError(JournalException):
 
 # --- INVALIDE AUTH DATA (HTTP 422) ---
 class InvalidAuthDataError(JournalException):
-    """Raised when the provided username or password is invalid or expired (HTTP 422)."""
+    """Raised when the server rejects request data (HTTP 422).
 
-    def __init__(self, status_code: int = 422, message: str = "Invalid login data!"):
+    Most commonly invalid username/password at login, but any endpoint
+    may answer 422 on validation failures.
+    """
+
+    def __init__(self, status_code: int = 422, message: str = "Invalid request data!"):
         self.status_code: int = status_code
         super().__init__(f"{message} (status {status_code})")
 
