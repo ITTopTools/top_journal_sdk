@@ -1,11 +1,13 @@
-from rapid_api_client import get
+from typing import Annotated
+
+from rapid_api_client import Query, get
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.homework import (
     HomeworkCounterResponse,
     HomeworksResponse,
 )
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class HomeworkController(BaseController):
@@ -23,8 +25,13 @@ class HomeworkController(BaseController):
     просроченных заданиях и общем прогрессе по домашним работам.
     """
 
+    @with_auth_refresh
     @get(endpoints.HOMEWORK_COUNT.value)
-    async def get_homework_count_list(self) -> list[HomeworkCounterResponse]:
+    async def get_homework_count_list(
+        self,
+        group_id: Annotated[int | None, Query()] = None,  # pyright: ignore[reportUnusedParameter]
+        homework_type: Annotated[int | None, Query(alias="type")] = None,  # pyright: ignore[reportUnusedParameter]
+    ) -> list[HomeworkCounterResponse]:
         """
         Get statistics about homework assignments by categories.
 
@@ -46,7 +53,9 @@ class HomeworkController(BaseController):
         """
         ...
 
-    async def get_homeworks(self) -> HomeworksResponse:
+    async def get_homeworks(
+        self, group_id: int | None = None, homework_type: int | None = None
+    ) -> HomeworksResponse:
         """
         Get complete homework information for the student.
 
@@ -60,10 +69,21 @@ class HomeworkController(BaseController):
         который предоставляет обзор всех домашних заданий и
         их статуса выполнения по разным категориям.
 
+        Args:
+            group_id: ID группы. По умолчанию из сессии после login().
+                Group ID. Defaults to the post-login session value.
+            homework_type: Тип домашних заданий (как шлет фронт в `type`).
+                Homework type (as the frontend sends it in `type`).
+
         Returns:
             HomeworksResponse:
                 Complete homework assignments object with categorized statistics.
 
                 Полный объект домашних заданий с категоризированной статистикой.
         """
-        return HomeworksResponse(counter_list=await self.get_homework_count_list())
+        resolved_group_id = self.resolve_group_id(group_id)
+        return HomeworksResponse(
+            counter_list=await self.get_homework_count_list(
+                resolved_group_id, homework_type
+            )
+        )

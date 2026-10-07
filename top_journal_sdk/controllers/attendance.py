@@ -5,7 +5,7 @@ from top_journal_sdk.models.attendance import (
     AttendanceResponse,
     AttendancesResponse,
 )
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class AttendanceController(BaseController):
@@ -23,6 +23,7 @@ class AttendanceController(BaseController):
     пропусках и общей статистике посещаемости.
     """
 
+    @with_auth_refresh
     @get(endpoints.ATTENDANCE_DATA.value)
     async def get_attendance_list(self) -> list[AttendanceResponse]:
         """

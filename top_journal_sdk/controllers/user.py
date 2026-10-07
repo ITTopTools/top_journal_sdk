@@ -2,7 +2,7 @@ from rapid_api_client import get
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.user import UserResponse
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class UserInfoController(BaseController):
@@ -16,6 +16,7 @@ class UserInfoController(BaseController):
     Provides methods for retrieving basic user information.
     """
 
+    @with_auth_refresh
     @get(endpoints.USER_PERSONAL_INFO.value)
     async def get_personal_info(self) -> UserResponse:
         """

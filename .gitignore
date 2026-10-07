@@ -214,3 +214,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local probing scripts and Playwright MCP artifacts (not for commit)
+scripts/
+.playwright-mcp/

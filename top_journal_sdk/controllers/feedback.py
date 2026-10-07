@@ -2,7 +2,7 @@ from rapid_api_client import get
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.feedback import ReviewResponse, ReviewsResponse
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class FeedbackController(BaseController):
@@ -20,6 +20,7 @@ class FeedbackController(BaseController):
     общей истории отзывов для оценки академической успеваемости.
     """
 
+    @with_auth_refresh
     @get(endpoints.STUDENT_REVIEWS.value)
     async def get_student_review_list(self) -> list[ReviewResponse]:
         """

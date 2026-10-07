@@ -11,6 +11,7 @@ class JournalEndpoints(Enum):
         JOURNAL_BASE_URL (str): Базовый URL журнала Top Academy.
         API_BASE_URL (str): Базовый URL API Top Academy.
         AUTH_LOGIN (str): Эндпоинт аутентификации.
+        AUTH_REFRESH (str): Эндпоинт обновления токенов.
         LESSONS_TO_EVALUATE (str): Эндпоинт для получения списка пар, которые нужно оценить.
         SUBMIT_EVALUATION_LESSONS (str): Эндпоинт для отправки оцененных пар.
         EVALUATION_LESSON_TAGS (str): Эндпоинт для получения тегов оценки занятий.
@@ -36,6 +37,10 @@ class JournalEndpoints(Enum):
     # Эндпоинт аутентификации
     # Authentication endpoint
     AUTH_LOGIN = "/auth/login"
+
+    # Эндпоинт обновления токенов
+    # Token refresh endpoint
+    AUTH_REFRESH = "/auth/refresh"
 
     # == РАБОТА С ОЦЕНКАМИ ЗАНЯТИЙ ==
     # == EVALUATION WORK LESSONS ==

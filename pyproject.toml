@@ -51,6 +51,9 @@ dev = [
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
 ]
+live = [
+    "playwright>=1.63",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

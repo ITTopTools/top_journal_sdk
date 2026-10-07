@@ -10,7 +10,7 @@ from top_journal_sdk.models.evaluation import (
     EvaluationTagResponse,
     EvaluationTagsResponse,
 )
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class LessonEvaluationController(BaseController):
@@ -28,6 +28,7 @@ class LessonEvaluationController(BaseController):
     оценок и отзывов для академического улучшения.
     """
 
+    @with_auth_refresh
     @get(endpoints.EVALUATION_LESSON_TAGS.value)
     async def get_evaluation_lesson_tag_list(
         self,
@@ -94,6 +95,7 @@ class LessonEvaluationController(BaseController):
             evaluation_tags=await self.get_evaluation_lesson_tag_list(evaluation_type)
         )
 
+    @with_auth_refresh
     @get(endpoints.LESSONS_TO_EVALUATE.value)
     async def get_evaluation_lesson_list(self) -> list[EvaluationResponse]:
         """
@@ -141,6 +143,7 @@ class LessonEvaluationController(BaseController):
             evaluation_list=await self.get_evaluation_lesson_list()
         )
 
+    @with_auth_refresh
     @post(endpoints.SUBMIT_EVALUATION_LESSONS.value)
     async def submit_evaluate_lesson(
         self,

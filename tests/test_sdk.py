@@ -14,7 +14,32 @@ def _mock_transport() -> httpx.MockTransport:
         if request.url.path.endswith(".js"):
             return httpx.Response(200, text=JS)
         if request.method == "POST":
-            return httpx.Response(200, json={"access_token": "TOKEN123"})
+            return httpx.Response(
+                200,
+                json={"access_token": "TOKEN123", "refresh_token": "REFRESH123"},
+            )
+        if request.url.path.endswith("/settings/user-info"):
+            return httpx.Response(
+                200,
+                json={
+                    "gaming_points": [],
+                    "student_id": 39,
+                    "full_name": "Test Student",
+                    "age": 20,
+                    "gender": 1,
+                    "birthday": "2006-01-01",
+                    "photo": None,
+                    "current_group_id": 9,
+                    "group_name": "Group",
+                    "current_group_status": 1,
+                    "stream_id": 1,
+                    "stream_name": "Stream",
+                    "study_form_short_name": "Full",
+                    "achieves_count": 0,
+                    "registration_date": "2024-01-01T00:00:00",
+                    "last_date_visit": "2024-01-01T00:00:00",
+                },
+            )
         return httpx.Response(200, text=HTML)
 
     return httpx.MockTransport(handler)
@@ -87,4 +112,56 @@ async def test_login_end_to_end_on_mocks() -> None:
     token = await sdk.login("user", "pass")
     assert token == "TOKEN123"
     assert sdk._client.headers["Authorization"] == "Bearer TOKEN123"
+    assert sdk._session.group_id == 9
+    assert sdk._session.student_id == 39
+    await sdk.close()
+
+
+async def test_401_triggers_refresh_and_retry() -> None:
+    calls = {"user_info": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.endswith("/settings/user-info"):
+            calls["user_info"] += 1
+            if calls["user_info"] == 1:
+                return httpx.Response(401, json={"detail": "outdated"})
+            return httpx.Response(
+                200,
+                json={
+                    "gaming_points": [],
+                    "student_id": 39,
+                    "full_name": "Test Student",
+                    "age": 20,
+                    "gender": 1,
+                    "birthday": "2006-01-01",
+                    "photo": None,
+                    "current_group_id": 9,
+                    "group_name": "Group",
+                    "current_group_status": 1,
+                    "stream_id": 1,
+                    "stream_name": "Stream",
+                    "study_form_short_name": "Full",
+                    "achieves_count": 0,
+                    "registration_date": "2024-01-01T00:00:00",
+                    "last_date_visit": "2024-01-01T00:00:00",
+                },
+            )
+        if request.url.path.endswith("/auth/refresh"):
+            return httpx.Response(
+                200,
+                json={"access_token": "NEWTOKEN", "refresh_token": "NEWREFRESH"},
+            )
+        return httpx.Response(404, json={"detail": "unexpected"})
+
+    sdk = TopJournalSDK()
+    await sdk.initialize()
+    assert sdk._client is not None
+    sdk._client._transport = httpx.MockTransport(handler)
+    sdk.set_auth_token("OLDTOKEN")
+    sdk._refresh_token = "OLDREFRESH"
+    user = await sdk.user.get_personal_info()
+    assert user.full_name == "Test Student"
+    assert calls["user_info"] == 2
+    assert sdk._client.headers["Authorization"] == "Bearer NEWTOKEN"
+    assert sdk._refresh_token == "NEWREFRESH"
     await sdk.close()

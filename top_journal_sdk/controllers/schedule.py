@@ -5,7 +5,7 @@ from rapid_api_client import Query, get
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.schedule import LessonResponse, ScheduleResponse
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class ScheduleController(BaseController):
@@ -23,6 +23,7 @@ class ScheduleController(BaseController):
     информации о времени занятий для студентов и преподавателей.
     """
 
+    @with_auth_refresh
     @get(endpoints.SCHEDULE_BY_DATE.value)
     async def get_lesson_list_by_date(
         self,

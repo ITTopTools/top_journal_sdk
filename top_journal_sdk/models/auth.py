@@ -10,3 +10,10 @@ class LoginRequest(BaseModel):
 
 class LoginResponse(BaseModel):
     access_token: str
+    refresh_token: str
+    expires_in_access: int = 0
+    expires_in_refresh: int = 0
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str

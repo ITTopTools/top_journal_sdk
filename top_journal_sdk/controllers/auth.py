@@ -3,7 +3,11 @@ from typing import Annotated
 from rapid_api_client import PydanticBody, post
 
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
-from top_journal_sdk.models.auth import LoginRequest, LoginResponse
+from top_journal_sdk.models.auth import (
+    LoginRequest,
+    LoginResponse,
+    RefreshTokenRequest,
+)
 from top_journal_sdk.rapid.client import BaseController
 
 
@@ -51,5 +55,35 @@ class AuthController(BaseController):
                 Authentication response containing access token and user information.
 
                 Ответ аутентификации, содержащий токен доступа и информацию о пользователе.
+        """
+        ...
+
+    @post(endpoints.AUTH_REFRESH.value)
+    async def refresh(
+        self,
+        body: Annotated[RefreshTokenRequest, PydanticBody()],  # pyright: ignore[reportUnusedParameter]
+    ) -> LoginResponse:
+        """
+        Refresh access token using a refresh token.
+
+        Exchanges a valid refresh token for a new access/refresh token pair
+        without requiring user credentials.
+
+        Обновить токен доступа с помощью refresh-токена.
+
+        Обменивает действительный refresh-токен на новую пару токенов
+        без запроса учетных данных пользователя.
+
+        Args:
+            body:
+                Refresh token payload.
+
+                Данные с refresh-токеном.
+
+        Returns:
+            LoginResponse:
+                New access/refresh token pair.
+
+                Новая пара токенов доступа и обновления.
         """
         ...

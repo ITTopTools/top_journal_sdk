@@ -15,8 +15,10 @@ from top_journal_sdk.controllers import (
 )
 from top_journal_sdk.enums.endpoints import JournalEndpoints
 from top_journal_sdk.enums.headers import JournalHeaders
-from top_journal_sdk.models.auth import LoginRequest
+from top_journal_sdk.exceptions import OutdatedJWTError
+from top_journal_sdk.models.auth import LoginRequest, RefreshTokenRequest
 from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.session import SessionContext
 from top_journal_sdk.utils.app_key import ApplicationKey
 
 DEFAULT_TIMEOUT: float = 30.0
@@ -61,6 +63,9 @@ class TopJournalSDK:
         self._leaderboard_controller: LeaderboardController | None = None
         self._schedule_controller: ScheduleController | None = None
         self._user_info_controller: UserInfoController | None = None
+        self._controller_names: set[str] = set()
+        self._session = SessionContext()
+        self._refresh_token: str | None = None
 
     async def __aenter__(self) -> "TopJournalSDK":
         """
@@ -124,6 +129,22 @@ class TopJournalSDK:
             raise RuntimeError("SDK not initialized. Call initialize() first.")
         self._client.headers.update({"Authorization": f"Bearer {token}"})
 
+    async def _refresh_access_token(self) -> None:
+        """
+        Обновляет пару токенов по stored refresh-токену (для авто-ретрая 401).
+
+        Refreshes the token pair using the stored refresh token (for 401 auto-retry).
+        """
+        if self._client is None:
+            raise RuntimeError("SDK not initialized. Call initialize() first.")
+        if not self._refresh_token:
+            raise OutdatedJWTError()
+        response = await self.auth.refresh(
+            RefreshTokenRequest(refresh_token=self._refresh_token)
+        )
+        self.set_auth_token(response.access_token)
+        self._refresh_token = response.refresh_token
+
     async def close(self) -> None:
         """
         Закрывает HTTP-соединение.
@@ -136,15 +157,9 @@ class TopJournalSDK:
         if self._client:
             await self._client.aclose()
             self._client = None
-        self._auth_controller = None
-        self._attendance_controller = None
-        self._lesson_evaluation_controller = None
-        self._feedback_controller = None
-        self._grades_controller = None
-        self._homework_controller = None
-        self._leaderboard_controller = None
-        self._schedule_controller = None
-        self._user_info_controller = None
+        for attr_name in self._controller_names:
+            setattr(self, attr_name, None)
+        self._controller_names.clear()
 
     async def login(
         self, username: str, password: str, id_city: str | None = None
@@ -187,6 +202,11 @@ class TopJournalSDK:
         response = await auth_controller.login(body=login_data)
         # Set auth token automatically after login
         self.set_auth_token(response.access_token)
+        self._refresh_token = response.refresh_token
+        # Cache session context (group/student) for controllers
+        user_info = await self.user.get_personal_info()
+        self._session.group_id = user_info.current_group_id
+        self._session.student_id = user_info.student_id
         return response.access_token
 
     def _get_controller(self, attr_name: str, cls: type[T]) -> T:
@@ -199,8 +219,13 @@ class TopJournalSDK:
             raise RuntimeError("SDK not initialized. Call initialize() first.")
         controller = getattr(self, attr_name)
         if controller is None:
-            controller = cls(async_client=self._client)
+            controller = cls(
+                async_client=self._client,
+                session=self._session,
+                refresh_handler=self._refresh_access_token,
+            )
             setattr(self, attr_name, controller)
+            self._controller_names.add(attr_name)
         return cast(T, controller)
 
     @property

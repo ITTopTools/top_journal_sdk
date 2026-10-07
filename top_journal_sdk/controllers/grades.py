@@ -7,7 +7,7 @@ from top_journal_sdk.models.grades import (
     GradeResponse,
     GradesResponse,
 )
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class GradesController(BaseController):
@@ -25,6 +25,7 @@ class GradesController(BaseController):
     общей информации об академическом прогрессе.
     """
 
+    @with_auth_refresh
     @get(endpoints.AVERAGE_GRADE.value)
     async def get_average_grade_list(self) -> list[GradeResponse]:
         """
@@ -66,6 +67,7 @@ class GradesController(BaseController):
         """
         return GradesResponse(grade_list=await self.get_average_grade_list())
 
+    @with_auth_refresh
     @get(endpoints.CLASS_ATTENDANCE_GRADES.value)
     async def get_class_attendance_grade_list(
         self,

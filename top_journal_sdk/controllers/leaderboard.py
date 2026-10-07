@@ -7,7 +7,7 @@ from top_journal_sdk.models.leaderboard import (
     StreamLeaderboardResponse,
     StreamLeaderboardsResponse,
 )
-from top_journal_sdk.rapid.client import BaseController
+from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
 class LeaderboardController(BaseController):
@@ -25,6 +25,7 @@ class LeaderboardController(BaseController):
     и метрикам конкурентоспособной успеваемости по разным группам.
     """
 
+    @with_auth_refresh
     @get(endpoints.GROUP_LEADERBOARD.value)
     async def get_group_leaderboard_list(self) -> list[GroupLeaderboardResponse]:
         """
@@ -72,6 +73,7 @@ class LeaderboardController(BaseController):
             group_leaderboard_list=await self.get_group_leaderboard_list()
         )
 
+    @with_auth_refresh
     @get(endpoints.STREAM_LEADERBOARD.value)
     async def get_stream_leaderboard_list(self) -> list[StreamLeaderboardResponse]:
         """
