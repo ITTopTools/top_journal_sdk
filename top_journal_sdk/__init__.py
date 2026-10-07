@@ -1,3 +1,5 @@
+from typing import TypeVar, cast
+
 from httpx import AsyncClient
 
 from top_journal_sdk.controllers import (
@@ -14,7 +16,12 @@ from top_journal_sdk.controllers import (
 from top_journal_sdk.enums.endpoints import JournalEndpoints
 from top_journal_sdk.enums.headers import JournalHeaders
 from top_journal_sdk.models.auth import LoginRequest
+from top_journal_sdk.rapid.client import BaseController
 from top_journal_sdk.utils.app_key import ApplicationKey
+
+DEFAULT_TIMEOUT: float = 30.0
+
+T = TypeVar("T", bound=BaseController)
 
 
 class TopJournalSDK:
@@ -24,12 +31,26 @@ class TopJournalSDK:
     Main SDK class for interacting with Top Academy Journal API.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        timeout: float = DEFAULT_TIMEOUT,
+        user_agent: str | None = None,
+        extra_headers: dict[str, str] | None = None,
+    ):
         """
         Инициализирует SDK с пустыми значениями контроллеров.
 
         Initialize the SDK with empty controller values.
+
+        Args:
+            timeout: Таймаут HTTP-запросов в секундах / HTTP request timeout in seconds.
+            user_agent: Переопределение User-Agent / User-Agent override.
+            extra_headers: Дополнительные заголовки поверх стандартных /
+                Extra headers merged over the defaults.
         """
+        self._timeout: float = timeout
+        self._user_agent: str | None = user_agent
+        self._extra_headers: dict[str, str] = dict(extra_headers) if extra_headers else {}
         self._client: AsyncClient | None = None
         self._auth_controller: AuthController | None = None
         self._attendance_controller: AttendanceController | None = None
@@ -68,18 +89,27 @@ class TopJournalSDK:
         Инициализирует SDK: создаёт HTTP-клиент и устанавливает заголовки.
 
         Initialize the SDK with proper client and headers.
+
+        Повторный вызов без close() — no-op, существующий клиент переиспользуется.
+        Calling twice without close() is a no-op, the existing client is reused.
         """
-        self._client = AsyncClient(
-            base_url=JournalEndpoints.API_BASE_URL.value, follow_redirects=True
+        if self._client is not None:
+            return
+        client = AsyncClient(
+            base_url=JournalEndpoints.API_BASE_URL.value,
+            follow_redirects=True,
+            timeout=self._timeout,
         )
         headers: dict[str, str] = {
             "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
             "Origin": JournalHeaders.ORIGIN.value,
             "Referer": JournalHeaders.REFERER.value,
-            "User-Agent": JournalHeaders.USER_AGENT.value,
+            "User-Agent": self._user_agent or JournalHeaders.USER_AGENT.value,
         }
-        self._client.headers.update(headers)
+        headers.update(self._extra_headers)
+        client.headers.update(headers)
+        self._client = client
 
     def set_auth_token(self, token: str) -> None:
         """
@@ -99,12 +129,26 @@ class TopJournalSDK:
         Закрывает HTTP-соединение.
 
         Close the client connection.
+
+        Кешированные контроллеры сбрасываются, чтобы не держать stale-клиент.
+        Cached controllers are dropped so they never hold a stale client.
         """
         if self._client:
             await self._client.aclose()
             self._client = None
+        self._auth_controller = None
+        self._attendance_controller = None
+        self._lesson_evaluation_controller = None
+        self._feedback_controller = None
+        self._grades_controller = None
+        self._homework_controller = None
+        self._leaderboard_controller = None
+        self._schedule_controller = None
+        self._user_info_controller = None
 
-    async def login(self, username: str, password: str) -> str:
+    async def login(
+        self, username: str, password: str, id_city: str | None = None
+    ) -> str:
         """
         Авторизуется в журнале и возвращает токен доступа.
 
@@ -113,6 +157,7 @@ class TopJournalSDK:
         Args:
             username: Логин пользователя / Username.
             password: Пароль пользователя / Password.
+            id_city: ID города (опционально) / City ID (optional).
 
         Returns:
             Токен доступа / Access token.
@@ -121,19 +166,42 @@ class TopJournalSDK:
             ValueError: Если не удалось получить ключ приложения.
                       If application key could not be retrieved.
         """
-        app_key = ApplicationKey(JournalEndpoints.JOURNAL_BASE_URL.value)
+        if self._client is None:
+            raise RuntimeError("SDK not initialized. Call initialize() first.")
+        app_key = ApplicationKey(
+            JournalEndpoints.JOURNAL_BASE_URL.value,
+            timeout=self._timeout,
+            client=self._client,
+        )
         app_token = await app_key.get_key()
         if not app_token:
             raise ValueError("Could not retrieve application key")
 
-        auth_controller = AuthController(async_client=self._client)
+        auth_controller = self.auth
         login_data = LoginRequest(
-            application_key=app_token, username=username, password=password
+            application_key=app_token,
+            username=username,
+            password=password,
+            id_city=id_city,
         )
         response = await auth_controller.login(body=login_data)
         # Set auth token automatically after login
         self.set_auth_token(response.access_token)
         return response.access_token
+
+    def _get_controller(self, attr_name: str, cls: type[T]) -> T:
+        """
+        Возвращает кешированный контроллер, создавая его при первом обращении.
+
+        Returns a cached controller, creating it on first access.
+        """
+        if self._client is None:
+            raise RuntimeError("SDK not initialized. Call initialize() first.")
+        controller = getattr(self, attr_name)
+        if controller is None:
+            controller = cls(async_client=self._client)
+            setattr(self, attr_name, controller)
+        return cast(T, controller)
 
     @property
     def auth(self) -> AuthController:
@@ -145,11 +213,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера авторизации / Auth controller instance.
         """
-        if not self._auth_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._auth_controller = AuthController(async_client=self._client)
-        return self._auth_controller
+        return self._get_controller("_auth_controller", AuthController)
 
     @property
     def user(self) -> UserInfoController:
@@ -161,11 +225,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера пользователей / User controller instance.
         """
-        if not self._user_info_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._user_info_controller = UserInfoController(async_client=self._client)
-        return self._user_info_controller
+        return self._get_controller("_user_info_controller", UserInfoController)
 
     @property
     def attendance(self) -> AttendanceController:
@@ -177,13 +237,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера посещаемости / Attendance controller instance.
         """
-        if not self._attendance_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._attendance_controller = AttendanceController(
-                async_client=self._client
-            )
-        return self._attendance_controller
+        return self._get_controller("_attendance_controller", AttendanceController)
 
     @property
     def lesson_evaluation(self) -> LessonEvaluationController:
@@ -195,13 +249,9 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера оценок уроков / Lesson evaluation controller instance.
         """
-        if not self._lesson_evaluation_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._lesson_evaluation_controller = LessonEvaluationController(
-                async_client=self._client
-            )
-        return self._lesson_evaluation_controller
+        return self._get_controller(
+            "_lesson_evaluation_controller", LessonEvaluationController
+        )
 
     @property
     def feedback(self) -> FeedbackController:
@@ -213,11 +263,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера отзывов / Feedback controller instance.
         """
-        if not self._feedback_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._feedback_controller = FeedbackController(async_client=self._client)
-        return self._feedback_controller
+        return self._get_controller("_feedback_controller", FeedbackController)
 
     @property
     def grades(self) -> GradesController:
@@ -229,11 +275,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера оценок / Grades controller instance.
         """
-        if not self._grades_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._grades_controller = GradesController(async_client=self._client)
-        return self._grades_controller
+        return self._get_controller("_grades_controller", GradesController)
 
     @property
     def homework(self) -> HomeworkController:
@@ -245,11 +287,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера домашних заданий / Homework controller instance.
         """
-        if not self._homework_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._homework_controller = HomeworkController(async_client=self._client)
-        return self._homework_controller
+        return self._get_controller("_homework_controller", HomeworkController)
 
     @property
     def leaderboard(self) -> LeaderboardController:
@@ -261,13 +299,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера таблицы лидеров / Leaderboard controller instance.
         """
-        if not self._leaderboard_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._leaderboard_controller = LeaderboardController(
-                async_client=self._client
-            )
-        return self._leaderboard_controller
+        return self._get_controller("_leaderboard_controller", LeaderboardController)
 
     @property
     def schedule(self) -> ScheduleController:
@@ -279,8 +311,4 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера расписания / Schedule controller instance.
         """
-        if not self._schedule_controller:
-            if not self._client:
-                raise RuntimeError("SDK not initialized. Call initialize() first.")
-            self._schedule_controller = ScheduleController(async_client=self._client)
-        return self._schedule_controller
+        return self._get_controller("_schedule_controller", ScheduleController)

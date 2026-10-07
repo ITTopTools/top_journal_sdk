@@ -14,7 +14,6 @@ class JournalEndpoints(Enum):
         LESSONS_TO_EVALUATE (str): Эндпоинт для получения списка пар, которые нужно оценить.
         SUBMIT_EVALUATION_LESSONS (str): Эндпоинт для отправки оцененных пар.
         EVALUATION_LESSON_TAGS (str): Эндпоинт для получения тегов оценки занятий.
-        EVALUATION_LESSON_TECH_TAGS (str): Эндпоинт для получения технических тегов оценки занятий.
         USER_PERSONAL_INFO (str): Эндпоинт для получения информации о пользователе.
         STUDENT_REVIEWS (str): Эндпоинт для получения данных отзывов о студенте.
         AVERAGE_GRADE (str): Эндпоинт для получения данных о среднем балле студента.

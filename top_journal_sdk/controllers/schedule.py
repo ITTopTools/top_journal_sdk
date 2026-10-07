@@ -55,7 +55,7 @@ class ScheduleController(BaseController):
         """
         ...
 
-    async def get_schedule_by_date(self, date: date) -> ScheduleResponse:
+    async def get_schedule_by_date(self, target_date: date) -> ScheduleResponse:
         """
         Get complete schedule for a specific date in response wrapper.
 
@@ -70,7 +70,7 @@ class ScheduleController(BaseController):
         с дополнительными метаданными и информацией о расписании.
 
         Args:
-            date:
+            target_date:
                 The date for which to retrieve the complete schedule.
 
                 Дата, на которую нужно получить полное расписание.
@@ -81,4 +81,4 @@ class ScheduleController(BaseController):
 
                 Полный объект расписания с организованными данными об уроках и метаданными.
         """
-        return ScheduleResponse(lesson_list=await self.get_lesson_list_by_date(date))
+        return ScheduleResponse(lesson_list=await self.get_lesson_list_by_date(target_date))

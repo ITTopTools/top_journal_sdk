@@ -15,7 +15,7 @@ class GamingPointResponse(BaseModel):
 
     @property
     def type_name(self) -> str:
-        names = {1: "Топ коины", 2: "Топ гемы"}
+        names = {GamingPointType.TOP_COINS: "Топ коины", GamingPointType.TOP_GEMS: "Топ гемы"}
         return names.get(self.new_gaming_point_types__id, "Неизвестно")
 
 
@@ -38,8 +38,8 @@ class UserResponse(BaseModel):
     last_date_visit: datetime
 
     @property
-    def photo_url(self) -> str:
-        return str(self.photo) if self.photo else ""
+    def photo_url(self) -> str | None:
+        return str(self.photo) if self.photo else None
 
     @property
     def top_coins(self) -> int:

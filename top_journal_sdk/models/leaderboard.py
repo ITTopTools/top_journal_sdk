@@ -13,12 +13,14 @@ class GroupLeaderboardsResponse(BaseModel):
     group_leaderboard_list: list[GroupLeaderboardResponse]
 
 
-class StreamLeaderboardResponse(BaseModel):
-    id: int
-    full_name: str
-    photo_path: HttpUrl | None
-    position: int
-    amount: int
+class StreamLeaderboardResponse(GroupLeaderboardResponse):
+    """Запись рейтинга потока.
+
+    Тот же набор полей, что и у рейтинга группы
+    (amount/id/full_name/photo_path/position).
+    """
+
+    pass
 
 
 class StreamLeaderboardsResponse(BaseModel):

@@ -37,7 +37,7 @@ class FeedbackController(BaseController):
             list[ReviewResponse]:
                 List of detailed reviews with comprehensive feedback information.
 
-                Список подробных отзывов с комплексной информацией о反馈.
+                Список подробных отзывов с комплексной информацией об обратной связи.
         """
         ...
 

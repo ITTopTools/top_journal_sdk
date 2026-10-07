@@ -2,12 +2,17 @@ from datetime import date
 
 from pydantic import BaseModel
 
+from top_journal_sdk.models.attendance import AttendanceResponse
 
-class GradeResponse(BaseModel):
-    date: date
-    points: int | None
-    previous_points: int | None
-    has_rasp: bool | None
+
+class GradeResponse(AttendanceResponse):
+    """Оценка за занятие.
+
+    Имеет ту же форму, что и запись посещаемости: датированная запись
+    с баллами в журнале (date/points/previous_points/has_rasp).
+    """
+
+    pass
 
 
 class GradesResponse(BaseModel):

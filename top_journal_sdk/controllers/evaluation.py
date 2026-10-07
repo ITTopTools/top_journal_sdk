@@ -31,7 +31,7 @@ class LessonEvaluationController(BaseController):
     @get(endpoints.EVALUATION_LESSON_TAGS.value)
     async def get_evaluation_lesson_tag_list(
         self,
-        type: Annotated[  # pyright: ignore[reportUnusedParameter]
+        evaluation_type: Annotated[  # pyright: ignore[reportUnusedParameter]
             Literal["evaluation_lesson", "evaluation_lesson_teach"], Query()
         ],
     ) -> list[EvaluationTagResponse]:
@@ -49,7 +49,7 @@ class LessonEvaluationController(BaseController):
         актуальность содержания и эффективность обучения.
 
         Args:
-            type:
+            evaluation_type:
                 Type of evaluation tags to retrieve (lesson or teaching evaluation).
 
                 Тип тегов оценки для получения (оценка урока или преподавания).
@@ -63,7 +63,7 @@ class LessonEvaluationController(BaseController):
         ...
 
     async def get_evaluation_lesson_tags(
-        self, type: Literal["evaluation_lesson", "evaluation_lesson_teach"]
+        self, evaluation_type: Literal["evaluation_lesson", "evaluation_lesson_teach"]
     ) -> EvaluationTagsResponse:
         """
         Get evaluation tags in comprehensive response wrapper.
@@ -79,7 +79,7 @@ class LessonEvaluationController(BaseController):
         оценки для оценки уроков.
 
         Args:
-            type:
+            evaluation_type:
                 Type of evaluation (lesson or teaching focused).
 
                 Тип оценки (ориентированной на урок или преподавание).
@@ -91,7 +91,7 @@ class LessonEvaluationController(BaseController):
                 Структурированный ответ, содержащий все теги оценки и метаданные.
         """
         return EvaluationTagsResponse(
-            evaluation_tags=await self.get_evaluation_lesson_tag_list(type)
+            evaluation_tags=await self.get_evaluation_lesson_tag_list(evaluation_type)
         )
 
     @get(endpoints.LESSONS_TO_EVALUATE.value)
