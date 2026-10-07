@@ -1,6 +1,9 @@
 [build-system]
-requires = ["uv_build>=0.9.14,<0.10.0"]
+requires = ["uv_build>=0.9.14,<0.13"]
 build-backend = "uv_build"
+
+[tool.uv]
+link-mode = "copy"
 
 [tool.uv.build-backend]
 module-name = "top_journal_sdk"
@@ -20,7 +23,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: MIT License",
 
     "Topic :: Internet",
     "Topic :: Internet :: WWW/HTTP",
