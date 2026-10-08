@@ -2,6 +2,8 @@
 
 from datetime import date, datetime
 
+from top_journal_sdk.models.grades import ClassAttendanceGradeResponse
+
 from top_journal_sdk.models.dashboard import (
     AcademicProgressResponse,
     AttendanceStatisticResponse,
@@ -154,3 +156,26 @@ def test_student_exam() -> None:
 
 def test_month_event_unconfirmed_shape() -> None:
     assert MonthEventResponse.model_validate({}) is not None
+
+
+def test_class_attendance_grade_nullable_lesson() -> None:
+    # Live: у части записей lesson_number=null (регрессия sweep Волны 4).
+    grade = ClassAttendanceGradeResponse.model_validate(
+        {
+            "date_visit": "2026-10-07",
+            "lesson_number": None,
+            "status_was": None,
+            "spec_id": 81,
+            "teacher_name": "Teacher",
+            "spec_name": "Spec",
+            "lesson_theme": "Theme",
+            "control_work_mark": None,
+            "home_work_mark": None,
+            "lab_work_mark": None,
+            "class_work_mark": None,
+            "practical_work_mark": None,
+            "final_work_mark": None,
+            "final_work_mark_type": None,
+        }
+    )
+    assert grade.lesson_number is None

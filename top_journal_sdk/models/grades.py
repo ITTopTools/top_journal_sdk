@@ -21,9 +21,11 @@ class GradesResponse(BaseModel):
 
 class ClassAttendanceGradeResponse(BaseModel):
     date_visit: date
-    lesson_number: int
-    status_was: int
+    lesson_number: int | None = None
+    status_was: int | None = None
     spec_id: int
+    subject_source: int | None = None
+    subject_id: int | None = None
     teacher_name: str
     spec_name: str
     lesson_theme: str
@@ -32,6 +34,8 @@ class ClassAttendanceGradeResponse(BaseModel):
     lab_work_mark: int | None
     class_work_mark: int | None
     practical_work_mark: int | None
+    final_work_mark: int | None = None
+    final_work_mark_type: int | None = None
 
 
 class ClassAttendanceGradesResponse(BaseModel):
