@@ -218,6 +218,104 @@ async def main():
             except Exception as e:
                 print(f"❌ Ошибка получения рейтингов: {e}")
 
+            # 11. Расписание за месяц и диапазон
+            print("\n🗓️  Шаг 11: Расписание за месяц и диапазон")
+            print("-" * 30)
+
+            try:
+                month_schedule = await sdk.schedule.get_month_schedule(date.today())
+                print(f"Уроков в месяце: {len(month_schedule.lesson_list)}")
+
+                range_schedule = await sdk.schedule.get_range_schedule(
+                    date.today(), date.today()
+                )
+                print(f"Уроков в диапазоне: {len(range_schedule.lesson_list)}")
+
+                month_events = await sdk.schedule.get_month_events(date.today())
+                print(f"Событий месяца: {len(month_events.month_event_list)}")
+            except Exception as e:
+                print(f"❌ Ошибка получения расписания: {e}")
+
+            # 12. Список домашних заданий и теги
+            print("\n📚 Шаг 12: Список домашних заданий")
+            print("-" * 30)
+
+            try:
+                homework_list = await sdk.homework.get_homeworks_list()
+                print(f"Заданий на странице: {len(homework_list.homework_list)}")
+                if homework_list.homework_list:
+                    first = homework_list.homework_list[0]
+                    print(f"  Первое: {first.theme} ({first.name_spec})")
+
+                homework_tags = await sdk.homework.get_homework_tags()
+                print(f"Тегов оценки ДЗ: {len(homework_tags.homework_tag_list)}")
+            except Exception as e:
+                print(f"❌ Ошибка получения домашних заданий: {e}")
+
+            # 13. Дашборд: успеваемость и баллы
+            print("\n📈 Шаг 13: Дашборд")
+            print("-" * 30)
+
+            try:
+                performance = await sdk.dashboard.get_academic_performance()
+                print(f"Средний балл за все время: {performance.total_all_time}")
+
+                group_points = await sdk.dashboard.get_leader_group_points()
+                print(f"Позиция в группе: {group_points.student_position}")
+
+                counters = await sdk.dashboard.get_page_counters()
+                print(f"Счетчиков страниц: {len(counters.page_counter_list)}")
+            except Exception as e:
+                print(f"❌ Ошибка получения дашборда: {e}")
+
+            # 14. Библиотека и новости
+            print("\n📖 Шаг 14: Библиотека и новости")
+            print("-" * 30)
+
+            try:
+                materials = await sdk.library.get_library_materials(material_type=1)
+                print(f"Материалов библиотеки: {len(materials.library_material_list)}")
+
+                news = await sdk.content.get_latest_news()
+                print(f"Новостей: {len(news.news_list)}")
+                if news.news_list:
+                    print(f"  Последняя: {news.news_list[0].theme}")
+            except Exception as e:
+                print(f"❌ Ошибка получения библиотеки/новостей: {e}")
+
+            # 15. Профиль и оплата
+            print("\n👤 Шаг 15: Профиль и оплата")
+            print("-" * 30)
+
+            try:
+                settings = await sdk.profile.get_profile_settings()
+                print(f"Email профиля: {settings.email}")
+                print(f"Заполненность: {settings.fill_percentage}%")
+
+                achievements = await sdk.profile.get_student_achievements()
+                print(f"Достижений: {len(achievements.student_achievement_list)}")
+
+                payment_index = await sdk.payment.get_payment_index()
+                print(f"Плательщик: {payment_index.full_name}")
+            except Exception as e:
+                print(f"❌ Ошибка получения профиля/оплаты: {e}")
+
+            # 16. Портфолио и экзамены
+            print("\n🏆 Шаг 16: Портфолио и экзамены")
+            print("-" * 30)
+
+            try:
+                portfolios = await sdk.portfolio.get_portfolios()
+                print(f"Работ в портфолио: {len(portfolios.portfolio_list)}")
+
+                student_exams = await sdk.exams.get_student_exams()
+                print(f"Экзаменов: {len(student_exams.student_exam_list)}")
+
+                quarterly = await sdk.exams.get_quarterly_grades()
+                print(f"Четвертных оценок: {len(quarterly.grades)}")
+            except Exception as e:
+                print(f"❌ Ошибка получения портфолио/экзаменов: {e}")
+
             print("\n✅ Все данные успешно получены!")
 
         except Exception as e:
