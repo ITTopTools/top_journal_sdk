@@ -89,9 +89,7 @@ class HomeworkController(BaseController):
         """
         resolved_group_id = self.resolve_group_id(group_id)
         return HomeworksResponse(
-            counter_list=await self.get_homework_count_list(
-                resolved_group_id, homework_type
-            )
+            counter_list=await self.get_homework_count_list(resolved_group_id, homework_type)
         )
 
     @with_auth_refresh
@@ -169,9 +167,7 @@ class HomeworkController(BaseController):
         Returns:
             HomeworkTagsResponse: Tags object / Объект тегов.
         """
-        return HomeworkTagsResponse(
-            homework_tag_list=await self.get_homework_tag_list()
-        )
+        return HomeworkTagsResponse(homework_tag_list=await self.get_homework_tag_list())
 
     @with_auth_refresh
     @get(endpoints.HOMEWORK_GROUP_HISTORY.value)
@@ -195,6 +191,4 @@ class HomeworkController(BaseController):
         Returns:
             GroupHistoriesResponse: History object / Объект истории.
         """
-        return GroupHistoriesResponse(
-            group_history_list=await self.get_group_history_list()
-        )
+        return GroupHistoriesResponse(group_history_list=await self.get_group_history_list())

@@ -139,9 +139,7 @@ class LessonEvaluationController(BaseController):
 
                 Полный объект уроков для оценки с метаданными и статусом.
         """
-        return EvaluationsResponse(
-            evaluation_list=await self.get_evaluation_lesson_list()
-        )
+        return EvaluationsResponse(evaluation_list=await self.get_evaluation_lesson_list())
 
     @with_auth_refresh
     @post(endpoints.SUBMIT_EVALUATION_LESSONS.value)

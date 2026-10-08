@@ -11,22 +11,20 @@ import pytest
 
 from top_journal_sdk import TopJournalSDK
 
+_LIVE_CREDS = bool(
+    os.environ.get("TOP_JOURNAL_USERNAME") and os.environ.get("TOP_JOURNAL_PASSWORD")
+)
+
 pytestmark = [
     pytest.mark.live,
-    pytest.mark.skipif(
-        not os.environ.get("TOP_JOURNAL_USERNAME")
-        or not os.environ.get("TOP_JOURNAL_PASSWORD"),
-        reason="live creds missing",
-    ),
+    pytest.mark.skipif(not _LIVE_CREDS, reason="live creds missing"),
 ]
 
 
 async def _login() -> TopJournalSDK:
     sdk = TopJournalSDK(timeout=30.0)
     await sdk.initialize()
-    await sdk.login(
-        os.environ["TOP_JOURNAL_USERNAME"], os.environ["TOP_JOURNAL_PASSWORD"]
-    )
+    await sdk.login(os.environ["TOP_JOURNAL_USERNAME"], os.environ["TOP_JOURNAL_PASSWORD"])
     return sdk
 
 
@@ -37,9 +35,7 @@ async def test_live_schedule_month_range_events() -> None:
         assert len(month.lesson_list) > 0
         assert month.lesson_list[0].subject_name
 
-        month_range = await sdk.schedule.get_range_schedule(
-            date(2026, 9, 1), date(2026, 9, 7)
-        )
+        month_range = await sdk.schedule.get_range_schedule(date(2026, 9, 1), date(2026, 9, 7))
         assert len(month_range.lesson_list) > 0
 
         events = await sdk.schedule.get_month_events(date(2026, 10, 1))

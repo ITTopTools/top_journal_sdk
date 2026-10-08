@@ -89,8 +89,14 @@ uv sync                  # базовые + dev-зависимости
 uv run pytest -m "not live"   # офлайн-тесты
 uv run pytest -m live          # live-тесты (нужны TOP_JOURNAL_USERNAME/PASSWORD)
 uv run --with pyright pyright top_journal_sdk tests example.py  # strict, 0 ошибок
+uv run ruff check top_journal_sdk tests example.py   # линтер, 0 ошибок
+uv run ruff format --check top_journal_sdk tests example.py  # формат
+uv run ty check top_journal_sdk tests example.py     # типы strict, 0 ошибок
 uv build
 ```
+
+Хуки pre-commit (`ruff-check --fix`, `ruff-format`, `ty`) ставятся через
+`uv run pre-commit install` и гоняют то же самое при каждом коммите.
 
 Live-тесты ходят в настоящий API тестовым студентом и скипаются без кредов.
 Мутирующие вызовы (отправка оценок/комментариев, сброс пароля, смена группы)

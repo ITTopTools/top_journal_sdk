@@ -39,7 +39,7 @@ class UserResponse(BaseModel):
 
     @property
     def photo_url(self) -> str | None:
-        return str(self.photo) if self.photo else None
+        return str(self.photo) if self.photo is not None else None
 
     @property
     def top_coins(self) -> int:

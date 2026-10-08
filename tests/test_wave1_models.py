@@ -2,8 +2,6 @@
 
 from datetime import date, datetime
 
-from top_journal_sdk.models.grades import ClassAttendanceGradeResponse
-
 from top_journal_sdk.models.dashboard import (
     AcademicProgressResponse,
     AttendanceStatisticResponse,
@@ -11,6 +9,7 @@ from top_journal_sdk.models.dashboard import (
     PageCounterResponse,
 )
 from top_journal_sdk.models.exams import StudentExamResponse
+from top_journal_sdk.models.grades import ClassAttendanceGradeResponse
 from top_journal_sdk.models.homework import (
     GroupHistoryResponse,
     HomeworkListItemResponse,

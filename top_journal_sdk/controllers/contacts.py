@@ -49,5 +49,5 @@ class ContactsController(BaseController):
         Returns:
             True when confirmation data exists / True если данные есть.
         """
-        response = await self.get_confirmation_check_response()
+        response: Response = await self.get_confirmation_check_response()
         return response.status_code == 200

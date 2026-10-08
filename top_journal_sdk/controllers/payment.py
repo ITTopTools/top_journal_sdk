@@ -60,9 +60,7 @@ class PaymentController(BaseController):
         Returns:
             PaymentHistoriesResponse: History object / Объект истории.
         """
-        return PaymentHistoriesResponse(
-            payment_history_list=await self.get_payment_history_list()
-        )
+        return PaymentHistoriesResponse(payment_history_list=await self.get_payment_history_list())
 
     @with_auth_refresh
     @get(endpoints.PAYMENT_SCHEDULE.value)
@@ -109,5 +107,5 @@ class PaymentController(BaseController):
         Returns:
             True when cancellation data exists / True если данные есть.
         """
-        response = await self.get_cancellation_check_response()
+        response: Response = await self.get_cancellation_check_response()
         return response.status_code == 200

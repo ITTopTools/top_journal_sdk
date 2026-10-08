@@ -103,6 +103,4 @@ class PortfolioController(BaseController):
         Returns:
             DesignTeachersResponse: Teachers object / Объект преподавателей.
         """
-        return DesignTeachersResponse(
-            design_teacher_list=await self.get_design_teacher_list()
-        )
+        return DesignTeachersResponse(design_teacher_list=await self.get_design_teacher_list())

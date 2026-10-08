@@ -48,6 +48,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.5",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
     "ruff>=0.16.10",
@@ -62,6 +63,56 @@ asyncio_mode = "auto"
 markers = [
     "live: tests against the real journal API (need TOP_JOURNAL_* creds)",
 ]
+
+[tool.ruff]
+line-length = 99
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "RUF", "W", "N", "C901", "EM", "TRY", "PERF", "FBT"]
+ignore = [
+    # Кодовая база bilingual (RU/EN): кириллица в строках/доках/комментах намеренная.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    # Устоявшееся соглашение: короткий алиас `endpoints` во всех контроллерах.
+    "N813",
+    # JournalException — публичный базовый класс, переименование ломает пользователей.
+    "N818",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["top_journal_sdk", "tests"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ty.rules]
+all = "error"
+
+[tool.ty.analysis]
+strict-literal-narrowing = true
+strict-generic-narrowing = true
+
+# rapid-api-client declarative pattern (@get/@post with `...` bodies) is opaque
+# to ty: decorator application, empty bodies and decorator-mediated calls cannot
+# be verified. pyright strict remains the authority for these lines.
+[[tool.ty.overrides]]
+include = ["top_journal_sdk/controllers/**"]
+
+[tool.ty.overrides.rules]
+empty-body = "ignore"
+invalid-argument-type = "ignore"
+missing-argument = "ignore"
+unsound-assignment = "ignore"
+
+# Same decorator opacity at call sites (facade wrappers, examples, tests).
+[[tool.ty.overrides]]
+include = ["top_journal_sdk/__init__.py", "example.py", "tests/**"]
+
+[tool.ty.overrides.rules]
+missing-argument = "ignore"
+unsound-assignment = "ignore"
 
 [project.urls]
 Homepage = "https://github.com/ITTopTools/top_journal_sdk"

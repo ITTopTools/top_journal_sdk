@@ -3,8 +3,8 @@ from rapid_api_client import get
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.exams import (
     QuarterlyGradesResponse,
-    StudentExamsResponse,
     StudentExamResponse,
+    StudentExamsResponse,
 )
 from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
@@ -42,9 +42,7 @@ class ExamsController(BaseController):
         Returns:
             StudentExamsResponse: Exams object / Объект экзаменов.
         """
-        return StudentExamsResponse(
-            student_exam_list=await self.get_student_exam_list()
-        )
+        return StudentExamsResponse(student_exam_list=await self.get_student_exam_list())
 
     @with_auth_refresh
     @get(endpoints.SCHOOL_QUARTERLY_GRADES.value)

@@ -41,7 +41,7 @@ class DataNotFoundError(JournalException):
     ):
         self.url: str | None = url
         self.status_code: int = status_code
-        if url:
+        if url is not None:
             message = f"{message}: {url}"
         super().__init__(message)
 

@@ -111,9 +111,7 @@ class LibraryController(BaseController):
             LibraryCountsResponse: Counters object / Объект счетчиков.
         """
         return LibraryCountsResponse(
-            library_count_list=await self.get_library_count_list(
-                material_type, recommended_type
-            )
+            library_count_list=await self.get_library_count_list(material_type, recommended_type)
         )
 
     @with_auth_refresh
@@ -135,5 +133,5 @@ class LibraryController(BaseController):
         Returns:
             True when interview data exists / True если данные есть.
         """
-        response = await self.get_quiz_interview_response()
+        response: Response = await self.get_quiz_interview_response()
         return response.status_code == 200

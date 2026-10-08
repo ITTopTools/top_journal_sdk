@@ -1,7 +1,7 @@
 from collections.abc import AsyncGenerator, Awaitable, Callable
 from contextlib import asynccontextmanager
 from functools import wraps
-from typing import Any, Concatenate, ParamSpec, TypeVar
+from typing import Any, Concatenate, override
 
 import httpx
 from httpx import AsyncClient, Response
@@ -14,8 +14,8 @@ from top_journal_sdk.exceptions import (
 )
 from top_journal_sdk.session import SessionContext
 
-P = ParamSpec("P")
-R = TypeVar("R")
+_NO_GROUP_MESSAGE = "No group context. Login first or pass group_id explicitly."
+_NO_STUDENT_MESSAGE = "No student context. Login first or pass student_id explicitly."
 
 
 class BaseController(RapidApi):
@@ -50,9 +50,7 @@ class BaseController(RapidApi):
             return group_id
         if self.session is not None and self.session.group_id is not None:
             return self.session.group_id
-        raise RuntimeError(
-            "No group context. Login first or pass group_id explicitly."
-        )
+        raise RuntimeError(_NO_GROUP_MESSAGE)
 
     def resolve_student_id(self, student_id: int | None) -> int:
         """
@@ -64,10 +62,9 @@ class BaseController(RapidApi):
             return student_id
         if self.session is not None and self.session.student_id is not None:
             return self.session.student_id
-        raise RuntimeError(
-            "No student context. Login first or pass student_id explicitly."
-        )
+        raise RuntimeError(_NO_STUDENT_MESSAGE)
 
+    @override
     def process_response(
         self,
         response: Response,
@@ -84,8 +81,9 @@ class BaseController(RapidApi):
                 raise
             raise mapped from exc
 
+    @override
     @asynccontextmanager
-    async def async_client(self) -> AsyncGenerator[AsyncClient, None]:
+    async def async_client(self) -> AsyncGenerator[AsyncClient]:
         try:
             async with super().async_client() as client:
                 yield client
@@ -93,10 +91,7 @@ class BaseController(RapidApi):
             raise RequestTimeoutError() from exc
 
 
-S = TypeVar("S", bound=BaseController)
-
-
-def with_auth_refresh(
+def with_auth_refresh[S: BaseController, **P, R](
     func: Callable[Concatenate[S, P], Awaitable[R]],
 ) -> Callable[Concatenate[S, P], Awaitable[R]]:
     """

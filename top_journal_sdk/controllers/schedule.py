@@ -160,9 +160,7 @@ class ScheduleController(BaseController):
         Returns:
             ScheduleResponse: Complete range schedule / Полное расписание диапазона.
         """
-        return ScheduleResponse(
-            lesson_list=await self.get_range_lesson_list(date_start, date_end)
-        )
+        return ScheduleResponse(lesson_list=await self.get_range_lesson_list(date_start, date_end))
 
     @with_auth_refresh
     @get(endpoints.SCHEDULE_MONTH_EVENTS.value)
@@ -195,6 +193,4 @@ class ScheduleController(BaseController):
         Returns:
             MonthEventsResponse: Month events object / Объект событий месяца.
         """
-        return MonthEventsResponse(
-            month_event_list=await self.get_month_event_list(target_date)
-        )
+        return MonthEventsResponse(month_event_list=await self.get_month_event_list(target_date))

@@ -12,12 +12,8 @@ from top_journal_sdk.models.user import (
 def _user(photo: HttpUrl | None = None) -> UserResponse:
     return UserResponse(
         gaming_points=[
-            GamingPointResponse(
-                new_gaming_point_types__id=GamingPointType.TOP_COINS, points=10
-            ),
-            GamingPointResponse(
-                new_gaming_point_types__id=GamingPointType.TOP_GEMS, points=3
-            ),
+            GamingPointResponse(new_gaming_point_types__id=GamingPointType.TOP_COINS, points=10),
+            GamingPointResponse(new_gaming_point_types__id=GamingPointType.TOP_GEMS, points=3),
         ],
         student_id=1,
         full_name="Test Student",

@@ -11,12 +11,8 @@ from top_journal_sdk.models.homework import (
 def _response() -> HomeworksResponse:
     return HomeworksResponse(
         counter_list=[
-            HomeworkCounterResponse(
-                counter_type=HomeworkCounterType.TOTAL, counter=7
-            ),
-            HomeworkCounterResponse(
-                counter_type=HomeworkCounterType.OVERDUE, counter=2
-            ),
+            HomeworkCounterResponse(counter_type=HomeworkCounterType.TOTAL, counter=7),
+            HomeworkCounterResponse(counter_type=HomeworkCounterType.OVERDUE, counter=2),
         ]
     )
 

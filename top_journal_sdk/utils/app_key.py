@@ -11,7 +11,8 @@ class ApplicationKey:
     """
     Класс для получения и хранения ключа приложения из JavaScript-файлов сайта.
 
-    This class is designed to retrieve and store an application key from the website's JavaScript files.
+    This class is designed to retrieve and store an application key
+    from the website's JavaScript files.
     It automatically fetches the main page, locates the application JavaScript file,
     and extracts the authentication key using regex patterns.
     """
@@ -100,6 +101,7 @@ class ApplicationKey:
         match = re.search(pattern, js_text)
         if match:
             token_value = match.group(1)
+            assert isinstance(token_value, str)
             return token_value
         else:
             return ""
@@ -119,7 +121,7 @@ class ApplicationKey:
         js_resp.raise_for_status()
         return self._get_app_key(js_resp.text)
 
-    async def get_key(self, refresh: bool = False) -> str:
+    async def get_key(self, *, refresh: bool = False) -> str:
         """
         Получает ключ приложения, при необходимости обновляя его.
 
@@ -144,8 +146,6 @@ class ApplicationKey:
                 else:
                     async with httpx.AsyncClient(timeout=self.timeout) as client:
                         app_key = await self._retrieve(client)
-                self._app_key = app_key
-                return app_key
             except httpx.TimeoutException as exc:
                 raise RequestTimeoutError() from exc
             except httpx.HTTPStatusError as exc:
@@ -153,5 +153,8 @@ class ApplicationKey:
                 if mapped is None:
                     raise
                 raise mapped from exc
+            else:
+                self._app_key = app_key
+                return app_key
         else:
             return self._app_key

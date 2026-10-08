@@ -68,9 +68,7 @@ class SignalController(BaseController):
         Returns:
             SignalProblemsResponse: Problems object / Объект проблем.
         """
-        return SignalProblemsResponse(
-            signal_problem_list=await self.get_signal_problem_list()
-        )
+        return SignalProblemsResponse(signal_problem_list=await self.get_signal_problem_list())
 
     @with_auth_refresh
     @get(endpoints.SIGNAL_REFERENCE_STATUS.value, raise_for_status=True)
@@ -91,5 +89,5 @@ class SignalController(BaseController):
         Returns:
             True when status data exists / True если данные есть.
         """
-        response = await self.get_reference_status_response()
+        response: Response = await self.get_reference_status_response()
         return response.status_code == 200

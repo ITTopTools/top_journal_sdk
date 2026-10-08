@@ -6,13 +6,13 @@ from rapid_api_client import PydanticBody, Query, get, post
 from top_journal_sdk.enums.endpoints import JournalEndpoints as endpoints
 from top_journal_sdk.models.profile import (
     ChangeCurrentGroupRequest,
-    ProfileFormsResponse,
     ProfileFormResponse,
+    ProfileFormsResponse,
     ProfileSettingsResponse,
-    StudentAchievementsResponse,
     StudentAchievementResponse,
+    StudentAchievementsResponse,
 )
-from top_journal_sdk.models.spec import SpecsResponse, SpecModel
+from top_journal_sdk.models.spec import SpecModel, SpecsResponse
 from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
 
@@ -87,9 +87,7 @@ class ProfileController(BaseController):
         """
         ...
 
-    async def get_profile_fields(
-        self, student_id: int | None = None
-    ) -> ProfileFormsResponse:
+    async def get_profile_fields(self, student_id: int | None = None) -> ProfileFormsResponse:
         """
         Get profile fields for documents in response wrapper.
 
@@ -110,6 +108,7 @@ class ProfileController(BaseController):
     @get(endpoints.SETTINGS_GROUP_SPECS.value)
     async def get_group_spec_list(
         self,
+        *,
         include_planned: Annotated[bool, Query()] = False,  # pyright: ignore[reportUnusedParameter]
     ) -> list[SpecModel]:
         """
@@ -125,9 +124,7 @@ class ProfileController(BaseController):
         """
         ...
 
-    async def get_group_specs(
-        self, include_planned: bool = False
-    ) -> SpecsResponse:
+    async def get_group_specs(self, *, include_planned: bool = False) -> SpecsResponse:
         """
         Get current group specs in response wrapper.
 
@@ -140,13 +137,14 @@ class ProfileController(BaseController):
             SpecsResponse: Specs object / Объект предметов.
         """
         return SpecsResponse(
-            spec_list=await self.get_group_spec_list(include_planned)
+            spec_list=await self.get_group_spec_list(include_planned=include_planned)
         )
 
     @with_auth_refresh
     @get(endpoints.SETTINGS_HISTORY_SPECS.value)
     async def get_history_spec_list(
         self,
+        *,
         include_planned: Annotated[bool, Query()] = False,  # pyright: ignore[reportUnusedParameter]
     ) -> list[SpecModel]:
         """
@@ -162,9 +160,7 @@ class ProfileController(BaseController):
         """
         ...
 
-    async def get_history_specs(
-        self, include_planned: bool = False
-    ) -> SpecsResponse:
+    async def get_history_specs(self, *, include_planned: bool = False) -> SpecsResponse:
         """
         Get history specs in response wrapper.
 
@@ -177,7 +173,7 @@ class ProfileController(BaseController):
             SpecsResponse: Specs object / Объект предметов.
         """
         return SpecsResponse(
-            spec_list=await self.get_history_spec_list(include_planned)
+            spec_list=await self.get_history_spec_list(include_planned=include_planned)
         )
 
     @with_auth_refresh
@@ -202,9 +198,7 @@ class ProfileController(BaseController):
         Returns:
             ProfileFormsResponse: Forms object / Объект форм.
         """
-        return ProfileFormsResponse(
-            profile_form_list=await self.get_public_form_list()
-        )
+        return ProfileFormsResponse(profile_form_list=await self.get_public_form_list())
 
     @with_auth_refresh
     @post(endpoints.SETTINGS_CHANGE_GROUP.value, raise_for_status=True)
@@ -231,7 +225,7 @@ class ProfileController(BaseController):
         Returns:
             True on success (raises on HTTP errors) / True при успехе.
         """
-        response = await self.post_change_current_group_response(
+        response: Response = await self.post_change_current_group_response(
             ChangeCurrentGroupRequest(id_tgroups=group_id)
         )
         if response.is_success and self.session is not None:

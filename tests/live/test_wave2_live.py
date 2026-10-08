@@ -14,22 +14,20 @@ import pytest
 from top_journal_sdk import TopJournalSDK
 from top_journal_sdk.exceptions import DataNotFoundError
 
+_LIVE_CREDS = bool(
+    os.environ.get("TOP_JOURNAL_USERNAME") and os.environ.get("TOP_JOURNAL_PASSWORD")
+)
+
 pytestmark = [
     pytest.mark.live,
-    pytest.mark.skipif(
-        not os.environ.get("TOP_JOURNAL_USERNAME")
-        or not os.environ.get("TOP_JOURNAL_PASSWORD"),
-        reason="live creds missing",
-    ),
+    pytest.mark.skipif(not _LIVE_CREDS, reason="live creds missing"),
 ]
 
 
 async def _login() -> TopJournalSDK:
     sdk = TopJournalSDK(timeout=30.0)
     await sdk.initialize()
-    await sdk.login(
-        os.environ["TOP_JOURNAL_USERNAME"], os.environ["TOP_JOURNAL_PASSWORD"]
-    )
+    await sdk.login(os.environ["TOP_JOURNAL_USERNAME"], os.environ["TOP_JOURNAL_PASSWORD"])
     return sdk
 
 
@@ -48,9 +46,7 @@ async def test_live_feedback_wave2() -> None:
 async def test_live_set_view_materials() -> None:
     sdk = await _login()
     try:
-        materials = await sdk.library.get_library_materials(
-            material_type=1, recommended_type=1
-        )
+        materials = await sdk.library.get_library_materials(material_type=1, recommended_type=1)
         assert len(materials.library_material_list) > 0
         material_id = materials.library_material_list[0].material_id
         assert material_id is not None
@@ -72,9 +68,7 @@ async def test_live_academy_day_unknown_id() -> None:
 async def test_live_library_market() -> None:
     sdk = await _login()
     try:
-        materials = await sdk.library.get_library_materials(
-            material_type=1, recommended_type=1
-        )
+        materials = await sdk.library.get_library_materials(material_type=1, recommended_type=1)
         assert len(materials.library_material_list) > 0
 
         counts = await sdk.library.get_library_counts()
@@ -98,9 +92,7 @@ async def test_live_portfolio() -> None:
         teachers = await sdk.portfolio.get_design_teachers()
         assert isinstance(teachers.design_teacher_list, list)
 
-        specs = await sdk.portfolio.get_design_specs(
-            spec_id=portfolios.portfolio_list[0].id
-        )
+        specs = await sdk.portfolio.get_design_specs(spec_id=portfolios.portfolio_list[0].id)
         assert isinstance(specs.spec_list, list)
     finally:
         await sdk.close()

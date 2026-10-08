@@ -42,7 +42,8 @@ class AuthController(BaseController):
 
         Аутентифицировать пользователя и получить токен доступа.
 
-        Выполняет аутентификацию пользователя с использованием предоставленных учетных данных и возвращает
+        Выполняет аутентификацию пользователя с использованием предоставленных
+        учетных данных и возвращает
         токен доступа для последующих API запросов. Токен автоматически
         сохраняется и используется для всех аутентифицированных операций.
 
@@ -114,7 +115,7 @@ class AuthController(BaseController):
         Returns:
             True on success (raises on HTTP errors) / True при успехе.
         """
-        response = await self.post_reset_password_response(
+        response: Response = await self.post_reset_password_response(
             ResetPasswordRequest(email=email)
         )
         return response.is_success

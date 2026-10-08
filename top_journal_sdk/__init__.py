@@ -26,12 +26,19 @@ from top_journal_sdk.controllers import (
 from top_journal_sdk.enums.endpoints import JournalEndpoints
 from top_journal_sdk.enums.headers import JournalHeaders
 from top_journal_sdk.exceptions import OutdatedJWTError
-from top_journal_sdk.models.auth import LoginRequest, RefreshTokenRequest
+from top_journal_sdk.models.auth import (
+    LoginRequest,
+    LoginResponse,
+    RefreshTokenRequest,
+)
 from top_journal_sdk.rapid.client import BaseController
 from top_journal_sdk.session import SessionContext
 from top_journal_sdk.utils.app_key import ApplicationKey
 
 DEFAULT_TIMEOUT: float = 30.0
+
+_NOT_INITIALIZED_MESSAGE = "SDK not initialized. Call initialize() first."
+_NO_APP_KEY_MESSAGE = "Could not retrieve application key"
 
 T = TypeVar("T", bound=BaseController)
 
@@ -62,7 +69,9 @@ class TopJournalSDK:
         """
         self._timeout: float = timeout
         self._user_agent: str | None = user_agent
-        self._extra_headers: dict[str, str] = dict(extra_headers) if extra_headers else {}
+        self._extra_headers: dict[str, str] = (
+            dict(extra_headers) if extra_headers is not None else {}
+        )
         self._client: AsyncClient | None = None
         self._auth_controller: AuthController | None = None
         self._attendance_controller: AttendanceController | None = None
@@ -146,7 +155,7 @@ class TopJournalSDK:
             token: JWT токен авторизации / Authorization JWT token.
         """
         if not self._client:
-            raise RuntimeError("SDK not initialized. Call initialize() first.")
+            raise RuntimeError(_NOT_INITIALIZED_MESSAGE)
         self._client.headers.update({"Authorization": f"Bearer {token}"})
 
     async def _refresh_access_token(self) -> None:
@@ -156,12 +165,10 @@ class TopJournalSDK:
         Refreshes the token pair using the stored refresh token (for 401 auto-retry).
         """
         if self._client is None:
-            raise RuntimeError("SDK not initialized. Call initialize() first.")
-        if not self._refresh_token:
+            raise RuntimeError(_NOT_INITIALIZED_MESSAGE)
+        if self._refresh_token is None:
             raise OutdatedJWTError()
-        response = await self.auth.refresh(
-            RefreshTokenRequest(refresh_token=self._refresh_token)
-        )
+        response = await self.auth.refresh(RefreshTokenRequest(refresh_token=self._refresh_token))
         self.set_auth_token(response.access_token)
         self._refresh_token = response.refresh_token
 
@@ -181,9 +188,7 @@ class TopJournalSDK:
             setattr(self, attr_name, None)
         self._controller_names.clear()
 
-    async def login(
-        self, username: str, password: str, id_city: str | None = None
-    ) -> str:
+    async def login(self, username: str, password: str, id_city: str | None = None) -> str:
         """
         Авторизуется в журнале и возвращает токен доступа.
 
@@ -202,7 +207,7 @@ class TopJournalSDK:
                       If application key could not be retrieved.
         """
         if self._client is None:
-            raise RuntimeError("SDK not initialized. Call initialize() first.")
+            raise RuntimeError(_NOT_INITIALIZED_MESSAGE)
         app_key = ApplicationKey(
             JournalEndpoints.JOURNAL_BASE_URL.value,
             timeout=self._timeout,
@@ -210,7 +215,7 @@ class TopJournalSDK:
         )
         app_token = await app_key.get_key()
         if not app_token:
-            raise ValueError("Could not retrieve application key")
+            raise ValueError(_NO_APP_KEY_MESSAGE)
 
         auth_controller = self.auth
         login_data = LoginRequest(
@@ -219,7 +224,7 @@ class TopJournalSDK:
             password=password,
             id_city=id_city,
         )
-        response = await auth_controller.login(body=login_data)
+        response: LoginResponse = await auth_controller.login(body=login_data)
         # Set auth token automatically after login
         self.set_auth_token(response.access_token)
         self._refresh_token = response.refresh_token
@@ -236,7 +241,7 @@ class TopJournalSDK:
         Returns a cached controller, creating it on first access.
         """
         if self._client is None:
-            raise RuntimeError("SDK not initialized. Call initialize() first.")
+            raise RuntimeError(_NOT_INITIALIZED_MESSAGE)
         controller = getattr(self, attr_name)
         if controller is None:
             controller = cls(
@@ -294,9 +299,7 @@ class TopJournalSDK:
         Returns:
             Экземпляр контроллера оценок уроков / Lesson evaluation controller instance.
         """
-        return self._get_controller(
-            "_lesson_evaluation_controller", LessonEvaluationController
-        )
+        return self._get_controller("_lesson_evaluation_controller", LessonEvaluationController)
 
     @property
     def feedback(self) -> FeedbackController:

@@ -8,13 +8,13 @@ from top_journal_sdk.models.dashboard import (
     ActivitiesResponse,
     ActivityResponse,
     AttendanceStatisticResponse,
-    FutureExamsResponse,
     FutureExamResponse,
+    FutureExamsResponse,
     LeaderPointsResponse,
-    PageCountersResponse,
     PageCounterResponse,
-    ProgressChartsResponse,
+    PageCountersResponse,
     ProgressChartResponse,
+    ProgressChartsResponse,
 )
 from top_journal_sdk.rapid.client import BaseController, with_auth_refresh
 
@@ -54,9 +54,7 @@ class DashboardController(BaseController):
         Returns:
             ProgressChartsResponse: Charts object / Объект графиков.
         """
-        return ProgressChartsResponse(
-            progress_chart_list=await self.get_progress_chart_list()
-        )
+        return ProgressChartsResponse(progress_chart_list=await self.get_progress_chart_list())
 
     @with_auth_refresh
     @get(endpoints.DASHBOARD_FUTURE_EXAMS.value)
@@ -80,9 +78,7 @@ class DashboardController(BaseController):
         Returns:
             FutureExamsResponse: Exams object / Объект экзаменов.
         """
-        return FutureExamsResponse(
-            future_exam_list=await self.get_future_exam_list()
-        )
+        return FutureExamsResponse(future_exam_list=await self.get_future_exam_list())
 
     @with_auth_refresh
     @get(endpoints.DASHBOARD_ACADEMIC_PERFORMANCE.value)
@@ -179,9 +175,7 @@ class DashboardController(BaseController):
         """
         ...
 
-    async def get_page_counters(
-        self, filter_type: int | None = None
-    ) -> PageCountersResponse:
+    async def get_page_counters(self, filter_type: int | None = None) -> PageCountersResponse:
         """
         Get page counters in response wrapper.
 

@@ -80,7 +80,7 @@ async def test_controller_factory_caches() -> None:
 async def test_guards_without_initialize() -> None:
     sdk = TopJournalSDK()
     with pytest.raises(RuntimeError):
-        sdk.user
+        _ = sdk.user
     with pytest.raises(RuntimeError):
         sdk.set_auth_token("x")
     with pytest.raises(RuntimeError):

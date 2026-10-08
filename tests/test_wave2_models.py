@@ -103,9 +103,7 @@ def test_market_product_list() -> None:
 
 
 def test_portfolio() -> None:
-    entry = PortfolioResponse.model_validate(
-        {"id": 3, "portfolio_title": "title", "mark": 5}
-    )
+    entry = PortfolioResponse.model_validate({"id": 3, "portfolio_title": "title", "mark": 5})
     assert entry.id == 3
 
 
@@ -149,16 +147,12 @@ def test_story() -> None:
 
 
 def test_login_page_story() -> None:
-    story = LoginPageStoryResponse.model_validate(
-        {"id": 1, "description": "Desc"}
-    )
+    story = LoginPageStoryResponse.model_validate({"id": 1, "description": "Desc"})
     assert story.description == "Desc"
 
 
 def test_language() -> None:
-    language = LanguageResponse.model_validate(
-        {"name_mystat": "ru_RU", "short_name": "ru"}
-    )
+    language = LanguageResponse.model_validate({"name_mystat": "ru_RU", "short_name": "ru"})
     assert language.short_name == "ru"
 
 

@@ -42,7 +42,8 @@ class FeedbackController(BaseController):
 
         Получить список отзывов и обратной связи о студенте.
 
-        Возвращает подробные отзывы, оставленные преподавателями, инструкторами и другими пользователями
+        Возвращает подробные отзывы, оставленные преподавателями, инструкторами
+        и другими пользователями
         об академической успеваемости, поведении и общем прогрессе студента.
 
         Returns:
@@ -97,9 +98,7 @@ class FeedbackController(BaseController):
         Returns:
             SocialReviewsResponse: Social reviews object / Объект отзывов.
         """
-        return SocialReviewsResponse(
-            social_review_list=await self.get_social_review_list()
-        )
+        return SocialReviewsResponse(social_review_list=await self.get_social_review_list())
 
     @with_auth_refresh
     @get(endpoints.REVIEWS_INSTRUCTION.value)
@@ -127,9 +126,7 @@ class FeedbackController(BaseController):
         """
         ...
 
-    async def post_social_review_screen(
-        self, review: SocialReviewResponse
-    ) -> bool:
+    async def post_social_review_screen(self, review: SocialReviewResponse) -> bool:
         """
         Submit a social review screenshot.
 
@@ -141,7 +138,7 @@ class FeedbackController(BaseController):
         Returns:
             True on success (raises on HTTP errors) / True при успехе.
         """
-        response = await self.post_social_review_screen_response(review)
+        response: Response = await self.post_social_review_screen_response(review)
         return response.is_success
 
     @with_auth_refresh
@@ -175,7 +172,7 @@ class FeedbackController(BaseController):
         Returns:
             AcademyDayResponse | None: Form or None / Форма или None.
         """
-        entries = await self.get_academy_day_list(evaluation)
+        entries: list[AcademyDayResponse] = await self.get_academy_day_list(evaluation)
         return entries[0] if entries else None
 
     @with_auth_refresh
@@ -191,9 +188,7 @@ class FeedbackController(BaseController):
         """
         ...
 
-    async def post_academy_day_comment(
-        self, evaluation_id: int, message: str
-    ) -> bool:
+    async def post_academy_day_comment(self, evaluation_id: int, message: str) -> bool:
         """
         Submit an academy day comment.
 
@@ -206,7 +201,7 @@ class FeedbackController(BaseController):
         Returns:
             True on success (raises on HTTP errors) / True при успехе.
         """
-        response = await self.post_academy_day_comment_response(
+        response: Response = await self.post_academy_day_comment_response(
             AcademyDayCommentRequest(id=evaluation_id, message=message)
         )
         return response.is_success
@@ -224,9 +219,7 @@ class FeedbackController(BaseController):
         """
         ...
 
-    async def post_set_view_materials(
-        self, material_type: int, material_ids: list[int]
-    ) -> bool:
+    async def post_set_view_materials(self, material_type: int, material_ids: list[int]) -> bool:
         """
         Mark library materials as viewed.
 
@@ -239,7 +232,7 @@ class FeedbackController(BaseController):
         Returns:
             True on success (raises on HTTP errors) / True при успехе.
         """
-        response = await self.post_set_view_materials_response(
+        response: Response = await self.post_set_view_materials_response(
             SetViewMaterialsRequest(type=material_type, materials=material_ids)
         )
         return response.is_success
