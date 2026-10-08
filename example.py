@@ -2,6 +2,9 @@
 Полный пример использования TopJournalSDK.
 
 Complete example of using TopJournalSDK.
+
+Краткая версия для старта — в README (раздел «Быстрый старт»).
+Short version to start with lives in README ("Быстрый старт" section).
 """
 
 import asyncio

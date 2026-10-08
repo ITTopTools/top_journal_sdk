@@ -50,6 +50,32 @@ asyncio.run(main())
 Токены обновляются автоматически: при `401` SDK один раз вызывает
 `POST /auth/refresh` и повторяет запрос.
 
+```python
+import asyncio
+
+from top_journal_sdk import TopJournalSDK
+from top_journal_sdk.exceptions import JournalException
+
+
+async def main() -> None:
+    async with TopJournalSDK(timeout=30.0) as sdk:
+        await sdk.login("username", "password")
+        try:
+            homeworks = await sdk.homework.get_homeworks()
+            print("total:", homeworks.total)
+
+            performance = await sdk.dashboard.get_academic_performance()
+            print("average:", performance.total_all_time)
+        except JournalException as e:
+            print("API error:", e)
+
+
+asyncio.run(main())
+```
+
+Полный пример на 16 шагов (все контроллеры) — в файле
+[`example.py`](https://github.com/ITTopTools/top_journal_sdk/blob/dev/example.py).
+
 ## Контроллеры
 
 | Свойство | Контроллер | Что умеет |
