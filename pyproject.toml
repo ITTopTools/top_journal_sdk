@@ -50,6 +50,8 @@ dependencies = [
 dev = [
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
+    "ruff>=0.16.10",
+    "ty>=0.0.85",
 ]
 live = [
     "playwright>=1.63",
