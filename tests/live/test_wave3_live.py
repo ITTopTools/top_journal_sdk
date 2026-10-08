@@ -1,10 +1,12 @@
 """Live-тесты Волны 3: парсинг реальных ответов API в модели SDK.
-
 Требуют TOP_JOURNAL_USERNAME/PASSWORD в env, иначе скипаются.
 Марка: live (uv run pytest -m live).
 
 Мутирующие вызовы (смена группы, сброс пароля) здесь НЕ выполняются.
 """
+
+# pyright: reportPrivateUsage=false
+# Тест refresh сознательно лезет во внутренности SDK (токены/клиент).
 
 import os
 
@@ -94,5 +96,20 @@ async def test_live_reviews_instruction() -> None:
     try:
         text = await sdk.feedback.get_reviews_instruction()
         assert isinstance(text, str)
+    finally:
+        await sdk.close()
+
+
+async def test_live_refresh_rotates_tokens() -> None:
+    sdk = await _login()
+    try:
+        assert sdk._client is not None
+        old = sdk._client.headers["Authorization"]
+        await sdk._refresh_access_token()
+        new = sdk._client.headers["Authorization"]
+        assert old != new
+        # SDK остается рабочим после refresh.
+        user = await sdk.user.get_personal_info()
+        assert user.full_name
     finally:
         await sdk.close()
