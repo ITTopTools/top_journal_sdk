@@ -186,11 +186,16 @@ asyncio.run(main())
   и повторяет исходный запрос.
 - **Ошибки** — v2 пробрасывает `httpx.HTTPStatusError`; доменные исключения
   `top_journal_sdk.v1.exceptions` относятся к API v1.
-- Методы возвращают **типизированные Pydantic-модели**. Для ответов, формат
-  которых ещё не описан, возвращается `dict[str, Any]` / `list[dict[str, Any]]`.
-- Методы `get_startup_delay_email_confirmation()` и
-  `get_startup_delay_interview()` пока экспериментальные: HTTP-метод и формат
-  запроса ещё не подтверждены на реальном API.
+- Методы возвращают **типизированные Pydantic-модели**. Дополнительные JSON-поля
+  API сохраняются, включая вложенные объекты. Частичные схемы явно обозначены
+  как `UnconfirmedResponse`.
+- `delay_email_confirmation()` и `delay_interview(interview_id)` отправляют POST
+  и откладывают соответствующие напоминания. Они проверяются на моках.
+- Даты и время возвращаются как `datetime.date`, `datetime.datetime` и
+  `datetime.time`; для JSON используйте `model_dump(mode="json")`.
+
+Описание схем, ограничений и изменений возвращаемых типов — в
+[документации моделей](docs/models.md).
 
 ## Миграция 0.3 → 0.4
 

@@ -34,3 +34,22 @@ def test_counter_properties() -> None:
 def test_missing_counter_raises_domain_error() -> None:
     with pytest.raises(DataNotFoundError, match="Homework counter 1 not found"):
         _response().get_counter(HomeworkCounterType.CHECKED)
+
+
+@pytest.mark.parametrize(
+    "property_name,expected",
+    [
+        ("checked", 1),
+        ("pending", 2),
+        ("current", 3),
+        ("deleted", 5),
+    ],
+)
+def test_all_homework_counter_properties(property_name: str, expected: int) -> None:
+    response = HomeworksResponse(
+        counter_list=[
+            HomeworkCounterResponse(counter_type=kind, counter=int(kind))
+            for kind in HomeworkCounterType
+        ]
+    )
+    assert getattr(response, property_name) == expected

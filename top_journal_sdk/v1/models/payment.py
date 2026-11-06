@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, field_validator
+from pydantic import field_validator
+
+from top_journal_sdk._models import APIModel
 
 
-class LegacyPaymentResponse(BaseModel):
+class LegacyPaymentResponse(APIModel):
     """Устаревшие данные оплаты.
 
     Legacy payment data.
@@ -15,7 +17,7 @@ class LegacyPaymentResponse(BaseModel):
     pay_date_start: str | None = None
 
 
-class PaymentDetailsResponse(BaseModel):
+class PaymentDetailsResponse(APIModel):
     """Детали активной оплаты.
 
     Active payment details.
@@ -49,7 +51,7 @@ class PaymentDetailsResponse(BaseModel):
         return None if value == "" else value
 
 
-class PaymentIndexResponse(BaseModel):
+class PaymentIndexResponse(APIModel):
     """Данные оплаты студента.
 
     Student payment data.
@@ -69,7 +71,7 @@ class PaymentIndexResponse(BaseModel):
     contract_offer: str | None = None
 
 
-class PaymentHistoryResponse(BaseModel):
+class PaymentHistoryResponse(APIModel):
     """Запись истории оплат.
 
     Payment history entry.
@@ -81,11 +83,11 @@ class PaymentHistoryResponse(BaseModel):
     type: int | None = None
 
 
-class PaymentHistoriesResponse(BaseModel):
+class PaymentHistoriesResponse(APIModel):
     payment_history_list: list[PaymentHistoryResponse]
 
 
-class PaymentScheduleResponse(BaseModel):
+class PaymentScheduleResponse(APIModel):
     """Запись графика оплат.
 
     Payment schedule entry.
@@ -98,5 +100,5 @@ class PaymentScheduleResponse(BaseModel):
     status: int | None = None
 
 
-class PaymentSchedulesResponse(BaseModel):
+class PaymentSchedulesResponse(APIModel):
     payment_schedule_list: list[PaymentScheduleResponse]

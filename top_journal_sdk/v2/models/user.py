@@ -1,22 +1,16 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
-
-from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
-class Group(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class Group(V2Model):
     id: int
     name: str
     group_status: int = 0
     is_primary: bool = False
 
 
-class VisibilitySettings(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class VisibilitySettings(V2Model):
     is_design: bool = False
     is_video_courses: bool = False
     is_vacancy: bool = False
@@ -41,9 +35,7 @@ class VisibilitySettings(BaseModel):
     is_shambala_college: bool = False
 
 
-class User(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class User(V2Model):
     id: int
     full_name: str
     group_name: str
@@ -63,7 +55,5 @@ class User(BaseModel):
     visibility_settings: VisibilitySettings | None = None
 
 
-class UserInfoResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class UserInfoResponse(V2Model):
     user: User

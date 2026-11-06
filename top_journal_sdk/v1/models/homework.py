@@ -1,8 +1,9 @@
 from datetime import date, datetime
 from enum import IntEnum
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
 
+from top_journal_sdk._models import APIModel
 from top_journal_sdk.v1.exceptions import DataNotFoundError
 
 
@@ -15,12 +16,12 @@ class HomeworkCounterType(IntEnum):
     DELETED = 5
 
 
-class HomeworkCounterResponse(BaseModel):
+class HomeworkCounterResponse(APIModel):
     counter_type: HomeworkCounterType
     counter: int
 
 
-class HomeworksResponse(BaseModel):
+class HomeworksResponse(APIModel):
     counter_list: list[HomeworkCounterResponse]
 
     def get_counter(self, counter_type: int | HomeworkCounterType) -> int:
@@ -57,7 +58,7 @@ class HomeworksResponse(BaseModel):
         return self.get_counter(HomeworkCounterType.DELETED)
 
 
-class HomeworkSubmissionResponse(BaseModel):
+class HomeworkSubmissionResponse(APIModel):
     """Сданная работа студента.
 
     Submitted student work.
@@ -73,7 +74,7 @@ class HomeworkSubmissionResponse(BaseModel):
     auto_mark: bool | None = None
 
 
-class HomeworkCommentResponse(BaseModel):
+class HomeworkCommentResponse(APIModel):
     """Комментарий к домашнему заданию.
 
     Homework assignment comment.
@@ -85,7 +86,7 @@ class HomeworkCommentResponse(BaseModel):
     date_updated: datetime | None = None
 
 
-class HomeworkListItemResponse(BaseModel):
+class HomeworkListItemResponse(APIModel):
     """Запись списка домашних заданий.
 
     Homework list entry.
@@ -113,11 +114,11 @@ class HomeworkListItemResponse(BaseModel):
     cover_image: str | None = None
 
 
-class HomeworksListResponse(BaseModel):
+class HomeworksListResponse(APIModel):
     homework_list: list[HomeworkListItemResponse]
 
 
-class HomeworkTagResponse(BaseModel):
+class HomeworkTagResponse(APIModel):
     """Тег оценки домашнего задания.
 
     Homework evaluation tag.
@@ -128,11 +129,11 @@ class HomeworkTagResponse(BaseModel):
     type: str
 
 
-class HomeworkTagsResponse(BaseModel):
+class HomeworkTagsResponse(APIModel):
     homework_tag_list: list[HomeworkTagResponse]
 
 
-class GroupHistorySpecResponse(BaseModel):
+class GroupHistorySpecResponse(APIModel):
     """Предмет в истории группы.
 
     Subject in group history.
@@ -145,7 +146,7 @@ class GroupHistorySpecResponse(BaseModel):
     subject_id: int | None = None
 
 
-class GroupHistoryResponse(BaseModel):
+class GroupHistoryResponse(APIModel):
     """Запись истории группы по домашним заданиям.
 
     Homework group history entry.
@@ -156,5 +157,5 @@ class GroupHistoryResponse(BaseModel):
     name: str
 
 
-class GroupHistoriesResponse(BaseModel):
+class GroupHistoriesResponse(APIModel):
     group_history_list: list[GroupHistoryResponse]

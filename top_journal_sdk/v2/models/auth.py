@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 
 from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
 class LoginRequest(BaseModel):
@@ -12,18 +13,14 @@ class LoginRequest(BaseModel):
     password: str
 
 
-class LoginResponse(BaseModel):
+class LoginResponse(V2Model):
     """Ответ логина для journalka API v2 (токены в cookies, тело — краткая инфа)."""
-
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
 
     user_type: int
     user_role: str
 
 
-class RefreshResponse(BaseModel):
+class RefreshResponse(V2Model):
     """Ответ обновления токена."""
-
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
 
     ok: bool

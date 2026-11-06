@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
-class NewsResponse(BaseModel):
+class NewsResponse(APIModel):
     """Новость.
 
     News entry.
@@ -15,11 +17,11 @@ class NewsResponse(BaseModel):
     viewed: bool | None = None
 
 
-class NewsListResponse(BaseModel):
+class NewsListResponse(APIModel):
     news_list: list[NewsResponse]
 
 
-class StoryResponse(BaseModel):
+class StoryResponse(APIModel):
     """Сторис.
 
     Story entry.
@@ -40,11 +42,11 @@ class StoryResponse(BaseModel):
     updated_at: datetime.date | None = None
 
 
-class StoriesResponse(BaseModel):
+class StoriesResponse(APIModel):
     story_list: list[StoryResponse]
 
 
-class LoginPageStoryResponse(BaseModel):
+class LoginPageStoryResponse(APIModel):
     """Сторис страницы входа.
 
     Login page story entry.
@@ -56,11 +58,11 @@ class LoginPageStoryResponse(BaseModel):
     description: str | None = None
 
 
-class LoginPageStoriesResponse(BaseModel):
+class LoginPageStoriesResponse(APIModel):
     login_page_story_list: list[LoginPageStoryResponse]
 
 
-class LanguageResponse(BaseModel):
+class LanguageResponse(APIModel):
     """Язык.
 
     Language entry.
@@ -70,11 +72,11 @@ class LanguageResponse(BaseModel):
     short_name: str
 
 
-class LanguagesResponse(BaseModel):
+class LanguagesResponse(APIModel):
     language_list: list[LanguageResponse]
 
 
-class CityResponse(BaseModel):
+class CityResponse(APIModel):
     """Город.
 
     City entry.
@@ -89,5 +91,5 @@ class CityResponse(BaseModel):
     name: str | None = None
 
 
-class CitiesResponse(BaseModel):
+class CitiesResponse(APIModel):
     city_list: list[CityResponse]

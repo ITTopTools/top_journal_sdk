@@ -1,10 +1,16 @@
 from top_journal_sdk.v2.models.auth import LoginRequest, LoginResponse, RefreshResponse
+from top_journal_sdk.v2.models.evaluation import (
+    LessonEvaluationItem,
+    LessonEvaluationsResponse,
+    ResponseMeta,
+)
 from top_journal_sdk.v2.models.home import (
     AchievementsCountResponse,
     ActivityItem,
     ActivityResponse,
     AttendanceItem,
     AttendanceResponse,
+    FutureExam,
     FutureExamsResponse,
     LeaderboardItem,
     LeaderGroupPointsResponse,
@@ -16,6 +22,12 @@ from top_journal_sdk.v2.models.home import (
     ReviewsCountResponse,
 )
 from top_journal_sdk.v2.models.profile import (
+    ChangeGroupResponse,
+    DeclineComment,
+    DocumentField,
+    DocumentFieldsResponse,
+    DocumentFile,
+    DocumentModeration,
     DocumentsResponse,
     DocumentStatus,
     Payment,
@@ -27,9 +39,14 @@ from top_journal_sdk.v2.models.profile import (
 from top_journal_sdk.v2.models.schedule import ScheduleItem, ScheduleResponse
 from top_journal_sdk.v2.models.startup import (
     CheckCancellationResponse,
+    DelayEmailConfirmationResponse,
+    DelayInterviewResponse,
+    EmailConfirmation,
     EmailConfirmationResponse,
     LessonEvaluationPendingResponse,
+    OpenedInterview,
     OpenedInterviewResponse,
+    Signal,
     SignalsResponse,
 )
 from top_journal_sdk.v2.models.stats import (
@@ -39,6 +56,7 @@ from top_journal_sdk.v2.models.stats import (
     SupportStatsResponse,
 )
 from top_journal_sdk.v2.models.stories import StoriesResponse, StoryItem, StoryLeadResponse
+from top_journal_sdk.v2.models.support import SupportRequest
 from top_journal_sdk.v2.models.user import Group, User, UserInfoResponse, VisibilitySettings
 
 __all__ = [
@@ -47,10 +65,20 @@ __all__ = [
     "ActivityResponse",
     "AttendanceItem",
     "AttendanceResponse",
+    "ChangeGroupResponse",
     "CheckCancellationResponse",
+    "DeclineComment",
+    "DelayEmailConfirmationResponse",
+    "DelayInterviewResponse",
+    "DocumentField",
+    "DocumentFieldsResponse",
+    "DocumentFile",
+    "DocumentModeration",
     "DocumentStatus",
     "DocumentsResponse",
+    "EmailConfirmation",
     "EmailConfirmationResponse",
+    "FutureExam",
     "FutureExamsResponse",
     "Group",
     "HomeworkStatsResponse",
@@ -59,10 +87,13 @@ __all__ = [
     "LeaderStreamPointsResponse",
     "LeaderStreamResponse",
     "LeaderboardItem",
+    "LessonEvaluationItem",
     "LessonEvaluationPendingResponse",
+    "LessonEvaluationsResponse",
     "LoginRequest",
     "LoginResponse",
     "MaterialsStatsResponse",
+    "OpenedInterview",
     "OpenedInterviewResponse",
     "PageCountersResponse",
     "Payment",
@@ -72,14 +103,17 @@ __all__ = [
     "ProgressItem",
     "ProgressResponse",
     "RefreshResponse",
+    "ResponseMeta",
     "ReviewsCountResponse",
     "ScheduleItem",
     "ScheduleResponse",
+    "Signal",
     "SignalsResponse",
     "SocialLink",
     "StoriesResponse",
     "StoryItem",
     "StoryLeadResponse",
+    "SupportRequest",
     "SupportStatsResponse",
     "User",
     "UserInfoResponse",

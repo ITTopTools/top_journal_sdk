@@ -139,7 +139,7 @@ async def test_dashboard_support_requests_list() -> None:
     sdk.get = AsyncMock(return_value=_json_response([{"id": 1, "title": "Test"}]))
 
     result = await ctrl.get_support_requests()
-    assert result == [{"id": 1, "title": "Test"}]
+    assert [item.model_dump(exclude_unset=True) for item in result] == [{"id": 1, "title": "Test"}]
 
 
 @pytest.mark.asyncio
@@ -157,7 +157,11 @@ async def test_dashboard_support_requests_list() -> None:
             endpoints.HOME_ACHIEVEMENTS_COUNT.value,
             {"active_achievements_count": 0},
         ),
-        ("get_lesson_evaluations", endpoints.LESSON_EVALUATIONS.value, {}),
+        (
+            "get_lesson_evaluations",
+            endpoints.LESSON_EVALUATIONS.value,
+            {"items": [], "meta": {"requestedAt": "2026-11-06T10:00:00Z"}},
+        ),
         (
             "get_startup_check_cancellation",
             endpoints.STARTUP_CHECK_CANCELLATION.value,
@@ -268,5 +272,141 @@ async def test_profile_change_group() -> None:
     sdk.post = AsyncMock(return_value=_json_response({"ok": True}))
 
     result = await ctrl.change_group(9)
-    assert result == {"ok": True}
+    assert result.model_dump() == {"ok": True}
     sdk.post.assert_called_once_with(endpoints.GROUPS_CHANGE.value, json={"groupId": 9})
+
+
+_PROFILE_DOCUMENT_CASES: list[tuple[str, str, dict[str, Any]]] = [
+    (
+        "get_documents",
+        endpoints.PROFILE_DOCUMENTS.value,
+        {
+            "documents": {
+                "applicantPassport": False,
+                "certificate": False,
+                "certificate086U": False,
+                "snilsNumber": False,
+                "photoOfApplicant": False,
+                "registrationCertificate": False,
+                "statuses": {},
+                "details": {},
+                "files": {},
+                "hasAnyData": False,
+                "requiredCompleted": 0,
+                "requiredTotal": 1,
+                "optionalCompleted": 0,
+                "optionalTotal": 1,
+            }
+        },
+    ),
+    (
+        "get_documents_fields",
+        endpoints.PROFILE_DOCUMENTS_FIELDS.value,
+        {
+            "fields": [
+                {
+                    "id": 1,
+                    "name": "Passport",
+                    "type": "file",
+                    "code": "passport",
+                    "translationKey": "passport",
+                    "textValue": "",
+                    "files": [],
+                    "options": {},
+                    "moderation": None,
+                }
+            ]
+        },
+    ),
+]
+
+
+@pytest.mark.parametrize("student_id", [None, 7])
+@pytest.mark.parametrize("method,path,payload", _PROFILE_DOCUMENT_CASES)
+async def test_profile_documents_parameters(
+    student_id: int | None, method: str, path: str, payload: dict[str, Any]
+) -> None:
+    sdk, _ = _make_sdk()
+    sdk.get = AsyncMock(return_value=_json_response(payload))
+    call = cast(Callable[..., Awaitable[object]], getattr(sdk.profile, method))
+    await call(student_id=student_id)
+    sdk.get.assert_awaited_once_with(path, params={} if student_id is None else {"studentId": 7})
+
+
+@pytest.mark.parametrize(
+    "method,path,payload",
+    [
+        (
+            "get_home_leader_group_points",
+            endpoints.HOME_LEADER_GROUP_POINTS.value,
+            {"studentPosition": 1, "totalStudents": 10, "weekDiff": -1},
+        ),
+        (
+            "get_home_leader_stream_points",
+            endpoints.HOME_LEADER_STREAM_POINTS.value,
+            {"studentPosition": 1, "totalStudents": 10, "weekDiff": -1},
+        ),
+        ("get_stats_materials", endpoints.STATS_MATERIALS.value, {"materialsTotal": 2}),
+        ("get_stats_support", endpoints.STATS_SUPPORT.value, {"supportUnread": 1}),
+    ],
+)
+async def test_remaining_dashboard_responses(
+    method: str, path: str, payload: dict[str, Any]
+) -> None:
+    sdk, _ = _make_sdk()
+    sdk.get = AsyncMock(return_value=_json_response(payload))
+    result = await _call_endpoint(sdk.dashboard, method)
+    assert result is not None
+    sdk.get.assert_awaited_once_with(path)
+
+
+@pytest.mark.parametrize(
+    "method,path,kwargs",
+    [
+        ("delay_email_confirmation", endpoints.STARTUP_DELAY_EMAIL_CONFIRMATION.value, {}),
+        ("delay_interview", endpoints.STARTUP_DELAY_INTERVIEW.value, {"interview_id": 7}),
+        (
+            "get_startup_delay_email_confirmation",
+            endpoints.STARTUP_DELAY_EMAIL_CONFIRMATION.value,
+            {},
+        ),
+        (
+            "get_startup_delay_interview",
+            endpoints.STARTUP_DELAY_INTERVIEW.value,
+            {"interview_id": "7"},
+        ),
+    ],
+)
+@pytest.mark.parametrize("status", [200, 204])
+async def test_delay_operations_use_post(
+    method: str, path: str, kwargs: dict[str, int | str], status: int
+) -> None:
+    sdk, _ = _make_sdk()
+    payload = {"accepted": True} if status == 200 else {}
+    response = httpx.Response(
+        status,
+        content=b"" if status == 204 else b'{"accepted":true}',
+        request=httpx.Request("POST", "https://journalka.top-academy.ru" + path),
+    )
+    sdk.post = AsyncMock(return_value=response)
+    call = cast(Callable[..., Awaitable[Any]], getattr(sdk.dashboard, method))
+    result = await call(**kwargs)
+    assert result.model_dump(exclude_unset=True) == payload
+    if kwargs:
+        sdk.post.assert_awaited_once_with(path, json={"id": kwargs["interview_id"]})
+    else:
+        sdk.post.assert_awaited_once_with(path)
+
+
+async def test_change_group_accepts_empty_acknowledgement() -> None:
+    sdk, _ = _make_sdk()
+    sdk.post = AsyncMock(
+        return_value=httpx.Response(
+            204,
+            request=httpx.Request(
+                "POST", "https://journalka.top-academy.ru/api/dashboard/groups/change"
+            ),
+        )
+    )
+    response = await sdk.profile.change_group(7)
+    assert response.model_dump() == {}

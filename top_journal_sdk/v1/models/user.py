@@ -1,7 +1,9 @@
 from datetime import date, datetime
 from enum import IntEnum
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
 class GamingPointType(IntEnum):
@@ -9,7 +11,7 @@ class GamingPointType(IntEnum):
     TOP_GEMS = 2
 
 
-class GamingPointResponse(BaseModel):
+class GamingPointResponse(APIModel):
     new_gaming_point_types__id: GamingPointType
     points: int
 
@@ -19,7 +21,7 @@ class GamingPointResponse(BaseModel):
         return names.get(self.new_gaming_point_types__id, "Неизвестно")
 
 
-class UserResponse(BaseModel):
+class UserResponse(APIModel):
     gaming_points: list[GamingPointResponse]
     student_id: int
     full_name: str

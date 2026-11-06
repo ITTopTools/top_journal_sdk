@@ -1,13 +1,9 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
-
-from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
-class StoryItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class StoryItem(V2Model):
     id: int
     title: str
     thumbnail_url: str
@@ -19,15 +15,11 @@ class StoryItem(BaseModel):
     sort_index: int
 
 
-class StoriesResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class StoriesResponse(V2Model):
     items: list[StoryItem]
 
 
-class StoryLeadResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class StoryLeadResponse(V2Model):
     id: int | None = None
     title: str | None = None
     thumbnail_url: str | None = None

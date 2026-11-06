@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl
+
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 
 
-class ProfilePhoneResponse(BaseModel):
+class ProfilePhoneResponse(APIModel):
     """Телефон профиля.
 
     Profile phone.
@@ -13,7 +15,7 @@ class ProfilePhoneResponse(BaseModel):
     phone_number: str | None = None
 
 
-class ProfileLinkResponse(BaseModel):
+class ProfileLinkResponse(APIModel):
     """Ссылка профиля (соцсеть).
 
     Profile link (social network).
@@ -28,7 +30,7 @@ class ProfileLinkResponse(BaseModel):
     is_required: bool | None = None
 
 
-class ProfileRelativeResponse(BaseModel):
+class ProfileRelativeResponse(UnconfirmedResponse):
     """Родственник в профиле.
 
     Profile relative.
@@ -38,7 +40,7 @@ class ProfileRelativeResponse(BaseModel):
     """
 
 
-class ProfileAzureResponse(BaseModel):
+class ProfileAzureResponse(APIModel):
     """Привязка Azure/Office в профиле.
 
     Azure/Office binding in profile.
@@ -49,7 +51,7 @@ class ProfileAzureResponse(BaseModel):
     has_office: bool | None = None
 
 
-class ProfileSettingsResponse(BaseModel):
+class ProfileSettingsResponse(APIModel):
     """Настройки профиля студента.
 
     Student profile settings.
@@ -68,16 +70,16 @@ class ProfileSettingsResponse(BaseModel):
     has_not_approved_photo: bool | None = None
     is_email_verified: bool | None = None
     is_phone_verified: bool | None = None
-    phones: list[ProfilePhoneResponse] = []
-    links: list[ProfileLinkResponse] = []
-    relatives: list[ProfileRelativeResponse] = []
+    phones: list[ProfilePhoneResponse] = Field(default_factory=list[ProfilePhoneResponse])
+    links: list[ProfileLinkResponse] = Field(default_factory=list[ProfileLinkResponse])
+    relatives: list[ProfileRelativeResponse] = Field(default_factory=list[ProfileRelativeResponse])
     fill_percentage: int | None = None
     decline_comment: str | None = None
     azure: ProfileAzureResponse | None = None
     azure_login: str | None = None
 
 
-class AchievementPointResponse(BaseModel):
+class AchievementPointResponse(APIModel):
     """Баллы достижения.
 
     Achievement points.
@@ -87,7 +89,7 @@ class AchievementPointResponse(BaseModel):
     points_count: int
 
 
-class StudentAchievementResponse(BaseModel):
+class StudentAchievementResponse(APIModel):
     """Достижение студента.
 
     Student achievement.
@@ -96,14 +98,16 @@ class StudentAchievementResponse(BaseModel):
     id: int
     translate_key: str | None = None
     is_active: bool | None = None
-    achieve_points: list[AchievementPointResponse] = []
+    achieve_points: list[AchievementPointResponse] = Field(
+        default_factory=list[AchievementPointResponse]
+    )
 
 
-class StudentAchievementsResponse(BaseModel):
+class StudentAchievementsResponse(APIModel):
     student_achievement_list: list[StudentAchievementResponse]
 
 
-class ProfileFormResponse(BaseModel):
+class ProfileFormResponse(APIModel):
     """Публичная форма настроек.
 
     Public settings form.
@@ -113,7 +117,7 @@ class ProfileFormResponse(BaseModel):
     form_name: str | None = None
 
 
-class ProfileFormsResponse(BaseModel):
+class ProfileFormsResponse(APIModel):
     profile_form_list: list[ProfileFormResponse]
 
 

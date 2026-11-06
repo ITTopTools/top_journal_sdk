@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 
 
-class StudentExamResponse(BaseModel):
+class StudentExamResponse(APIModel):
     """Экзамен студента.
 
     Student exam.
@@ -29,11 +31,11 @@ class StudentExamResponse(BaseModel):
     subject_id: int | None = None
 
 
-class StudentExamsResponse(BaseModel):
+class StudentExamsResponse(APIModel):
     student_exam_list: list[StudentExamResponse]
 
 
-class QuarterlyGradeResponse(BaseModel):
+class QuarterlyGradeResponse(UnconfirmedResponse):
     """Четвертная оценка.
 
     Quarterly grade.
@@ -43,7 +45,7 @@ class QuarterlyGradeResponse(BaseModel):
     """
 
 
-class QuarterlyGradesResponse(BaseModel):
+class QuarterlyGradesResponse(APIModel):
     """Четвертные оценки (форма ответа API — объект со списком).
 
     Quarterly grades (API responds with an object holding the list).

@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 
 
-class SignalResponse(BaseModel):
+class SignalResponse(UnconfirmedResponse):
     """Сигнал (обращение) студента.
 
     Student signal (request).
@@ -11,11 +11,11 @@ class SignalResponse(BaseModel):
     """
 
 
-class SignalsResponse(BaseModel):
+class SignalsResponse(APIModel):
     signal_list: list[SignalResponse]
 
 
-class SignalProblemResponse(BaseModel):
+class SignalProblemResponse(APIModel):
     """Проблема для сигнала.
 
     Signal problem entry.
@@ -25,5 +25,5 @@ class SignalProblemResponse(BaseModel):
     title: str | None = None
 
 
-class SignalProblemsResponse(BaseModel):
+class SignalProblemsResponse(APIModel):
     signal_problem_list: list[SignalProblemResponse]

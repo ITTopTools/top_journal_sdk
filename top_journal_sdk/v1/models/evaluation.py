@@ -2,18 +2,20 @@ from datetime import date
 
 from pydantic import BaseModel, HttpUrl
 
+from top_journal_sdk._models import APIModel
 
-class EvaluationTagResponse(BaseModel):
+
+class EvaluationTagResponse(APIModel):
     id: int
     translate_key: str
     type: str
 
 
-class EvaluationTagsResponse(BaseModel):
+class EvaluationTagsResponse(APIModel):
     evaluation_tags: list[EvaluationTagResponse]
 
 
-class EvaluationResponse(BaseModel):
+class EvaluationResponse(APIModel):
     key: str
     date_visit: date
     fio_teach: str
@@ -21,7 +23,7 @@ class EvaluationResponse(BaseModel):
     teach_photo: HttpUrl | None
 
 
-class EvaluationsResponse(BaseModel):
+class EvaluationsResponse(APIModel):
     evaluation_list: list[EvaluationResponse]
 
 

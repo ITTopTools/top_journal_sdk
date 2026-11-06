@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
-class LibraryAccessibilityResponse(BaseModel):
+class LibraryAccessibilityResponse(APIModel):
     """Доступность материала библиотеки.
 
     Library material accessibility.
@@ -13,7 +15,7 @@ class LibraryAccessibilityResponse(BaseModel):
     last_check: datetime.datetime | None = None
 
 
-class LibraryMaterialResponse(BaseModel):
+class LibraryMaterialResponse(APIModel):
     """Материал библиотеки.
 
     Library material.
@@ -41,11 +43,11 @@ class LibraryMaterialResponse(BaseModel):
     sort_date: int | None = None
 
 
-class LibraryMaterialsResponse(BaseModel):
+class LibraryMaterialsResponse(APIModel):
     library_material_list: list[LibraryMaterialResponse]
 
 
-class LibraryCountResponse(BaseModel):
+class LibraryCountResponse(APIModel):
     """Счетчик материалов библиотеки.
 
     Library materials counter.
@@ -57,5 +59,5 @@ class LibraryCountResponse(BaseModel):
     recommended_count: int
 
 
-class LibraryCountsResponse(BaseModel):
+class LibraryCountsResponse(APIModel):
     library_count_list: list[LibraryCountResponse]

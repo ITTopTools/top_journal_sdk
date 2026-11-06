@@ -1,0 +1,1542 @@
+{
+  "v1.attendance.AttendanceResponse": {
+    "date": "2026-11-06",
+    "points": 5,
+    "previous_points": null,
+    "has_rasp": true
+  },
+  "v1.attendance.AttendancesResponse": {
+    "attendance_list": [
+      {
+        "date": "2026-11-06",
+        "points": 5,
+        "previous_points": null,
+        "has_rasp": true
+      }
+    ]
+  },
+  "v1.auth.LoginRequest": {
+    "application_key": "app",
+    "username": "student",
+    "password": "test",
+    "id_city": null
+  },
+  "v1.auth.LoginResponse": {
+    "access_token": "access",
+    "refresh_token": "refresh",
+    "expires_in_access": 3600,
+    "expires_in_refresh": 7200
+  },
+  "v1.auth.RefreshTokenRequest": {
+    "refresh_token": "refresh"
+  },
+  "v1.auth.ResetPasswordRequest": {
+    "email": "student@example.test"
+  },
+  "v1.contacts.TeacherContactResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.contacts.ContactsResponse": {
+    "adress": "Office",
+    "teach_contacts": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ],
+    "happy_manager_contacts": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ]
+  },
+  "v1.content.NewsResponse": {
+    "id_bbs": 1,
+    "theme": "News",
+    "time": "2026-11-06T10:00:00",
+    "viewed": false
+  },
+  "v1.content.NewsListResponse": {
+    "news_list": [
+      {
+        "id_bbs": 1,
+        "theme": "News",
+        "time": "2026-11-06T10:00:00",
+        "viewed": false
+      }
+    ]
+  },
+  "v1.content.StoryResponse": {
+    "id": 1,
+    "name": "Story",
+    "url": "https://example.test/story",
+    "created_at": "2026-11-06"
+  },
+  "v1.content.StoriesResponse": {
+    "story_list": [
+      {
+        "id": 1,
+        "name": "Story",
+        "url": "https://example.test/story",
+        "created_at": "2026-11-06"
+      }
+    ]
+  },
+  "v1.content.LoginPageStoryResponse": {
+    "id": 1,
+    "description": "Story"
+  },
+  "v1.content.LoginPageStoriesResponse": {
+    "login_page_story_list": [
+      {
+        "id": 1,
+        "description": "Story"
+      }
+    ]
+  },
+  "v1.content.LanguageResponse": {
+    "name_mystat": "ru_RU",
+    "short_name": "ru"
+  },
+  "v1.content.LanguagesResponse": {
+    "language_list": [
+      {
+        "name_mystat": "ru_RU",
+        "short_name": "ru"
+      }
+    ]
+  },
+  "v1.content.CityResponse": {
+    "id_city": 1,
+    "name": "City"
+  },
+  "v1.content.CitiesResponse": {
+    "city_list": [
+      {
+        "id_city": 1,
+        "name": "City"
+      }
+    ]
+  },
+  "v1.dashboard.ChartPointResponse": {
+    "chart_date": "2026-11-06",
+    "chart_value": 5.5,
+    "previous_chart_value": null
+  },
+  "v1.dashboard.ProgressChartResponse": {
+    "chart_type": 1,
+    "chart_models": [
+      {
+        "chart_date": "2026-11-06",
+        "chart_value": 5.5,
+        "previous_chart_value": null
+      }
+    ]
+  },
+  "v1.dashboard.ProgressChartsResponse": {
+    "progress_chart_list": [
+      {
+        "chart_type": 1,
+        "chart_models": [
+          {
+            "chart_date": "2026-11-06",
+            "chart_value": 5.5,
+            "previous_chart_value": null
+          }
+        ]
+      }
+    ]
+  },
+  "v1.dashboard.FutureExamResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.dashboard.FutureExamsResponse": {
+    "future_exam_list": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ]
+  },
+  "v1.dashboard.AcademicProgressResponse": {
+    "diffMonth": 1,
+    "totalMonth": 80,
+    "totalAllTime": 75.5,
+    "maxAllowedPoint": 100,
+    "progress": {
+      "homework": 90.5
+    }
+  },
+  "v1.dashboard.ActivityResponse": {
+    "date": "2026-11-06T10:00:00",
+    "action": 1,
+    "current_point": 10
+  },
+  "v1.dashboard.ActivitiesResponse": {
+    "activity_list": [
+      {
+        "date": "2026-11-06T10:00:00",
+        "action": 1,
+        "current_point": 10
+      }
+    ]
+  },
+  "v1.dashboard.AttendanceStatisticResponse": {
+    "diffMonth": 1,
+    "diffWeek": 2,
+    "statMonth": 3,
+    "statWeek": 4,
+    "statTotal": 5
+  },
+  "v1.dashboard.LeaderPointsResponse": {
+    "totalCount": null,
+    "studentPosition": 1,
+    "weekDiff": -1,
+    "monthDiff": 2
+  },
+  "v1.dashboard.PageCounterResponse": {
+    "counter_type": 1,
+    "counter": 2
+  },
+  "v1.dashboard.PageCountersResponse": {
+    "page_counter_list": [
+      {
+        "counter_type": 1,
+        "counter": 2
+      }
+    ]
+  },
+  "v1.evaluation.EvaluationTagResponse": {
+    "id": 1,
+    "translate_key": "tag",
+    "type": "evaluation"
+  },
+  "v1.evaluation.EvaluationTagsResponse": {
+    "evaluation_tags": [
+      {
+        "id": 1,
+        "translate_key": "tag",
+        "type": "evaluation"
+      }
+    ]
+  },
+  "v1.evaluation.EvaluationResponse": {
+    "key": "lesson-1",
+    "date_visit": "2026-11-06",
+    "fio_teach": "Teacher",
+    "spec_name": "Math",
+    "teach_photo": null
+  },
+  "v1.evaluation.EvaluationsResponse": {
+    "evaluation_list": [
+      {
+        "key": "lesson-1",
+        "date_visit": "2026-11-06",
+        "fio_teach": "Teacher",
+        "spec_name": "Math",
+        "teach_photo": null
+      }
+    ]
+  },
+  "v1.evaluation.EvaluationRequest": {
+    "key": "lesson-1",
+    "mark_lesson": 5,
+    "mark_teach": 5,
+    "tags_lesson": [
+      1
+    ],
+    "tags_teach": [
+      2
+    ],
+    "comment_lesson": "Lesson",
+    "comment_teach": "Teacher"
+  },
+  "v1.exams.StudentExamResponse": {
+    "teacher": "Teacher",
+    "mark": 5,
+    "date": "2026-11-06",
+    "file_path": null
+  },
+  "v1.exams.StudentExamsResponse": {
+    "student_exam_list": [
+      {
+        "teacher": "Teacher",
+        "mark": 5,
+        "date": "2026-11-06",
+        "file_path": null
+      }
+    ]
+  },
+  "v1.exams.QuarterlyGradeResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.exams.QuarterlyGradesResponse": {
+    "grades": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ]
+  },
+  "v1.feedback.ReviewResponse": {
+    "date": "2026-11-06T10:00:00",
+    "message": "Review",
+    "spec": "Math",
+    "full_spec": "Mathematics",
+    "teacher": "Teacher"
+  },
+  "v1.feedback.ReviewsResponse": {
+    "review_list": [
+      {
+        "date": "2026-11-06T10:00:00",
+        "message": "Review",
+        "spec": "Math",
+        "full_spec": "Mathematics",
+        "teacher": "Teacher"
+      }
+    ]
+  },
+  "v1.feedback.SocialReviewResponse": {
+    "social_id": 1,
+    "status": 0,
+    "comment": null
+  },
+  "v1.feedback.SocialReviewsResponse": {
+    "social_review_list": [
+      {
+        "social_id": 1,
+        "status": 0,
+        "comment": null
+      }
+    ]
+  },
+  "v1.feedback.AcademyDayResponse": {
+    "id": 1,
+    "id_city": 2,
+    "evaluation": 5
+  },
+  "v1.feedback.AcademyDayCommentRequest": {
+    "id": 1,
+    "message": "Review"
+  },
+  "v1.feedback.SetViewMaterialsRequest": {
+    "type": 1,
+    "materials": [
+      1,
+      2
+    ]
+  },
+  "v1.grades.GradeResponse": {
+    "date": "2026-11-06",
+    "points": 5,
+    "previous_points": null,
+    "has_rasp": true
+  },
+  "v1.grades.GradesResponse": {
+    "grade_list": [
+      {
+        "date": "2026-11-06",
+        "points": 5,
+        "previous_points": null,
+        "has_rasp": true
+      }
+    ]
+  },
+  "v1.grades.ClassAttendanceGradeResponse": {
+    "date_visit": "2026-11-06",
+    "lesson_number": null,
+    "spec_id": 1,
+    "teacher_name": "Teacher",
+    "spec_name": "Math",
+    "lesson_theme": "Topic",
+    "control_work_mark": null,
+    "home_work_mark": 5,
+    "lab_work_mark": null,
+    "class_work_mark": 4,
+    "practical_work_mark": null
+  },
+  "v1.grades.ClassAttendanceGradesResponse": {
+    "class_attendance_grade_list": [
+      {
+        "date_visit": "2026-11-06",
+        "lesson_number": null,
+        "spec_id": 1,
+        "teacher_name": "Teacher",
+        "spec_name": "Math",
+        "lesson_theme": "Topic",
+        "control_work_mark": null,
+        "home_work_mark": 5,
+        "lab_work_mark": null,
+        "class_work_mark": 4,
+        "practical_work_mark": null
+      }
+    ]
+  },
+  "v1.homework.HomeworkCounterResponse": {
+    "counter_type": 4,
+    "counter": 10
+  },
+  "v1.homework.HomeworksResponse": {
+    "counter_list": [
+      {
+        "counter_type": 4,
+        "counter": 10
+      }
+    ]
+  },
+  "v1.homework.HomeworkSubmissionResponse": {
+    "id": 1,
+    "mark": 5,
+    "creation_time": "2026-11-06T10:00:00",
+    "file_path": "https://example.test/task"
+  },
+  "v1.homework.HomeworkCommentResponse": {
+    "text_comment": "Comment",
+    "date_updated": "2026-11-06T10:00:00"
+  },
+  "v1.homework.HomeworkListItemResponse": {
+    "id": 1,
+    "id_spec": 2,
+    "subject_source": 1,
+    "subject_id": 3,
+    "id_teach": 4,
+    "id_group": 5,
+    "completion_time": "2026-11-06",
+    "homework_stud": {
+      "id": 1,
+      "mark": 5,
+      "creation_time": "2026-11-06T10:00:00",
+      "file_path": "https://example.test/task"
+    },
+    "homework_comment": {
+      "text_comment": "Comment",
+      "date_updated": "2026-11-06T10:00:00"
+    }
+  },
+  "v1.homework.HomeworksListResponse": {
+    "homework_list": [
+      {
+        "id": 1,
+        "id_spec": 2,
+        "subject_source": 1,
+        "subject_id": 3,
+        "id_teach": 4,
+        "id_group": 5,
+        "completion_time": "2026-11-06",
+        "homework_stud": {
+          "id": 1,
+          "mark": 5,
+          "creation_time": "2026-11-06T10:00:00",
+          "file_path": "https://example.test/task"
+        },
+        "homework_comment": {
+          "text_comment": "Comment",
+          "date_updated": "2026-11-06T10:00:00"
+        }
+      }
+    ]
+  },
+  "v1.homework.HomeworkTagResponse": {
+    "id": 1,
+    "translate_key": "tag",
+    "type": "homework"
+  },
+  "v1.homework.HomeworkTagsResponse": {
+    "homework_tag_list": [
+      {
+        "id": 1,
+        "translate_key": "tag",
+        "type": "homework"
+      }
+    ]
+  },
+  "v1.homework.GroupHistorySpecResponse": {
+    "id": 1,
+    "name": "Math",
+    "short_name": "M"
+  },
+  "v1.homework.GroupHistoryResponse": {
+    "id": 1,
+    "name": "Group",
+    "specs": [
+      {
+        "id": 1,
+        "name": "Math",
+        "short_name": "M"
+      }
+    ]
+  },
+  "v1.homework.GroupHistoriesResponse": {
+    "group_history_list": [
+      {
+        "id": 1,
+        "name": "Group",
+        "specs": [
+          {
+            "id": 1,
+            "name": "Math",
+            "short_name": "M"
+          }
+        ]
+      }
+    ]
+  },
+  "v1.leaderboard.GroupLeaderboardResponse": {
+    "amount": 10,
+    "id": 1,
+    "full_name": "Student",
+    "photo_path": null,
+    "position": 1
+  },
+  "v1.leaderboard.GroupLeaderboardsResponse": {
+    "group_leaderboard_list": [
+      {
+        "amount": 10,
+        "id": 1,
+        "full_name": "Student",
+        "photo_path": null,
+        "position": 1
+      }
+    ]
+  },
+  "v1.leaderboard.StreamLeaderboardResponse": {
+    "amount": 10,
+    "id": 1,
+    "full_name": "Student",
+    "photo_path": null,
+    "position": 1
+  },
+  "v1.leaderboard.StreamLeaderboardsResponse": {
+    "stream_leaderboard_list": [
+      {
+        "amount": 10,
+        "id": 1,
+        "full_name": "Student",
+        "photo_path": null,
+        "position": 1
+      }
+    ]
+  },
+  "v1.library.LibraryAccessibilityResponse": {
+    "response_code": 200,
+    "last_check": "2026-11-06T10:00:00"
+  },
+  "v1.library.LibraryMaterialResponse": {
+    "filename": "material.pdf",
+    "url": "https://example.test/material",
+    "accessibility": {
+      "response_code": 200,
+      "last_check": "2026-11-06T10:00:00"
+    },
+    "is_new_material": true
+  },
+  "v1.library.LibraryMaterialsResponse": {
+    "library_material_list": [
+      {
+        "filename": "material.pdf",
+        "url": "https://example.test/material",
+        "accessibility": {
+          "response_code": 200,
+          "last_check": "2026-11-06T10:00:00"
+        },
+        "is_new_material": true
+      }
+    ]
+  },
+  "v1.library.LibraryCountResponse": {
+    "material_type_id": 1,
+    "materials_count": 2,
+    "new_count": 1,
+    "recommended_count": 1
+  },
+  "v1.library.LibraryCountsResponse": {
+    "library_count_list": [
+      {
+        "material_type_id": 1,
+        "materials_count": 2,
+        "new_count": 1,
+        "recommended_count": 1
+      }
+    ]
+  },
+  "v1.market.MarketProductPriceResponse": {
+    "point_type_id": 1,
+    "points_sum": 10,
+    "log": [
+      "price"
+    ]
+  },
+  "v1.market.MarketProductResponse": {
+    "id": 1,
+    "title": "Product",
+    "prices": [
+      {
+        "point_type_id": 1,
+        "points_sum": 10,
+        "log": [
+          "price"
+        ]
+      }
+    ]
+  },
+  "v1.market.MarketProductListResponse": {
+    "total_count": 1,
+    "products_list": [
+      {
+        "id": 1,
+        "title": "Product",
+        "prices": [
+          {
+            "point_type_id": 1,
+            "points_sum": 10,
+            "log": [
+              "price"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "v1.payment.LegacyPaymentResponse": {
+    "message_type": 1,
+    "amount": 100.5,
+    "date_start": "2026-11-06"
+  },
+  "v1.payment.PaymentDetailsResponse": {
+    "id": 1,
+    "fio_stud": "Student",
+    "amount_debt": 1.5,
+    "organization_status": 0
+  },
+  "v1.payment.PaymentIndexResponse": {
+    "full_name": "Student",
+    "city_id": 1,
+    "legacy_payment": {
+      "message_type": 1,
+      "amount": 100.5,
+      "date_start": "2026-11-06"
+    },
+    "payment": {
+      "id": 1,
+      "fio_stud": "Student",
+      "amount_debt": 1.5,
+      "organization_status": 0
+    }
+  },
+  "v1.payment.PaymentHistoryResponse": {
+    "date": "2026-11-06",
+    "amount": 100.5,
+    "description": "Payment",
+    "type": 1
+  },
+  "v1.payment.PaymentHistoriesResponse": {
+    "payment_history_list": [
+      {
+        "date": "2026-11-06",
+        "amount": 100.5,
+        "description": "Payment",
+        "type": 1
+      }
+    ]
+  },
+  "v1.payment.PaymentScheduleResponse": {
+    "id": 1,
+    "price": 100.5,
+    "payment_date": "2026-11-06",
+    "status": 0
+  },
+  "v1.payment.PaymentSchedulesResponse": {
+    "payment_schedule_list": [
+      {
+        "id": 1,
+        "price": 100.5,
+        "payment_date": "2026-11-06",
+        "status": 0
+      }
+    ]
+  },
+  "v1.portfolio.PortfolioResponse": {
+    "id": 1,
+    "portfolio_title": "Work",
+    "created_at": "2026-11-06T10:00:00",
+    "url": "https://example.test/work"
+  },
+  "v1.portfolio.PortfoliosResponse": {
+    "portfolio_list": [
+      {
+        "id": 1,
+        "portfolio_title": "Work",
+        "created_at": "2026-11-06T10:00:00",
+        "url": "https://example.test/work"
+      }
+    ]
+  },
+  "v1.portfolio.DesignTeacherResponse": {
+    "id": 1,
+    "fio_teach": "Teacher"
+  },
+  "v1.portfolio.DesignTeachersResponse": {
+    "design_teacher_list": [
+      {
+        "id": 1,
+        "fio_teach": "Teacher"
+      }
+    ]
+  },
+  "v1.profile.ProfilePhoneResponse": {
+    "phone_type": 1,
+    "phone_number": "70000000000"
+  },
+  "v1.profile.ProfileLinkResponse": {
+    "id": 1,
+    "name": "Social",
+    "value": "student",
+    "valid": true
+  },
+  "v1.profile.ProfileRelativeResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.profile.ProfileAzureResponse": {
+    "login": "student",
+    "has_azure": true,
+    "has_office": false
+  },
+  "v1.profile.ProfileSettingsResponse": {
+    "id": 1,
+    "ful_name": "Student",
+    "date_birth": "2000-01-01",
+    "phones": [
+      {
+        "phone_type": 1,
+        "phone_number": "70000000000"
+      }
+    ],
+    "links": [
+      {
+        "id": 1,
+        "name": "Social",
+        "value": "student",
+        "valid": true
+      }
+    ],
+    "relatives": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ],
+    "azure": {
+      "login": "student",
+      "has_azure": true,
+      "has_office": false
+    }
+  },
+  "v1.profile.AchievementPointResponse": {
+    "id": 1,
+    "points_count": 10
+  },
+  "v1.profile.StudentAchievementResponse": {
+    "id": 1,
+    "translate_key": "achievement",
+    "is_active": true,
+    "achieve_points": [
+      {
+        "id": 1,
+        "points_count": 10
+      }
+    ]
+  },
+  "v1.profile.StudentAchievementsResponse": {
+    "student_achievement_list": [
+      {
+        "id": 1,
+        "translate_key": "achievement",
+        "is_active": true,
+        "achieve_points": [
+          {
+            "id": 1,
+            "points_count": 10
+          }
+        ]
+      }
+    ]
+  },
+  "v1.profile.ProfileFormResponse": {
+    "id": 1,
+    "form_name": "Form"
+  },
+  "v1.profile.ProfileFormsResponse": {
+    "profile_form_list": [
+      {
+        "id": 1,
+        "form_name": "Form"
+      }
+    ]
+  },
+  "v1.profile.ChangeCurrentGroupRequest": {
+    "id_tgroups": 1
+  },
+  "v1.schedule.LessonResponse": {
+    "date": "2026-11-06",
+    "lesson": 1,
+    "started_at": "08:00:00",
+    "finished_at": "09:30:00",
+    "teacher_name": "Teacher",
+    "subject_name": "Math",
+    "room_name": "101"
+  },
+  "v1.schedule.ScheduleResponse": {
+    "lesson_list": [
+      {
+        "date": "2026-11-06",
+        "lesson": 1,
+        "started_at": "08:00:00",
+        "finished_at": "09:30:00",
+        "teacher_name": "Teacher",
+        "subject_name": "Math",
+        "room_name": "101"
+      }
+    ]
+  },
+  "v1.schedule.MonthEventResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.schedule.MonthEventsResponse": {
+    "month_event_list": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ]
+  },
+  "v1.signal.SignalResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v1.signal.SignalsResponse": {
+    "signal_list": [
+      {
+        "newField": {
+          "id": 1,
+          "flags": [
+            true,
+            null,
+            "value"
+          ]
+        }
+      }
+    ]
+  },
+  "v1.signal.SignalProblemResponse": {
+    "id": 1,
+    "title": "Problem"
+  },
+  "v1.signal.SignalProblemsResponse": {
+    "signal_problem_list": [
+      {
+        "id": 1,
+        "title": "Problem"
+      }
+    ]
+  },
+  "v1.spec.SpecModel": {
+    "id": 1,
+    "name": "Math",
+    "short_name": "M"
+  },
+  "v1.spec.SpecsResponse": {
+    "spec_list": [
+      {
+        "id": 1,
+        "name": "Math",
+        "short_name": "M"
+      }
+    ]
+  },
+  "v1.user.GamingPointResponse": {
+    "new_gaming_point_types__id": 1,
+    "points": 10
+  },
+  "v1.user.UserResponse": {
+    "gaming_points": [
+      {
+        "new_gaming_point_types__id": 1,
+        "points": 10
+      }
+    ],
+    "student_id": 1,
+    "full_name": "Student",
+    "age": 20,
+    "gender": 1,
+    "birthday": "2000-01-01",
+    "photo": null,
+    "current_group_id": 1,
+    "group_name": "Group",
+    "current_group_status": 1,
+    "stream_id": 1,
+    "stream_name": "Stream",
+    "study_form_short_name": "Full",
+    "achieves_count": 1,
+    "registration_date": "2026-01-01T10:00:00",
+    "last_date_visit": "2026-11-06T10:00:00"
+  },
+  "v2.auth.LoginRequest": {
+    "username": "student",
+    "password": "test"
+  },
+  "v2.auth.LoginResponse": {
+    "userType": 1,
+    "userRole": "student"
+  },
+  "v2.auth.RefreshResponse": {
+    "ok": true
+  },
+  "v2.home.AttendanceItem": {
+    "date": "2026-11-06",
+    "points": 10
+  },
+  "v2.home.AttendanceResponse": {
+    "items": [
+      {
+        "date": "2026-11-06",
+        "points": 10
+      }
+    ]
+  },
+  "v2.home.ProgressItem": {
+    "date": "2026-11-06",
+    "points": 10
+  },
+  "v2.home.ProgressResponse": {
+    "items": [
+      {
+        "date": "2026-11-06",
+        "points": 10
+      }
+    ]
+  },
+  "v2.home.ActivityItem": {
+    "id": 1,
+    "date": "2026-11-06T10:00:00",
+    "title": "Activity",
+    "titleKey": "activity",
+    "points": 10,
+    "isPositive": true,
+    "pointType": 1,
+    "pointTypeTranslateKey": "coins"
+  },
+  "v2.home.ActivityResponse": {
+    "items": [
+      {
+        "id": 1,
+        "date": "2026-11-06T10:00:00",
+        "title": "Activity",
+        "titleKey": "activity",
+        "points": 10,
+        "isPositive": true,
+        "pointType": 1,
+        "pointTypeTranslateKey": "coins"
+      }
+    ]
+  },
+  "v2.home.FutureExam": {
+    "date": "2026-11-06",
+    "spec": "Math"
+  },
+  "v2.home.FutureExamsResponse": {
+    "items": [
+      {
+        "date": "2026-11-06",
+        "spec": "Math"
+      }
+    ]
+  },
+  "v2.home.LeaderboardItem": {
+    "id": 1,
+    "fullName": "Student",
+    "photoPath": null,
+    "position": 1,
+    "amount": 10
+  },
+  "v2.home.LeaderGroupResponse": {
+    "items": [
+      {
+        "id": 1,
+        "fullName": "Student",
+        "photoPath": null,
+        "position": 1,
+        "amount": 10
+      }
+    ]
+  },
+  "v2.home.LeaderStreamResponse": {
+    "items": [
+      {
+        "id": 1,
+        "fullName": "Student",
+        "photoPath": null,
+        "position": 1,
+        "amount": 10
+      }
+    ]
+  },
+  "v2.home.LeaderGroupPointsResponse": {
+    "studentPosition": 1,
+    "totalStudents": 10,
+    "weekDiff": -1
+  },
+  "v2.home.LeaderStreamPointsResponse": {
+    "studentPosition": 1,
+    "totalStudents": 10,
+    "weekDiff": -1
+  },
+  "v2.home.ReviewsCountResponse": {
+    "reviewsCount": 1
+  },
+  "v2.home.AchievementsCountResponse": {
+    "activeAchievementsCount": 1
+  },
+  "v2.evaluation.LessonEvaluationItem": {
+    "key": "lesson-1",
+    "date_visit": "2026-11-06",
+    "fio_teach": "Teacher",
+    "spec_name": "Math",
+    "teach_photo": null
+  },
+  "v2.evaluation.ResponseMeta": {
+    "requestedAt": "2026-11-06T10:00:00Z"
+  },
+  "v2.evaluation.LessonEvaluationsResponse": {
+    "items": [
+      {
+        "key": "lesson-1",
+        "date_visit": "2026-11-06",
+        "fio_teach": "Teacher",
+        "spec_name": "Math",
+        "teach_photo": null
+      }
+    ],
+    "meta": {
+      "requestedAt": "2026-11-06T10:00:00Z"
+    }
+  },
+  "v2.profile.Phone": {
+    "id": "phone-1",
+    "type": 1,
+    "number": "70000000000",
+    "isMain": true
+  },
+  "v2.profile.Payment": {
+    "hasAnyData": true,
+    "accountAmount": 100,
+    "debtAmount": 0,
+    "nextPaymentDate": "2026-11-06",
+    "contractNumber": "TEST",
+    "status": "paid"
+  },
+  "v2.profile.SocialLink": {
+    "id": "social-1",
+    "key": "social",
+    "name": "Social",
+    "url": "https://example.test/social",
+    "isRequired": true,
+    "isVisible": true,
+    "isValid": true,
+    "requiredType": 1,
+    "pattern": ".*"
+  },
+  "v2.profile.Profile": {
+    "id": 1,
+    "fullName": "Test Student",
+    "firstName": "Test",
+    "lastName": "Student",
+    "patronymic": "",
+    "level": 1,
+    "fillPercentage": 100,
+    "isCompleted": true,
+    "phones": [
+      {
+        "id": "phone-1",
+        "type": 1,
+        "number": "70000000000",
+        "isMain": true
+      }
+    ],
+    "socialLinks": [
+      {
+        "id": "social-1",
+        "key": "social",
+        "name": "Social",
+        "url": "https://example.test/social",
+        "isRequired": true,
+        "isVisible": true,
+        "isValid": true,
+        "requiredType": 1,
+        "pattern": ".*"
+      }
+    ],
+    "payment": {
+      "hasAnyData": true,
+      "accountAmount": 100,
+      "debtAmount": 0,
+      "nextPaymentDate": "2026-11-06",
+      "contractNumber": "TEST",
+      "status": "paid"
+    },
+    "birthDate": "2000-01-01"
+  },
+  "v2.profile.ProfileSettingsResponse": {
+    "profile": {
+      "id": 1,
+      "fullName": "Test Student",
+      "firstName": "Test",
+      "lastName": "Student",
+      "patronymic": "",
+      "level": 1,
+      "fillPercentage": 100,
+      "isCompleted": true,
+      "phones": [
+        {
+          "id": "phone-1",
+          "type": 1,
+          "number": "70000000000",
+          "isMain": true
+        }
+      ],
+      "socialLinks": [
+        {
+          "id": "social-1",
+          "key": "social",
+          "name": "Social",
+          "url": "https://example.test/social",
+          "isRequired": true,
+          "isVisible": true,
+          "isValid": true,
+          "requiredType": 1,
+          "pattern": ".*"
+        }
+      ],
+      "payment": {
+        "hasAnyData": true,
+        "accountAmount": 100,
+        "debtAmount": 0,
+        "nextPaymentDate": "2026-11-06",
+        "contractNumber": "TEST",
+        "status": "paid"
+      },
+      "birthDate": "2000-01-01"
+    }
+  },
+  "v2.profile.DocumentStatus": {
+    "applicantPassport": true,
+    "certificate": false,
+    "certificate086U": false,
+    "snilsNumber": false,
+    "photoOfApplicant": false,
+    "registrationCertificate": false,
+    "statuses": {
+      "passport": "approved"
+    },
+    "details": {
+      "passport": "detail"
+    },
+    "files": {
+      "passport": "/file"
+    },
+    "hasAnyData": true,
+    "requiredCompleted": 1,
+    "requiredTotal": 3,
+    "optionalCompleted": 0,
+    "optionalTotal": 1
+  },
+  "v2.profile.DocumentsResponse": {
+    "documents": {
+      "applicantPassport": true,
+      "certificate": false,
+      "certificate086U": false,
+      "snilsNumber": false,
+      "photoOfApplicant": false,
+      "registrationCertificate": false,
+      "statuses": {
+        "passport": "approved"
+      },
+      "details": {
+        "passport": "detail"
+      },
+      "files": {
+        "passport": "/file"
+      },
+      "hasAnyData": true,
+      "requiredCompleted": 1,
+      "requiredTotal": 3,
+      "optionalCompleted": 0,
+      "optionalTotal": 1
+    }
+  },
+  "v2.profile.DocumentFile": {
+    "name": "document.pdf",
+    "path": "/files/document.pdf"
+  },
+  "v2.profile.DocumentField": {
+    "id": 1,
+    "name": "Passport",
+    "type": "file",
+    "code": "passport",
+    "translationKey": "passport",
+    "textValue": "",
+    "files": [
+      {
+        "name": "document.pdf",
+        "path": "/files/document.pdf"
+      }
+    ],
+    "options": {
+      "accept": [
+        "pdf"
+      ],
+      "maxCount": 1
+    },
+    "moderation": {
+      "status": false,
+      "comment": "Please upload again"
+    }
+  },
+  "v2.profile.DocumentFieldsResponse": {
+    "fields": [
+      {
+        "id": 1,
+        "name": "Passport",
+        "type": "file",
+        "code": "passport",
+        "translationKey": "passport",
+        "textValue": "",
+        "files": [
+          {
+            "name": "document.pdf",
+            "path": "/files/document.pdf"
+          }
+        ],
+        "options": {
+          "accept": [
+            "pdf"
+          ],
+          "maxCount": 1
+        },
+        "moderation": {
+          "status": false,
+          "comment": "Please upload again"
+        }
+      }
+    ]
+  },
+  "v2.profile.ChangeGroupResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v2.schedule.ScheduleItem": {
+    "id": "lesson-1",
+    "date": "2026-11-06",
+    "lesson": 1,
+    "startTime": "08:00:00",
+    "endTime": "09:30:00",
+    "startMinutes": 480,
+    "endMinutes": 570,
+    "durationMinutes": 90,
+    "subjectKey": "math",
+    "subjectFallback": "Math",
+    "teacher": "Teacher"
+  },
+  "v2.schedule.ScheduleResponse": {
+    "items": [
+      {
+        "id": "lesson-1",
+        "date": "2026-11-06",
+        "lesson": 1,
+        "startTime": "08:00:00",
+        "endTime": "09:30:00",
+        "startMinutes": 480,
+        "endMinutes": 570,
+        "durationMinutes": 90,
+        "subjectKey": "math",
+        "subjectFallback": "Math",
+        "teacher": "Teacher"
+      }
+    ]
+  },
+  "v2.startup.CheckCancellationResponse": {
+    "status": 204,
+    "isCancellationActive": false
+  },
+  "v2.startup.EmailConfirmationResponse": {
+    "emailConfirmation": {
+      "delayCount": 1,
+      "maxDelayCount": 3
+    }
+  },
+  "v2.startup.LessonEvaluationPendingResponse": {
+    "lessonEvaluationPendingCount": 1
+  },
+  "v2.startup.OpenedInterviewResponse": {
+    "openedInterview": {
+      "id": 7,
+      "delayCount": 1,
+      "maxDelayCount": 3,
+      "messageType": 2
+    }
+  },
+  "v2.startup.Signal": {
+    "id": 1,
+    "status": 1,
+    "theme": "Question",
+    "message": "Synthetic request"
+  },
+  "v2.startup.SignalsResponse": {
+    "signalsList": [
+      {
+        "id": 1,
+        "status": 1,
+        "theme": "Question",
+        "message": "Synthetic request"
+      }
+    ]
+  },
+  "v2.startup.DelayInterviewResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v2.stats.HomeworkStatsResponse": {
+    "homeworkTotal": 10,
+    "homeworkNew": 1
+  },
+  "v2.stats.MaterialsStatsResponse": {
+    "materialsTotal": 10
+  },
+  "v2.stats.PageCountersResponse": {
+    "announcementsUnread": 1,
+    "reviewsUnread": 2,
+    "materialsNew": 3,
+    "vacancyUnread": 0,
+    "signalUnread": 0,
+    "profileUnread": 0
+  },
+  "v2.stats.SupportStatsResponse": {
+    "supportUnread": 1
+  },
+  "v2.stories.StoryItem": {
+    "id": 1,
+    "title": "Story",
+    "thumbnailUrl": "/thumbnail",
+    "mediaUrl": "/media",
+    "linkUrl": "/link",
+    "mediaType": "image",
+    "duration": 5,
+    "muted": true,
+    "sortIndex": 1
+  },
+  "v2.stories.StoriesResponse": {
+    "items": [
+      {
+        "id": 1,
+        "title": "Story",
+        "thumbnailUrl": "/thumbnail",
+        "mediaUrl": "/media",
+        "linkUrl": "/link",
+        "mediaType": "image",
+        "duration": 5,
+        "muted": true,
+        "sortIndex": 1
+      }
+    ]
+  },
+  "v2.stories.StoryLeadResponse": {
+    "id": 1,
+    "title": "Story",
+    "thumbnailUrl": "/thumbnail",
+    "mediaUrl": "/media",
+    "linkUrl": "/link",
+    "mediaType": "image",
+    "duration": 5,
+    "muted": true,
+    "sortIndex": 1
+  },
+  "v2.support.SupportRequest": {
+    "id": 1,
+    "problem_id": 2,
+    "status": 1,
+    "priority": 1,
+    "theme": "Question",
+    "message": "Synthetic request",
+    "date_start": "2026-11-06",
+    "viewed": false
+  },
+  "v2.user.Group": {
+    "id": 1,
+    "name": "Group",
+    "groupStatus": 1,
+    "isPrimary": true
+  },
+  "v2.user.VisibilitySettings": {
+    "isDesign": true,
+    "isSchool": false,
+    "isEmailVerified": true
+  },
+  "v2.user.User": {
+    "id": 1,
+    "fullName": "Student",
+    "groupName": "Group",
+    "currentGroupId": 1,
+    "groups": [
+      {
+        "id": 1,
+        "name": "Group",
+        "groupStatus": 1,
+        "isPrimary": true
+      }
+    ],
+    "streamName": "Stream",
+    "visibilitySettings": {
+      "isDesign": true,
+      "isSchool": false,
+      "isEmailVerified": true
+    }
+  },
+  "v2.user.UserInfoResponse": {
+    "user": {
+      "id": 1,
+      "fullName": "Student",
+      "groupName": "Group",
+      "currentGroupId": 1,
+      "groups": [
+        {
+          "id": 1,
+          "name": "Group",
+          "groupStatus": 1,
+          "isPrimary": true
+        }
+      ],
+      "streamName": "Stream",
+      "visibilitySettings": {
+        "isDesign": true,
+        "isSchool": false,
+        "isEmailVerified": true
+      }
+    }
+  },
+  "v2.startup.EmailConfirmation": {
+    "delayCount": 1,
+    "maxDelayCount": 3
+  },
+  "v2.startup.OpenedInterview": {
+    "id": 7,
+    "delayCount": 1,
+    "maxDelayCount": 3,
+    "messageType": 2
+  },
+  "v2.startup.DelayEmailConfirmationResponse": {
+    "newField": {
+      "id": 1,
+      "flags": [
+        true,
+        null,
+        "value"
+      ]
+    }
+  },
+  "v2.profile.DeclineComment": {
+    "message": "Please upload a clearer document"
+  },
+  "v2.profile.DocumentModeration": {
+    "status": false,
+    "comment": "Please upload again"
+  }
+}

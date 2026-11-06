@@ -1,43 +1,38 @@
 from __future__ import annotations
 
-from typing import Any
+import datetime as dt
 
-from pydantic import BaseModel, ConfigDict
-
-from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
-class AttendanceItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+class FutureExam(V2Model):
+    """Date and subject consumed by the dashboard's future-exams renderer."""
 
-    date: str
+    date: dt.date | dt.datetime
+    spec: str
+
+
+class AttendanceItem(V2Model):
+    date: dt.date
     points: int
 
 
-class AttendanceResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class AttendanceResponse(V2Model):
     items: list[AttendanceItem]
 
 
-class ProgressItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
-    date: str
+class ProgressItem(V2Model):
+    date: dt.date
     points: int
 
 
-class ProgressResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ProgressResponse(V2Model):
     items: list[ProgressItem]
 
 
-class ActivityItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ActivityItem(V2Model):
     id: int
-    date: str
+    date: dt.datetime
     title: str
     title_key: str
     points: int
@@ -46,21 +41,15 @@ class ActivityItem(BaseModel):
     point_type_translate_key: str
 
 
-class ActivityResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ActivityResponse(V2Model):
     items: list[ActivityItem]
 
 
-class FutureExamsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
-    items: list[dict[str, Any]]
+class FutureExamsResponse(V2Model):
+    items: list[FutureExam]
 
 
-class LeaderboardItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class LeaderboardItem(V2Model):
     id: int
     full_name: str
     photo_path: str | None = None
@@ -68,41 +57,29 @@ class LeaderboardItem(BaseModel):
     amount: int
 
 
-class LeaderGroupResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class LeaderGroupResponse(V2Model):
     items: list[LeaderboardItem]
 
 
-class LeaderGroupPointsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class LeaderGroupPointsResponse(V2Model):
     student_position: int
     total_students: int
     week_diff: int
 
 
-class LeaderStreamResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class LeaderStreamResponse(V2Model):
     items: list[LeaderboardItem]
 
 
-class LeaderStreamPointsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class LeaderStreamPointsResponse(V2Model):
     student_position: int
     total_students: int
     week_diff: int
 
 
-class ReviewsCountResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ReviewsCountResponse(V2Model):
     reviews_count: int
 
 
-class AchievementsCountResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class AchievementsCountResponse(V2Model):
     active_achievements_count: int

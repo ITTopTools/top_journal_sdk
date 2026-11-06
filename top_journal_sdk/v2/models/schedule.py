@@ -1,18 +1,16 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
+import datetime as dt
 
-from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
-class ScheduleItem(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ScheduleItem(V2Model):
     id: str
-    date: str
+    date: dt.date
     lesson: int
-    start_time: str
-    end_time: str
+    start_time: dt.time
+    end_time: dt.time
     start_minutes: int
     end_minutes: int
     duration_minutes: int
@@ -21,7 +19,5 @@ class ScheduleItem(BaseModel):
     teacher: str | None = None
 
 
-class ScheduleResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class ScheduleResponse(V2Model):
     items: list[ScheduleItem]

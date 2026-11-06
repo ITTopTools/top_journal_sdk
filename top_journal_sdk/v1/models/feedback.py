@@ -2,8 +2,10 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from top_journal_sdk._models import APIModel
 
-class ReviewResponse(BaseModel):
+
+class ReviewResponse(APIModel):
     date: datetime
     message: str
     spec: str
@@ -11,11 +13,11 @@ class ReviewResponse(BaseModel):
     teacher: str
 
 
-class ReviewsResponse(BaseModel):
+class ReviewsResponse(APIModel):
     review_list: list[ReviewResponse]
 
 
-class SocialReviewResponse(BaseModel):
+class SocialReviewResponse(APIModel):
     """Социальный отзыв (ссылка студента на внешний отзыв).
 
     Social review (student link to an external review).
@@ -33,11 +35,11 @@ class SocialReviewResponse(BaseModel):
     is_visibility: bool | None = None
 
 
-class SocialReviewsResponse(BaseModel):
+class SocialReviewsResponse(APIModel):
     social_review_list: list[SocialReviewResponse]
 
 
-class AcademyDayResponse(BaseModel):
+class AcademyDayResponse(APIModel):
     """Форма оценки академического дня.
 
     Academy day evaluation form.

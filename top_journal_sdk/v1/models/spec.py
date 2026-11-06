@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from top_journal_sdk._models import APIModel
 
 
-class SpecModel(BaseModel):
+class SpecModel(APIModel):
     """Предмет (специальность).
 
     Subject (spec).
@@ -16,5 +16,5 @@ class SpecModel(BaseModel):
     subject_id: int | None = None
 
 
-class SpecsResponse(BaseModel):
+class SpecsResponse(APIModel):
     spec_list: list[SpecModel]

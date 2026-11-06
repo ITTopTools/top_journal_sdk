@@ -1,11 +1,10 @@
 from datetime import date, time
 
-from pydantic import BaseModel
-
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 from top_journal_sdk.v1.exceptions import LessonNotFoundError
 
 
-class LessonResponse(BaseModel):
+class LessonResponse(APIModel):
     date: date
     lesson: int
     started_at: time
@@ -15,26 +14,26 @@ class LessonResponse(BaseModel):
     room_name: str
 
 
-class ScheduleResponse(BaseModel):
+class ScheduleResponse(APIModel):
     lesson_list: list[LessonResponse]
 
-    def lesson(self, number: int) -> LessonResponse | None:
+    def lesson(self, number: int) -> LessonResponse:
         for lesson in self.lesson_list:
             if lesson.lesson == number:
                 return lesson
         raise LessonNotFoundError(number)
 
 
-class MonthEventResponse(BaseModel):
+class MonthEventResponse(UnconfirmedResponse):
     """Событие месяца.
 
     Month event.
 
     Точная форма пока не подтверждена: для тестового аккаунта эндпоинт
-    возвращает пустой список. Неизвестные поля игнорируются pydantic,
+    возвращает пустой список. Неизвестные поля сохраняются без потерь;
     модель будет уточнена по первому непустому образцу.
     """
 
 
-class MonthEventsResponse(BaseModel):
+class MonthEventsResponse(APIModel):
     month_event_list: list[MonthEventResponse]

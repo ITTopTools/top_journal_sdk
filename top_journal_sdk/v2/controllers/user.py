@@ -16,4 +16,4 @@ class UserController(BaseController):
         """
         response = await self.sdk.get(endpoints.DASHBOARD_USER_INFO.value)
         response.raise_for_status()
-        return UserInfoResponse(**response.json())
+        return UserInfoResponse.model_validate(response.json())

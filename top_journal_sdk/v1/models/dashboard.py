@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import ConfigDict, Field
+
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 
 
-class ChartPointResponse(BaseModel):
+class ChartPointResponse(UnconfirmedResponse):
     """Точка графика прогресса.
 
     Progress chart point.
@@ -17,7 +19,7 @@ class ChartPointResponse(BaseModel):
     previous_chart_value: float | None = None
 
 
-class ProgressChartResponse(BaseModel):
+class ProgressChartResponse(APIModel):
     """График прогресса.
 
     Progress chart.
@@ -27,11 +29,11 @@ class ProgressChartResponse(BaseModel):
     chart_models: list[ChartPointResponse]
 
 
-class ProgressChartsResponse(BaseModel):
+class ProgressChartsResponse(APIModel):
     progress_chart_list: list[ProgressChartResponse]
 
 
-class FutureExamResponse(BaseModel):
+class FutureExamResponse(UnconfirmedResponse):
     """Будущий экзамен.
 
     Future exam.
@@ -41,11 +43,11 @@ class FutureExamResponse(BaseModel):
     """
 
 
-class FutureExamsResponse(BaseModel):
+class FutureExamsResponse(APIModel):
     future_exam_list: list[FutureExamResponse]
 
 
-class AcademicProgressResponse(BaseModel):
+class AcademicProgressResponse(APIModel):
     """Детализация академической успеваемости.
 
     Academic performance breakdown.
@@ -60,7 +62,7 @@ class AcademicProgressResponse(BaseModel):
     progress: dict[str, float]
 
 
-class ActivityResponse(BaseModel):
+class ActivityResponse(APIModel):
     """Запись активности студента.
 
     Student activity entry.
@@ -78,11 +80,11 @@ class ActivityResponse(BaseModel):
     old_competition: bool | None = None
 
 
-class ActivitiesResponse(BaseModel):
+class ActivitiesResponse(APIModel):
     activity_list: list[ActivityResponse]
 
 
-class AttendanceStatisticResponse(BaseModel):
+class AttendanceStatisticResponse(APIModel):
     """Статистика посещаемости.
 
     Attendance statistic.
@@ -97,7 +99,7 @@ class AttendanceStatisticResponse(BaseModel):
     stat_total: int = Field(alias="statTotal")
 
 
-class LeaderPointsResponse(BaseModel):
+class LeaderPointsResponse(APIModel):
     """Баллы рейтинга (группа/поток): позиция студента и динамика.
 
     Leaderboard points (group/stream): student position and deltas.
@@ -111,7 +113,7 @@ class LeaderPointsResponse(BaseModel):
     month_diff: int = Field(alias="monthDiff")
 
 
-class PageCounterResponse(BaseModel):
+class PageCounterResponse(APIModel):
     """Счетчик страниц.
 
     Page counter.
@@ -121,5 +123,5 @@ class PageCounterResponse(BaseModel):
     counter: int
 
 
-class PageCountersResponse(BaseModel):
+class PageCountersResponse(APIModel):
     page_counter_list: list[PageCounterResponse]

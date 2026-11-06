@@ -1,26 +1,18 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
-
-from top_journal_sdk.v2.models._aliases import to_camel
+from top_journal_sdk.v2.models._base import V2Model
 
 
-class HomeworkStatsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class HomeworkStatsResponse(V2Model):
     homework_total: int
     homework_new: int
 
 
-class MaterialsStatsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class MaterialsStatsResponse(V2Model):
     materials_total: int
 
 
-class PageCountersResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class PageCountersResponse(V2Model):
     announcements_unread: int
     reviews_unread: int
     materials_new: int
@@ -29,7 +21,5 @@ class PageCountersResponse(BaseModel):
     profile_unread: int
 
 
-class SupportStatsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class SupportStatsResponse(V2Model):
     support_unread: int

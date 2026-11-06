@@ -1,9 +1,11 @@
 import datetime
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
-class PortfolioResponse(BaseModel):
+class PortfolioResponse(APIModel):
     """Работа в портфолио.
 
     Portfolio entry.
@@ -19,11 +21,11 @@ class PortfolioResponse(BaseModel):
     url: HttpUrl | None = None
 
 
-class PortfoliosResponse(BaseModel):
+class PortfoliosResponse(APIModel):
     portfolio_list: list[PortfolioResponse]
 
 
-class DesignTeacherResponse(BaseModel):
+class DesignTeacherResponse(APIModel):
     """Преподаватель для дизайна портфолио.
 
     Portfolio design teacher.
@@ -33,5 +35,5 @@ class DesignTeacherResponse(BaseModel):
     fio_teach: str | None = None
 
 
-class DesignTeachersResponse(BaseModel):
+class DesignTeachersResponse(APIModel):
     design_teacher_list: list[DesignTeacherResponse]

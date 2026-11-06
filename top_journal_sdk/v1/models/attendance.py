@@ -1,14 +1,14 @@
 from datetime import date
 
-from pydantic import BaseModel
+from top_journal_sdk._models import APIModel
 
 
-class AttendanceResponse(BaseModel):
+class AttendanceResponse(APIModel):
     date: date
     points: int | None
     previous_points: int | None
     has_rasp: bool | None
 
 
-class AttendancesResponse(BaseModel):
+class AttendancesResponse(APIModel):
     attendance_list: list[AttendanceResponse]

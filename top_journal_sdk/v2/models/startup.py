@@ -1,38 +1,56 @@
 from __future__ import annotations
 
-from typing import Any
+from pydantic import AliasChoices, Field
 
-from pydantic import BaseModel, ConfigDict
+from top_journal_sdk._models import UnconfirmedResponse
+from top_journal_sdk.v2.models._base import V2Model
+from top_journal_sdk.v2.models.support import SupportRequest
 
-from top_journal_sdk.v2.models._aliases import to_camel
+
+class Signal(SupportRequest):
+    """Unconfirmed API object; all JSON fields are preserved."""
 
 
-class CheckCancellationResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
+class CheckCancellationResponse(V2Model):
     status: int
     is_cancellation_active: bool
 
 
-class EmailConfirmationResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+class EmailConfirmation(V2Model):
+    delay_count: int | None = Field(
+        default=None, validation_alias=AliasChoices("delayCount", "delay_count")
+    )
+    max_delay_count: int | None = Field(
+        default=None, validation_alias=AliasChoices("maxDelayCount", "max_delay_count")
+    )
 
-    email_confirmation: str | None = None
+
+class OpenedInterview(EmailConfirmation):
+    id: int | str | None = None
+    message_type: int | None = Field(
+        default=None, validation_alias=AliasChoices("messageType", "message_type")
+    )
 
 
-class LessonEvaluationPendingResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+class EmailConfirmationResponse(V2Model):
+    email_confirmation: EmailConfirmation | None = None
 
+
+class LessonEvaluationPendingResponse(V2Model):
     lesson_evaluation_pending_count: int
 
 
-class OpenedInterviewResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-
-    opened_interview: str | None = None
+class OpenedInterviewResponse(V2Model):
+    opened_interview: OpenedInterview | None = None
 
 
-class SignalsResponse(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+class SignalsResponse(V2Model):
+    signals_list: list[Signal]
 
-    signals_list: list[dict[str, Any]]
+
+class DelayInterviewResponse(UnconfirmedResponse):
+    """Experimental acknowledgement with unconfirmed JSON schema."""
+
+
+class DelayEmailConfirmationResponse(UnconfirmedResponse):
+    """Acknowledgement; response fields have not yet been observed."""

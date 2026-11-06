@@ -1,7 +1,6 @@
 from datetime import date
 
-from pydantic import BaseModel
-
+from top_journal_sdk._models import APIModel
 from top_journal_sdk.v1.models.attendance import AttendanceResponse
 
 
@@ -15,11 +14,11 @@ class GradeResponse(AttendanceResponse):
     pass
 
 
-class GradesResponse(BaseModel):
+class GradesResponse(APIModel):
     grade_list: list[GradeResponse]
 
 
-class ClassAttendanceGradeResponse(BaseModel):
+class ClassAttendanceGradeResponse(APIModel):
     date_visit: date
     lesson_number: int | None = None
     status_was: int | None = None
@@ -38,5 +37,5 @@ class ClassAttendanceGradeResponse(BaseModel):
     final_work_mark_type: int | None = None
 
 
-class ClassAttendanceGradesResponse(BaseModel):
+class ClassAttendanceGradesResponse(APIModel):
     class_attendance_grade_list: list[ClassAttendanceGradeResponse]

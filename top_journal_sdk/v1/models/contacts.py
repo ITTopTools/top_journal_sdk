@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from top_journal_sdk._models import APIModel, UnconfirmedResponse
 
 
-class TeacherContactResponse(BaseModel):
+class TeacherContactResponse(UnconfirmedResponse):
     """Контакт преподавателя.
 
     Teacher contact.
@@ -11,7 +11,7 @@ class TeacherContactResponse(BaseModel):
     """
 
 
-class ContactsResponse(BaseModel):
+class ContactsResponse(APIModel):
     """Контакты филиала.
 
     Branch contacts.

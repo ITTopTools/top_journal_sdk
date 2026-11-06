@@ -1,7 +1,9 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import Field, HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
-class MarketProductPriceResponse(BaseModel):
+class MarketProductPriceResponse(APIModel):
     """Цена товара маркета в баллах.
 
     Market product price in points.
@@ -12,7 +14,7 @@ class MarketProductPriceResponse(BaseModel):
     log: list[str]
 
 
-class MarketProductResponse(BaseModel):
+class MarketProductResponse(APIModel):
     """Товар маркета.
 
     Market product.
@@ -27,10 +29,12 @@ class MarketProductResponse(BaseModel):
     quantity: int | None = None
     file_name: HttpUrl | None = None
     url: HttpUrl | None = None
-    prices: list[MarketProductPriceResponse] = []
+    prices: list[MarketProductPriceResponse] = Field(
+        default_factory=list[MarketProductPriceResponse]
+    )
 
 
-class MarketProductListResponse(BaseModel):
+class MarketProductListResponse(APIModel):
     """Список товаров маркета (форма ответа API — объект).
 
     Market product list (API responds with an object).

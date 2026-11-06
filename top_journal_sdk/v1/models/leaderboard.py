@@ -1,7 +1,9 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from top_journal_sdk._models import APIModel
 
 
-class GroupLeaderboardResponse(BaseModel):
+class GroupLeaderboardResponse(APIModel):
     amount: int
     id: int
     full_name: str
@@ -9,7 +11,7 @@ class GroupLeaderboardResponse(BaseModel):
     position: int
 
 
-class GroupLeaderboardsResponse(BaseModel):
+class GroupLeaderboardsResponse(APIModel):
     group_leaderboard_list: list[GroupLeaderboardResponse]
 
 
@@ -23,5 +25,5 @@ class StreamLeaderboardResponse(GroupLeaderboardResponse):
     pass
 
 
-class StreamLeaderboardsResponse(BaseModel):
+class StreamLeaderboardsResponse(APIModel):
     stream_leaderboard_list: list[StreamLeaderboardResponse]

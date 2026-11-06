@@ -17,7 +17,7 @@ class AuthController(BaseController):
         )
         response.raise_for_status()
         # AsyncClient persists Set-Cookie with its original domain/path/expiry.
-        return LoginResponse(**response.json())
+        return LoginResponse.model_validate(response.json())
 
     async def logout(self) -> bool:
         """POST /api/auth/logout"""
@@ -40,4 +40,4 @@ class AuthController(BaseController):
             refresh_on_401=False,
         )
         response.raise_for_status()
-        return RefreshResponse(**response.json())
+        return RefreshResponse.model_validate(response.json())

@@ -141,7 +141,7 @@ async def test_live_lesson_evaluations() -> None:
     async with TopJournalSDKV2(timeout=30.0) as sdk:
         await sdk.login(_username(), _password())
         data = await sdk.dashboard.get_lesson_evaluations()
-        assert isinstance(data, dict)
+        assert isinstance(data.items, list)
 
 
 async def test_live_profile_documents() -> None:
@@ -155,7 +155,7 @@ async def test_live_profile_documents() -> None:
         assert isinstance(documents.documents.has_any_data, bool)
 
         fields = await sdk.profile.get_documents_fields(student_id=settings.profile.id)
-        assert isinstance(fields, dict)
+        assert isinstance(fields.fields, list)
 
 
 async def test_live_startup_endpoints() -> None:
@@ -177,8 +177,8 @@ async def test_live_startup_endpoints() -> None:
         signals = await sdk.dashboard.get_startup_signals()
         assert isinstance(signals.signals_list, list)
 
-        # delay-email-confirmation и delay-interview требуют исследования
-        # формата запроса (вероятно, POST с телом), поэтому не тестируем в лайве.
+        # Откладывание напоминаний меняет состояние аккаунта; POST-тела
+        # проверяются в unit-тестах без выполнения этих операций в лайве.
 
 
 async def test_live_stats_materials_support() -> None:

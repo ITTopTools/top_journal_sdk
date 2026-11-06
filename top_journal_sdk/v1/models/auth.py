@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from top_journal_sdk._models import APIModel
+
 
 class LoginRequest(BaseModel):
     application_key: str
@@ -8,7 +10,7 @@ class LoginRequest(BaseModel):
     id_city: str | None = None
 
 
-class LoginResponse(BaseModel):
+class LoginResponse(APIModel):
     access_token: str
     refresh_token: str
     expires_in_access: int = 0
