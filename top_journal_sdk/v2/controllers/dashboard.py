@@ -1,0 +1,217 @@
+from __future__ import annotations
+
+from typing import Any, cast
+
+from top_journal_sdk.v2.controllers.base import BaseController
+from top_journal_sdk.v2.enums.endpoints import JournalkaEndpoints as endpoints
+from top_journal_sdk.v2.models.home import (
+    AchievementsCountResponse,
+    ActivityResponse,
+    AttendanceResponse,
+    FutureExamsResponse,
+    LeaderGroupPointsResponse,
+    LeaderGroupResponse,
+    LeaderStreamPointsResponse,
+    LeaderStreamResponse,
+    ProgressResponse,
+    ReviewsCountResponse,
+)
+from top_journal_sdk.v2.models.schedule import ScheduleResponse
+from top_journal_sdk.v2.models.startup import (
+    CheckCancellationResponse,
+    EmailConfirmationResponse,
+    LessonEvaluationPendingResponse,
+    OpenedInterviewResponse,
+    SignalsResponse,
+)
+from top_journal_sdk.v2.models.stats import (
+    HomeworkStatsResponse,
+    MaterialsStatsResponse,
+    PageCountersResponse,
+    SupportStatsResponse,
+)
+from top_journal_sdk.v2.models.stories import StoriesResponse, StoryLeadResponse
+
+
+class DashboardController(BaseController):
+    """Контроллер дашборда для journalka API v2."""
+
+    # ----- Home -----
+
+    async def get_home_attendance(self) -> AttendanceResponse:
+        """GET /api/dashboard/home/attendance"""
+        response = await self.sdk.get(endpoints.HOME_ATTENDANCE.value)
+        response.raise_for_status()
+        return AttendanceResponse(**response.json())
+
+    async def get_home_average_progress(self) -> ProgressResponse:
+        """GET /api/dashboard/home/average-progress"""
+        response = await self.sdk.get(endpoints.HOME_AVERAGE_PROGRESS.value)
+        response.raise_for_status()
+        return ProgressResponse(**response.json())
+
+    async def get_home_activity(self) -> ActivityResponse:
+        """GET /api/dashboard/home/activity"""
+        response = await self.sdk.get(endpoints.HOME_ACTIVITY.value)
+        response.raise_for_status()
+        return ActivityResponse(**response.json())
+
+    async def get_home_future_exams(self) -> FutureExamsResponse:
+        """GET /api/dashboard/home/future-exams"""
+        response = await self.sdk.get(endpoints.HOME_FUTURE_EXAMS.value)
+        response.raise_for_status()
+        return FutureExamsResponse(**response.json())
+
+    async def get_home_leader_group(self) -> LeaderGroupResponse:
+        """GET /api/dashboard/home/leader-group"""
+        response = await self.sdk.get(endpoints.HOME_LEADER_GROUP.value)
+        response.raise_for_status()
+        return LeaderGroupResponse(**response.json())
+
+    async def get_home_leader_group_points(self) -> LeaderGroupPointsResponse:
+        """GET /api/dashboard/home/leader-group-points"""
+        response = await self.sdk.get(endpoints.HOME_LEADER_GROUP_POINTS.value)
+        response.raise_for_status()
+        return LeaderGroupPointsResponse(**response.json())
+
+    async def get_home_leader_stream(self) -> LeaderStreamResponse:
+        """GET /api/dashboard/home/leader-stream"""
+        response = await self.sdk.get(endpoints.HOME_LEADER_STREAM.value)
+        response.raise_for_status()
+        return LeaderStreamResponse(**response.json())
+
+    async def get_home_leader_stream_points(self) -> LeaderStreamPointsResponse:
+        """GET /api/dashboard/home/leader-stream-points"""
+        response = await self.sdk.get(endpoints.HOME_LEADER_STREAM_POINTS.value)
+        response.raise_for_status()
+        return LeaderStreamPointsResponse(**response.json())
+
+    async def get_home_reviews_count(self) -> ReviewsCountResponse:
+        """GET /api/dashboard/home/reviews-count"""
+        response = await self.sdk.get(endpoints.HOME_REVIEWS_COUNT.value)
+        response.raise_for_status()
+        return ReviewsCountResponse(**response.json())
+
+    async def get_home_achievements_count(self) -> AchievementsCountResponse:
+        """GET /api/dashboard/home/achievements-count"""
+        response = await self.sdk.get(endpoints.HOME_ACHIEVEMENTS_COUNT.value)
+        response.raise_for_status()
+        return AchievementsCountResponse(**response.json())
+
+    # ----- Lesson evaluations -----
+
+    async def get_lesson_evaluations(self) -> dict[str, Any]:
+        """GET /api/dashboard/lesson-evaluations"""
+        response = await self.sdk.get(endpoints.LESSON_EVALUATIONS.value)
+        response.raise_for_status()
+        return cast(dict[str, Any], response.json())
+
+    # ----- Startup -----
+
+    async def get_startup_check_cancellation(self) -> CheckCancellationResponse:
+        """GET /api/dashboard/startup/check-cancellation"""
+        response = await self.sdk.get(endpoints.STARTUP_CHECK_CANCELLATION.value)
+        response.raise_for_status()
+        return CheckCancellationResponse(**response.json())
+
+    async def get_startup_delay_email_confirmation(self) -> EmailConfirmationResponse:
+        """GET /api/dashboard/startup/delay-email-confirmation"""
+        response = await self.sdk.get(endpoints.STARTUP_DELAY_EMAIL_CONFIRMATION.value)
+        response.raise_for_status()
+        return EmailConfirmationResponse(**response.json())
+
+    async def get_startup_delay_interview(self) -> dict[str, Any]:
+        """GET /api/dashboard/startup/delay-interview"""
+        response = await self.sdk.get(endpoints.STARTUP_DELAY_INTERVIEW.value)
+        response.raise_for_status()
+        return cast(dict[str, Any], response.json())
+
+    async def get_startup_email_confirmation(self) -> EmailConfirmationResponse:
+        """GET /api/dashboard/startup/email-confirmation"""
+        response = await self.sdk.get(endpoints.STARTUP_EMAIL_CONFIRMATION.value)
+        response.raise_for_status()
+        return EmailConfirmationResponse(**response.json())
+
+    async def get_startup_lesson_evaluations(self) -> LessonEvaluationPendingResponse:
+        """GET /api/dashboard/startup/lesson-evaluations"""
+        response = await self.sdk.get(endpoints.STARTUP_LESSON_EVALUATIONS.value)
+        response.raise_for_status()
+        return LessonEvaluationPendingResponse(**response.json())
+
+    async def get_startup_opened_interview(self) -> OpenedInterviewResponse:
+        """GET /api/dashboard/startup/opened-interview"""
+        response = await self.sdk.get(endpoints.STARTUP_OPENED_INTERVIEW.value)
+        response.raise_for_status()
+        return OpenedInterviewResponse(**response.json())
+
+    async def get_startup_signals(self) -> SignalsResponse:
+        """GET /api/dashboard/startup/signals"""
+        response = await self.sdk.get(endpoints.STARTUP_SIGNALS.value)
+        response.raise_for_status()
+        return SignalsResponse(**response.json())
+
+    # ----- Stats -----
+
+    async def get_stats_homework(self) -> HomeworkStatsResponse:
+        """GET /api/dashboard/stats/homework"""
+        response = await self.sdk.get(endpoints.STATS_HOMEWORK.value)
+        response.raise_for_status()
+        return HomeworkStatsResponse(**response.json())
+
+    async def get_stats_materials(self) -> MaterialsStatsResponse:
+        """GET /api/dashboard/stats/materials"""
+        response = await self.sdk.get(endpoints.STATS_MATERIALS.value)
+        response.raise_for_status()
+        return MaterialsStatsResponse(**response.json())
+
+    async def get_stats_page_counters(self) -> PageCountersResponse:
+        """GET /api/dashboard/stats/page-counters"""
+        response = await self.sdk.get(endpoints.STATS_PAGE_COUNTERS.value)
+        response.raise_for_status()
+        return PageCountersResponse(**response.json())
+
+    async def get_stats_support(self) -> SupportStatsResponse:
+        """GET /api/dashboard/stats/support"""
+        response = await self.sdk.get(endpoints.STATS_SUPPORT.value)
+        response.raise_for_status()
+        return SupportStatsResponse(**response.json())
+
+    # ----- Stories -----
+
+    async def get_stories(self) -> StoriesResponse:
+        """GET /api/dashboard/stories"""
+        response = await self.sdk.get(endpoints.STORIES.value)
+        response.raise_for_status()
+        return StoriesResponse(**response.json())
+
+    async def get_stories_lead(self) -> StoryLeadResponse:
+        """POST /api/dashboard/stories/lead"""
+        response = await self.sdk.post(endpoints.STORIES_LEAD.value, json={})
+        response.raise_for_status()
+        return StoryLeadResponse(**response.json())
+
+    # ----- Support -----
+
+    async def get_support_requests(self) -> list[dict[str, Any]]:
+        """GET /api/dashboard/support/requests/"""
+        response = await self.sdk.get(endpoints.SUPPORT_REQUESTS.value)
+        response.raise_for_status()
+        return cast(list[dict[str, Any]], response.json())
+
+    # ----- Schedule -----
+
+    async def get_schedule(
+        self,
+        scope: str = "week",
+        date_start: str | None = None,
+        date_end: str | None = None,
+    ) -> ScheduleResponse:
+        """GET /api/dashboard/schedule?scope=...&dateStart=...&dateEnd=..."""
+        params: dict[str, str] = {"scope": scope}
+        if date_start is not None:
+            params["dateStart"] = date_start
+        if date_end is not None:
+            params["dateEnd"] = date_end
+        response = await self.sdk.get(endpoints.SCHEDULE.value, params=params)
+        response.raise_for_status()
+        return ScheduleResponse(**response.json())

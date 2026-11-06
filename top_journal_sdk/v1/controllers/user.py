@@ -1,0 +1,33 @@
+from rapid_api_client import get
+
+from top_journal_sdk.v1.enums.endpoints import JournalEndpoints as endpoints
+from top_journal_sdk.v1.models.user import UserResponse
+from top_journal_sdk.v1.rapid.client import BaseController, with_auth_refresh
+
+
+class UserInfoController(BaseController):
+    """
+    Контроллер для работы с базовой информацией о пользователе.
+
+    Controller for managing basic user information.
+
+    Предоставляет методы для получения основной информации о пользователе.
+
+    Provides methods for retrieving basic user information.
+    """
+
+    @with_auth_refresh
+    @get(endpoints.USER_PERSONAL_INFO.value)
+    async def get_personal_info(self) -> UserResponse:
+        """
+        Получает личную информацию пользователя из системы журнала.
+
+        Retrieves user personal information from the journal system.
+
+        Returns:
+            User:
+                Объект с информацией о пользователе.
+
+                User information object.
+        """
+        ...

@@ -12,7 +12,7 @@ module-root = ""
 
 [project]
 name = "top_journal_sdk"
-version = "0.3.0"
+version = "0.4.0"
 description = "Async-friendly SDK for ittopjournal API"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -51,6 +51,7 @@ dev = [
     "pre-commit>=4.5",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
+    "pytest-cov>=7.1.0",
     "ruff>=0.16.10",
     "ty>=0.0.85",
 ]
@@ -58,8 +59,15 @@ live = [
     "playwright>=1.63",
 ]
 
+[project.optional-dependencies]
+browser = [
+    "playwright>=1.63",
+]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+addopts = "-m 'not live'"
+testpaths = ["tests"]
 markers = [
     "live: tests against the real journal API (need TOP_JOURNAL_* creds)",
 ]
@@ -81,6 +89,13 @@ ignore = [
     "N818",
 ]
 
+[tool.ruff.lint.per-file-ignores]
+"top_journal_sdk/v2/models/*.py" = [
+    # API использует camelCase для имён полей (fullName, isPositive, и т.д.),
+    # поэтому mixedCase в полях моделей — это ожидаемо.
+    "N815",
+]
+
 [tool.ruff.lint.isort]
 known-first-party = ["top_journal_sdk", "tests"]
 
@@ -98,7 +113,7 @@ strict-generic-narrowing = true
 # to ty: decorator application, empty bodies and decorator-mediated calls cannot
 # be verified. pyright strict remains the authority for these lines.
 [[tool.ty.overrides]]
-include = ["top_journal_sdk/controllers/**"]
+include = ["top_journal_sdk/v1/controllers/**", "top_journal_sdk/v1/__init__.py"]
 
 [tool.ty.overrides.rules]
 empty-body = "ignore"
