@@ -11,6 +11,8 @@ from typing import Any
 import httpx
 import pytest
 
+from top_journal_sdk.browser import BrowserFallbackClient
+
 HTML = '<html><head><script src="/s/app.1.js"></script></head></html>'
 JS = 'o.authModel = new r.AuthModel("K");'
 TOKENS: dict[str, str] = {"access_token": "A", "refresh_token": "R"}
@@ -151,4 +153,11 @@ def test_readme_has_snippets() -> None:
 @pytest.mark.parametrize("snippet", _SNIPPETS)
 def test_readme_snippet_runs(monkeypatch: pytest.MonkeyPatch, snippet: str) -> None:
     monkeypatch.setattr(httpx, "AsyncClient", _mocked_async_client)
+    original_init = BrowserFallbackClient.__init__
+
+    def mocked_init(self: BrowserFallbackClient, **kwargs: Any) -> None:
+        kwargs["transport"] = httpx.MockTransport(_handler)
+        original_init(self, **kwargs)
+
+    monkeypatch.setattr(BrowserFallbackClient, "__init__", mocked_init)
     exec(compile(snippet, "<readme>", "exec"), {"__name__": "__readme__"})

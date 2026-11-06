@@ -3,6 +3,8 @@ from typing import TypeVar, cast
 
 import httpx
 
+from top_journal_sdk.browser import BrowserFallbackClient
+
 from .controllers import (
     AttendanceController,
     AuthController,
@@ -59,6 +61,8 @@ class TopJournalSDK:
         timeout: float = DEFAULT_TIMEOUT,
         user_agent: str | None = None,
         extra_headers: dict[str, str] | None = None,
+        *,
+        browser_fallback: bool = True,
     ):
         """
         Инициализирует SDK с пустыми значениями контроллеров.
@@ -72,6 +76,7 @@ class TopJournalSDK:
                 Extra headers merged over the defaults.
         """
         self._timeout: float = timeout
+        self._browser_fallback = browser_fallback
         self._user_agent: str | None = user_agent
         self._extra_headers: dict[str, str] = (
             dict(extra_headers) if extra_headers is not None else {}
@@ -134,7 +139,9 @@ class TopJournalSDK:
         """
         if self._client is not None:
             return
-        client = httpx.AsyncClient(
+        client = BrowserFallbackClient(
+            browser_base_url=JournalEndpoints.JOURNAL_BASE_URL.value,
+            browser_fallback=self._browser_fallback,
             base_url=JournalEndpoints.API_BASE_URL.value,
             follow_redirects=True,
             timeout=self._timeout,

@@ -22,6 +22,10 @@ _PLAYWRIGHT_FAILED = (
 )
 
 
+def _is_ddg_cookie(name: str) -> bool:
+    return name.startswith("__ddg") or name == "ddg_last_challenge"
+
+
 class DdgCookieManager:
     """
     Управляет куками DDoS-Guard (__ddg*) для journalka.top-academy.ru.
@@ -38,6 +42,10 @@ class DdgCookieManager:
         self._cookies: dict[str, str] = {}
         self._auto_refresh = auto_refresh
         self._playwright_available = importlib.util.find_spec("playwright") is not None
+
+    @property
+    def auto_refresh(self) -> bool:
+        return self._auto_refresh
 
     @property
     def cookies(self) -> dict[str, str]:
@@ -61,7 +69,7 @@ class DdgCookieManager:
                 "__ddg10_": "...",
             })
         """
-        filtered = {k: v for k, v in cookies.items() if k in DDG_COOKIE_NAMES}
+        filtered = {k: v for k, v in cookies.items() if _is_ddg_cookie(k)}
         self._cookies.update(filtered)
 
     def get_cookie_header(self) -> str:
@@ -113,7 +121,7 @@ class DdgCookieManager:
                     for cookie in await context.cookies():
                         name = cookie.get("name")
                         value = cookie.get("value")
-                        if name in DDG_COOKIE_NAMES and value is not None:
+                        if name is not None and _is_ddg_cookie(name) and value is not None:
                             self._cookies[name] = value
                 finally:
                     await browser.close()

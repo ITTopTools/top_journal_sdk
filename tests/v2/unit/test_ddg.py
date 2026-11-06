@@ -37,3 +37,20 @@ def test_ddg_merge_existing() -> None:
     m.set_ddg_cookies({"__ddg8_": "second"})
     assert m.cookies == {"__ddg1_": "first", "__ddg8_": "second"}
     assert "__ddg9_" not in m.cookies
+
+
+def test_ddg_preserves_new_challenge_cookies() -> None:
+    manager = DdgCookieManager()
+    manager.set_ddg_cookies(
+        {
+            "__ddgid_": "id",
+            "__ddg5_": "challenge",
+            "ddg_last_challenge": "last",
+            "journal_refresh_token": "ignored",
+        }
+    )
+    assert manager.cookies == {
+        "__ddgid_": "id",
+        "__ddg5_": "challenge",
+        "ddg_last_challenge": "last",
+    }

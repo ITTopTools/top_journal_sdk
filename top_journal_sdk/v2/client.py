@@ -7,6 +7,7 @@ from typing import Any
 
 import httpx
 
+from top_journal_sdk.browser import BrowserFallbackClient
 from top_journal_sdk.v2.controllers.auth import AuthController
 from top_journal_sdk.v2.controllers.dashboard import DashboardController
 from top_journal_sdk.v2.controllers.profile import ProfileController
@@ -73,7 +74,9 @@ class TopJournalSDKV2:
     async def initialize(self) -> None:
         if self._client is not None:
             return
-        client = httpx.AsyncClient(
+        client = BrowserFallbackClient(
+            browser_base_url=endpoints.JOURNALKA_BASE_URL.value,
+            browser_fallback=self._ddg.auto_refresh,
             base_url=endpoints.JOURNALKA_BASE_URL.value,
             follow_redirects=True,
             timeout=self._timeout,
@@ -88,6 +91,7 @@ class TopJournalSDKV2:
         headers.update(self._extra_headers)
         client.headers.update(headers)
         self._client = client
+        self._sync_ddg_cookies()
 
     async def close(self) -> None:
         if self._client:
@@ -111,6 +115,7 @@ class TopJournalSDKV2:
     def set_ddg_cookies(self, cookies: dict[str, str]) -> None:
         """Установить __ddg* куки вручную."""
         self._ddg.set_ddg_cookies(cookies)
+        self._sync_ddg_cookies()
 
     def _sync_ddg_cookies(self) -> None:
         """Подмешать текущие __ddg* куки в httpx клиент."""
@@ -144,7 +149,6 @@ class TopJournalSDKV2:
     ) -> httpx.Response:
         if self._client is None:
             await self.initialize()
-        self._sync_ddg_cookies()
         generation = self._session_generation
         response = await self.client.request(method, path, **kwargs)
 
@@ -164,6 +168,15 @@ class TopJournalSDKV2:
                 return response
 
         # 2. Затем пробуем обновить __ddg* куки через браузер.
+        return await self._retry_via_browser(response, method, path, **kwargs)
+
+    async def _retry_via_browser(
+        self, response: httpx.Response, method: str, path: str, **kwargs: Any
+    ) -> httpx.Response:
+        if isinstance(self.client, BrowserFallbackClient) and self._ddg.auto_refresh:
+            return await self.client.request_in_browser(
+                self.client.build_request(method, path, **kwargs)
+            )
         if self._ddg.should_auto_refresh():
             try:
                 await self._ddg.refresh_via_playwright()
