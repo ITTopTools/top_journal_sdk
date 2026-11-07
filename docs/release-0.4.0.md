@@ -1,6 +1,6 @@
 # Release preparation: 0.4.0
 
-Status: prepared locally; publication remains a separate step.
+Release date: 2026-11-07. The `v0.4.0` tag identifies the final release commit.
 
 [Validation record dated 2026-11-07](release-validation-0.4.0.md).
 

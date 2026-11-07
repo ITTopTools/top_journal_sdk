@@ -1,6 +1,6 @@
 # Validation record: 0.4.0
 
-Checked on 2026-11-07. Publication has not been performed.
+Pre-publication checks performed on 2026-11-07. Publication is a subsequent step.
 
 ## Distribution installation matrix
 
@@ -52,9 +52,10 @@ and checksums are local build outputs and are not committed.
 On the check date, the [PyPI registry metadata](https://pypi.org/pypi/top-journal-sdk/json)
 reported version 0.3.0; the 0.4.0 version endpoint returned 404.
 
-No tag, GitHub release or PyPI upload was created. The changelog remains
-Unreleased until publication is approved. Publication credentials/trusted
-publisher configuration have not been verified.
+At the time of these preparation checks, no tag, GitHub release or PyPI upload
+had been created. Publishing credentials were outside the scope of those checks.
+The final release commit is identified by tag `v0.4.0`; consult GitHub and PyPI
+for subsequent publication status.
 
 Live API tests were not repeated as part of these packaging checks. Earlier
 v2 live validation passed all 13 cases, one after a retry; v1 remains limited by
