@@ -90,7 +90,7 @@ asyncio.run(main())
 ```
 
 Полный пример на 16 шагов (все контроллеры) — в файле
-[`example.py`](https://github.com/ITTopTools/top_journal_sdk/blob/main/example.py).
+[`example.py`](https://github.com/ITTopTools/top_journal_sdk/blob/v0.4.0/example.py).
 
 ## Контроллеры
 
@@ -195,9 +195,12 @@ asyncio.run(main())
   `datetime.time`; для JSON используйте `model_dump(mode="json")`.
 
 Описание схем, ограничений и изменений возвращаемых типов — в
-[документации моделей](docs/models.md).
+[документации моделей](https://github.com/ITTopTools/top_journal_sdk/blob/v0.4.0/docs/models.md).
 
 ## Миграция 0.3 → 0.4
+
+Подробная [инструкция миграции](https://github.com/ITTopTools/top_journal_sdk/blob/v0.4.0/docs/migration-0.4.md)
+и [changelog](https://github.com/ITTopTools/top_journal_sdk/blob/v0.4.0/CHANGELOG.md).
 
 Модули v1 переехали в `top_journal_sdk.v1`, v2 — в `top_journal_sdk.v2`.
 Классы `TopJournalSDK` и `TopJournalSDKV2` по-прежнему импортируются из корня.
